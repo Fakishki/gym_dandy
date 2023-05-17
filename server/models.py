@@ -142,7 +142,7 @@ class CardioExercise(db.Model, SerializerMixin):
     workout_id = db.Column(db.Integer, db.ForeignKey("workouts.id"))
 
     cardio = db.relationship("Cardio", back_populates="cardio_exercises")
-    workout = db.relationship("Workout", back_populates="strength_exercises")
+    workout = db.relationship("Workout", back_populates="cardio_exercises")
 
     @property
     def time(self):
@@ -178,6 +178,8 @@ class User(db.Model, SerializerMixin):
     admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+
+    workouts = db.relationship("Workout", back_populates="user")
 
     @hybrid_property
     def password_hash(self):
