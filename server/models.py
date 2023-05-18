@@ -51,11 +51,12 @@ class Strength(db.Model, SerializerMixin):
     serialize_rules = (
         # "-created_at",
         # "-updated_at",
-        # "-strength_exercises.strength",
-        "-strength_exercises.strength.created_at",
-        "-strength_exercises.strength.updated_at",
-        "-strength_exercises.strength.strength_exercises"
-        
+        "-strength_exercises.strength",
+        "-strength_exercises.workout.strength_exercises",
+        "-strength_exercises.workout.cardio_exercises",
+        # "-strength_exercises.strength.created_at",
+        # "-strength_exercises.strength.updated_at",
+        # "-strength_exercises.strength.strength_exercises"
     )
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
@@ -106,6 +107,17 @@ class Strength(db.Model, SerializerMixin):
 class Cardio(db.Model, SerializerMixin):
     __tablename__ = "cardios"
 
+    serialize_rules = (
+        # "-created_at",
+        # "-updated_at",
+        "-cardio_exercises.cardio",
+        # "-cardio_exercises.cardio.created_at",
+        # "-cardio_exercises.cardio.updated_at",
+        # "-cardio_exercises.cardio.cardio_exercises",
+        "-cardio_exercises.workout.cardio_exercises"
+        "-cardio_exercises.workout.strength_exercises"
+    )
+
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     name = db.Column(db.String, nullable=False)
     equipment = db.Column(db.String, nullable=False)
@@ -139,6 +151,21 @@ class Cardio(db.Model, SerializerMixin):
 
 class StrengthExercise(db.Model, SerializerMixin):
     __tablename__ = "strength_exercises"
+    
+    serialize_rules = (
+        "-strength.strength_exercises",
+        "-strength.created_at",
+        "-strength.updated_at",
+        # "-workout.strength_exercises",
+        "-workout.cardio_exercises",
+        "-workout.user.created_at",
+        "-workout.user.updated_at",
+        "-workout.user.email",
+        "-workout.user.first_name",
+        "-workout.user.last_name",
+        "-workout.user.admin",
+        "-workout.user._password_hash",
+    )
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     weight = db.Column(db.Float)
@@ -158,6 +185,21 @@ class StrengthExercise(db.Model, SerializerMixin):
 
 class CardioExercise(db.Model, SerializerMixin):
     __tablename__ = "cardio_exercises"
+
+    serialize_rules = (
+        "-cardio.cardio_exercises",
+        "-cardio.created_at",
+        "-cardio.updated_at",
+        "-workout.strength_exercises",
+        # "-workout.cardio_exercises",
+        "-workout.user.created_at",
+        "-workout.user.updated_at",
+        "-workout.user.email",
+        "-workout.user.first_name",
+        "-workout.user.last_name",
+        "-workout.user.admin",
+        "-workout.user._password_hash",
+    )
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     distance = db.Column(db.Float)

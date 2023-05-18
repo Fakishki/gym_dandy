@@ -68,7 +68,6 @@ def strengths():
         except ValueError:
             return {"error": "400: Strength POST Validation Error"}, 400
 
-#! NEED TO FIGURE OUT HOW TO GET THE POST METHOD TO WORK WITH THE USER
 @app.route("/strengths/<int:id>", methods=["GET", "DELETE", "PATCH"])
 def strength_by_id(id):
     strength = Strength.query.filter(Strength.id == id).one_or_none()
@@ -79,10 +78,12 @@ def strength_by_id(id):
             return {"error": "404: Strength not found"}, 404
     elif request.method == "DELETE":
         if strength:
-            db.session.delete(strength)
-            db.session.commit()
-            return {"message": f"Strength {strength.id} {strength.name} Deleted"}, 200
-        return {"error": "404: Strength not found"}, 404
+            #! Currently not allowing users to delete strengths
+        #     db.session.delete(strength)
+        #     db.session.commit()
+        #     return {"message": f"Strength {strength.id} {strength.name} Deleted"}, 200
+            return {"error": "405: Users not allowed to delete strengths"}, 405
+        return {"error": "404: Strength not found"}, 404            
     elif request.method == "PATCH":
         fields = request.get_json()
         if fields is None:
@@ -98,6 +99,217 @@ def strength_by_id(id):
             return strength.to_dict(), 200
         else:
             return {"error": "404: Strength not found"}, 404
+
+@app.route("/cardios", methods=["GET", "POST"])
+def cardios():
+    if request.method == "GET":
+        return [cardio.to_dict() for cardio in Cardio.query.all()]
+    elif request.method == "POST":
+        fields = request.get_json()
+        try:
+            cardio = Cardio(
+                name=fields.get("name"),
+                equipment=fields.get("equipment"),
+                favorite=fields.get("favorite")
+            )
+            db.session.add(cardio)
+            db.session.commit()
+            return cardio.to_dict(), 201
+        except ValueError:
+            return {"error": "400: Cardio POST Validation Error"}, 400
+
+@app.route("/cardios/<int:id>", methods=["GET", "DELETE", "PATCH"])
+def cardio_by_id(id):
+    cardio = Cardio.query.filter(Cardio.id == id).one_or_none()
+    if request.method == "GET":
+        if cardio:
+            return cardio.to_dict()
+        else:
+            return {"error": "404: Cardio not found"}, 404
+    elif request.method == "DELETE":
+        if cardio:
+            #! Currently not allowing users to delete cardios
+        #     db.session.delete(cardio)
+        #     db.session.commit()
+        #     return {"message": f"Cardio {cardio.id} {cardio.name} Deleted"}, 200
+            return {"error": "405: Users not allowed to delete cardios"}, 405
+        return {"error": "404: Cardio not found"}, 404            
+    elif request.method == "PATCH":
+        fields = request.get_json()
+        if fields is None:
+            return {"error": "400: PATCH request body missing"}, 400
+        if cardio:
+            if "name" in fields:
+                cardio.name = fields["name"]
+            if "equipment" in fields:
+                cardio.equipment = fields["equipment"]
+            if "favorite" in fields:
+                cardio.favorite = fields["favorite"]
+            db.session.commit()
+            return cardio.to_dict(), 200
+        else:
+            return {"error": "404: Cardio not found"}, 404
+    
+@app.route("/strength_exercises", methods=["GET", "POST"])
+def strength_exercises():
+    if request.method == "GET":
+        return [strength_exercise.to_dict() for strength_exercise in StrengthExercise.query.all()]
+    elif request.method == "POST":
+        fields = request.get_json()
+        try:
+            strength_exercise = StrengthExercise(
+                weight=fields.get("weight"),
+                sets=fields.get("sets"),
+                reps=fields.get("reps")
+            )
+            db.session.add(strength_exercise)
+            db.session.commit()
+            return strength_exercise.to_dict(), 201
+        except ValueError:
+            return {"error": "400: StrengthExercise POST Validation Error"}, 400
+
+@app.route("/strength_exercises/<int:id>", methods=["GET", "DELETE", "PATCH"])
+def strength_exercise_by_id(id):
+    strength_exercise = StrengthExercise.query.filter(StrengthExercise.id == id).one_or_none()
+    if request.method == "GET":
+        if strength_exercise:
+            return strength_exercise.to_dict()
+        else:
+            return {"error": "404: StrengthExercise not found"}, 404
+    elif request.method == "DELETE":
+        if strength_exercise:
+            #! Currently not allowing users to delete strength_exercises
+        #     db.session.delete(strength_exercise)
+        #     db.session.commit()
+        #     return {"message": f"StrengthExercise {strength_exercise.id} Deleted"}, 200
+            return {"error": "405: Users not allowed to delete strength_exercises"}, 405
+        return {"error": "404: StrengthExercise not found"}, 404            
+    elif request.method == "PATCH":
+        fields = request.get_json()
+        if fields is None:
+            return {"error": "400: PATCH request body missing"}, 400
+        if strength_exercise:
+            if "weight" in fields:
+                strength_exercise.weight = fields["weight"]
+            if "sets" in fields:
+                strength_exercise.sets = fields["sets"]
+            if "reps" in fields:
+                strength_exercise.reps = fields["reps"]
+            db.session.commit()
+            return strength_exercise.to_dict(), 200
+        else:
+            return {"error": "404: StrengthExercise not found"}, 404
+
+@app.route("/cardio_exercises", methods=["GET", "POST"])
+def cardio_exercises():
+    if request.method == "GET":
+        return [cardio_exercise.to_dict() for cardio_exercise in CardioExercise.query.all()]
+    elif request.method == "POST":
+        fields = request.get_json()
+        try:
+            cardio_exercise = CardioExercise(
+                distance=fields.get("distance"),
+                units=fields.get("units"),
+                _time=fields.get("_time")
+            )
+            db.session.add(cardio_exercise)
+            db.session.commit()
+            return cardio_exercise.to_dict(), 201
+        except ValueError:
+            return {"error": "400: CardioExercise POST Validation Error"}, 400
+
+@app.route("/cardio_exercises/<int:id>", methods=["GET", "DELETE", "PATCH"])
+def cardio_exercise_by_id(id):
+    cardio_exercise = CardioExercise.query.filter(CardioExercise.id == id).one_or_none()
+    if request.method == "GET":
+        if cardio_exercise:
+            return cardio_exercise.to_dict()
+        else:
+            return {"error": "404: CardioExercise not found"}, 404
+    elif request.method == "DELETE":
+        if cardio_exercise:
+            #! Currently not allowing users to delete cardio_exercises
+        #     db.session.delete(cardio_exercise)
+        #     db.session.commit()
+        #     return {"message": f"CardioExercise {cardio_exercise.id} Deleted"}, 200
+            return {"error": "405: Users not allowed to delete cardio_exercises"}, 405
+        return {"error": "404: CardioExercise not found"}, 404            
+    elif request.method == "PATCH":
+        fields = request.get_json()
+        if fields is None:
+            return {"error": "400: PATCH request body missing"}, 400
+        if cardio_exercise:
+            if "distance" in fields:
+                cardio_exercise.distance = fields["distance"]
+            if "units" in fields:
+                cardio_exercise.units = fields["units"]
+            if "_time" in fields:
+                cardio_exercise._time = fields["_time"]
+            db.session.commit()
+            return cardio_exercise.to_dict(), 200
+        else:
+            return {"error": "404: CardioExercise not found"}, 404
+
+@app.route("/users", methods=["GET", "POST"])
+def users():
+    if request.method == "GET":
+        return [user.to_dict() for user in User.query.all()]
+    elif request.method == "POST":
+        fields = request.get_json()
+        try:
+            user = User(
+                username=fields.get("username"),
+                _password_hash=fields.get("_password_hash"),
+                email=fields.get("email"),
+                first_name=fields.get("first_name"),
+                last_name=fields.get("last_name"),
+                admin=fields.get("admin")
+            )
+            db.session.add(user)
+            db.session.commit()
+            return user.to_dict(), 201
+        except ValueError:
+            return {"error": "400: User POST Validation Error"}, 400
+
+@app.route("/users/<int:id>", methods=["GET", "DELETE", "PATCH"])
+def user_by_id(id):
+    user = User.query.filter(User.id == id).one_or_none()
+    if request.method == "GET":
+        if user:
+            return user.to_dict()
+        else:
+            return {"error": "404: User not found"}, 404
+    elif request.method == "DELETE":
+        if user:
+            #! Currently not allowing users to delete users
+        #     db.session.delete(user)
+        #     db.session.commit()
+        #     return {"message": f"User {user.id} {user.name} Deleted"}, 200
+            return {"error": "405: Users not allowed to delete users"}, 405
+        return {"error": "404: User not found"}, 404            
+    elif request.method == "PATCH":
+        fields = request.get_json()
+        if fields is None:
+            return {"error": "400: PATCH request body missing"}, 400
+        if user:
+            if "username" in fields:
+                user.username = fields["username"]
+            if "_password_hash" in fields:
+                user._password_hash = fields["_password_hash"]
+            if "email" in fields:
+                user.email = fields["email"]
+            if "first_name" in fields:
+                user.first_name = fields["first_name"]
+            if "last_name" in fields:
+                user.last_name = fields["last_name"]
+            if "admin" in fields:
+                user.admin = fields["admin"]
+            db.session.commit()
+            return user.to_dict(), 200
+        else:
+            return {"error": "404: User not found"}, 404
+        
+
 # Authenticaiton / Authorization
 
 #1. Creating my user class
