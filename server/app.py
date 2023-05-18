@@ -93,7 +93,7 @@ def strength_by_id(id):
             if "equipment" in fields:
                 strength.equipment = fields["equipment"]
             if "favorite" in fields:
-                strength.name = fields["favorite"]
+                strength.favorite = fields["favorite"]
             db.session.commit()
             return strength.to_dict(), 200
         else:

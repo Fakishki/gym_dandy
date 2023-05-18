@@ -49,8 +49,13 @@ class Strength(db.Model, SerializerMixin):
     __tablename__ = "strengths"
 
     serialize_rules = (
-        "-created_at",
-        "-updated_at",
+        # "-created_at",
+        # "-updated_at",
+        # "-strength_exercises.strength",
+        "-strength_exercises.strength.created_at",
+        "-strength_exercises.strength.updated_at",
+        "-strength_exercises.strength.strength_exercises"
+        
     )
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
