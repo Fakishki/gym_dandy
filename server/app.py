@@ -23,6 +23,33 @@ def workouts():
         except ValueError:
             return {"error": "400: Workout POST Validation Error"}, 400
 
+#! NEED TO FIGURE OUT HOW TO GET THE POST METHOD TO WORK WITH THE USER
+@app.route("/workouts/<int:id>", methods=["GET", "DELETE", "PATCH"])
+def workout_by_id(id):
+    workout = Workout.query.filter(Workout.id == id).one_or_none()
+    if request.method == "GET":
+        if workout:
+            return workout.to_dict()
+        else:
+            return {"error": "404: Workout not found"}, 404
+    elif request.method == "DELETE":
+        if workout:
+            db.session.delete(workout)
+            db.session.commit()
+            return {"message": f"Workout {workout.id} Deleted"}, 200
+        return {"error": "404: Workout not found"}, 404
+    elif request.method == "PATCH":
+        fields = request.get_json()
+        if fields is None:
+            return {"error": "400: PATCH request body missing"}, 400
+        if workout:
+            if "weigh_in" in fields:
+                workout.weigh_in = fields["weigh_in"]
+            db.session.commit()
+            return workout.to_dict(), 200
+        else:
+            return {"error": "404: Workout not found"}, 404
+
 
 # Authenticaiton / Authorization
 

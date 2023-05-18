@@ -13,6 +13,14 @@ metadata = MetaData(naming_convention={
 class Workout(db.Model, SerializerMixin):
     __tablename__ = "workouts"
 
+    serialize_rules = (
+                    #    "-created_at",
+                    #    "-updated_at",
+                       "-user.workouts",
+                       "-strength_exercises",
+                       "-cardio_exercises"
+                       )
+
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     weigh_in = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
