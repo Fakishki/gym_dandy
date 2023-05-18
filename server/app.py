@@ -50,7 +50,54 @@ def workout_by_id(id):
         else:
             return {"error": "404: Workout not found"}, 404
 
+@app.route("/strengths", methods=["GET", "POST"])
+def strengths():
+    if request.method == "GET":
+        return [strength.to_dict() for strength in Strength.query.all()]
+    elif request.method == "POST":
+        fields = request.get_json()
+        try:
+            strength = Strength(
+                name=fields.get("name"),
+                equipment=fields.get("equipment"),
+                favorite=fields.get("favorite")
+            )
+            db.session.add(strength)
+            db.session.commit()
+            return strength.to_dict(), 201
+        except ValueError:
+            return {"error": "400: Strength POST Validation Error"}, 400
 
+#! NEED TO FIGURE OUT HOW TO GET THE POST METHOD TO WORK WITH THE USER
+@app.route("/strengths/<int:id>", methods=["GET", "DELETE", "PATCH"])
+def strength_by_id(id):
+    strength = Strength.query.filter(Strength.id == id).one_or_none()
+    if request.method == "GET":
+        if strength:
+            return strength.to_dict()
+        else:
+            return {"error": "404: Strength not found"}, 404
+    elif request.method == "DELETE":
+        if strength:
+            db.session.delete(strength)
+            db.session.commit()
+            return {"message": f"Strength {strength.id} {strength.name} Deleted"}, 200
+        return {"error": "404: Strength not found"}, 404
+    elif request.method == "PATCH":
+        fields = request.get_json()
+        if fields is None:
+            return {"error": "400: PATCH request body missing"}, 400
+        if strength:
+            if "name" in fields:
+                strength.name = fields["name"]
+            if "equipment" in fields:
+                strength.equipment = fields["equipment"]
+            if "favorite" in fields:
+                strength.name = fields["favorite"]
+            db.session.commit()
+            return strength.to_dict(), 200
+        else:
+            return {"error": "404: Strength not found"}, 404
 # Authenticaiton / Authorization
 
 #1. Creating my user class

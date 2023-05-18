@@ -17,8 +17,18 @@ class Workout(db.Model, SerializerMixin):
                     #    "-created_at",
                     #    "-updated_at",
                        "-user.workouts",
-                       "-strength_exercises",
-                       "-cardio_exercises"
+                       "-strength_exercises.workout",
+                       "-strength_exercises.created_at",
+                       "-strength_exercises.updated_at",
+                       "-strength_exercises.strength.strength_exercises",
+                       "-strength_exercises.strength.created_at",
+                       "-strength_exercises.strength.updated_at",
+                       "-cardio_exercises.workout",
+                       "-cardio_exercises.created_at",
+                       "-cardio_exercises.updated_at",
+                       "-cardio_exercises.cardio.cardio_exercises",
+                       "-cardio_exercises.cardio.created_at",
+                       "-cardio_exercises.cardio.updated_at"
                        )
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
@@ -37,6 +47,11 @@ class Workout(db.Model, SerializerMixin):
     
 class Strength(db.Model, SerializerMixin):
     __tablename__ = "strengths"
+
+    serialize_rules = (
+        "-created_at",
+        "-updated_at",
+    )
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     name = db.Column(db.String, nullable=False)
