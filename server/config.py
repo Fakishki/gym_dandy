@@ -9,7 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
-app.secret_key = 'My Secret Key'
+app.secret_key = b'\x96\x83\xfc\xe8X mJ\xb5\xfa\xe1s\xea?\xa2J'
 
 db = SQLAlchemy()
 migrate = Migrate(app, db)

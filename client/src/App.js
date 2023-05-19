@@ -1,14 +1,50 @@
-import {Routes, Route} from "react-router-dom"
+import {Routes, Route, useNavigate} from "react-router-dom"
 import {React, useEffect, useState} from "react"
 import Authentication from "./Components/Authentication"
-
+import NavBar from "./Components/NavBar"
 
 
 const App = () => {
   const [user, setUser] = useState(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    fetchUser()
+  },[])
+
+  const fetchUser = () => {
+    fetch("/authorized")
+    .then(res => {
+      if(res.ok) {
+        res.json()
+        .then(setUser)
+      } else {
+        setUser(null)
+      }
+    })
+  }
+
+  const updateUser = (user) => setUser(user)
+  if (!user) return (
+    <>
+      <NavBar />
+      <Routes>
+        <Route path="/login" element={<Authentication updateUser={updateUser}/>}/>
+      </Routes>
+    </>
+  )
+
+  return (
+    <>
+      <NavBar />
+      <Routes>
+        <Route path="/login" element={<Authentication updateUser={updateUser}/>}/>
+      </Routes>
+    </>
+  )
 }
 
-
+export default App;
 
 // import logo from './logo.svg';
 // import './App.css';

@@ -1,4 +1,5 @@
-from flask import request, make_response, abort, session, jsonify
+# from builtins import ValueError
+from flask import request, make_response, abort, session, jsonify, Flask
 from flask_restful import Resource
 from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS
@@ -7,15 +8,45 @@ from models import Workout, StrengthExercise, CardioExercise, Strength, Cardio, 
 
 CORS(app)
 
+@app.before_request
+def check_if_logged_in():
+    open_access_list = [
+        "signup",
+        "login",
+        "logout",
+        "authorized"
+    ]
+
+    if (request.endpoint) not in open_access_list and (not session.get("user_id")):
+        return {"error": "401 Unauthorized - Log in to access"}, 401
+
+# @app.route("/workouts", methods=["GET", "POST"])
+# def workouts():
+#     if request.method == "GET":
+#         return [workout.to_dict() for workout in Workout.query.all()]
+#     elif request.method == "POST":
+#         fields = request.get_json()
+#         try:
+#             workout = Workout(
+#                 weigh_in=fields.get("weigh_in")
+#             )
+#             db.session.add(workout)
+#             db.session.commit()
+#             return workout.to_dict(), 201
+#         except ValueError:
+#             return {"error": "400: Workout POST Validation Error"}, 400
+
 @app.route("/workouts", methods=["GET", "POST"])
 def workouts():
     if request.method == "GET":
         return [workout.to_dict() for workout in Workout.query.all()]
     elif request.method == "POST":
         fields = request.get_json()
+        weigh_in = fields.get("weigh_in")
         try:
+            weigh_in_int = int(weigh_in)
             workout = Workout(
-                weigh_in=fields.get("weigh_in")
+                weigh_in=weigh_in_int
             )
             db.session.add(workout)
             db.session.commit()
@@ -318,6 +349,7 @@ class Signup(Resource):
         form_json = request.get_json()
         new_user = User(
             username=form_json["username"],
+            password_hash=form_json["password"],
             email=form_json["email"]
         )
         db.session.add(new_user)
@@ -330,6 +362,29 @@ class Signup(Resource):
         return response
 api.add_resource(Signup, "/signup")
 
+class Login(Resource):
+    def post(self):
+        user = User.query.filter_by(username=request.get_json()["username"]).one_or_none()
+        if user and user.authenticate(request.get_json()["password"]):
+            session["user_id"] = user.id
+            response = make_response(user.to_dict(), 200)
+            return response
+        else:
+            return {"Unauthorized": "You must use a valid login"}, 401
+api.add_resource(Login, "/login")
+
+class AuthorizedSession(Resource):
+    def get(self):
+        try:
+            user = User.query.filter_by(id=session["user_id"]).first()
+            response = make_response(
+                user.to_dict(),
+                200
+            )
+            return response
+        except:
+            return {"Unauthorized": "You must be logged in to make that request"}, 401
+api.add_resource(AuthorizedSession, "/authorized")
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

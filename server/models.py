@@ -251,6 +251,9 @@ class User(db.Model, SerializerMixin):
 
     workouts = db.relationship("Workout", back_populates="user")
 
+    def __repr__(self):
+        return f"User: {self.username} ({self.id})"
+
     @hybrid_property
     def password_hash(self):
         return self._password_hash
@@ -263,6 +266,3 @@ class User(db.Model, SerializerMixin):
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode("utf-8"))
-    
-    def __repr__(self):
-        return f"User: {self.username}"
