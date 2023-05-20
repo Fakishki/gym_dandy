@@ -1,4 +1,3 @@
-# from builtins import ValueError
 from flask import request, make_response, abort, session, jsonify, Flask
 from flask_restful import Resource
 from werkzeug.exceptions import NotFound, Unauthorized
@@ -20,26 +19,15 @@ def check_if_logged_in():
     if (request.endpoint) not in open_access_list and (not session.get("user_id")):
         return {"error": "401 Unauthorized - Log in to access"}, 401
 
-# @app.route("/workouts", methods=["GET", "POST"])
-# def workouts():
-#     if request.method == "GET":
-#         return [workout.to_dict() for workout in Workout.query.all()]
-#     elif request.method == "POST":
-#         fields = request.get_json()
-#         try:
-#             workout = Workout(
-#                 weigh_in=fields.get("weigh_in")
-#             )
-#             db.session.add(workout)
-#             db.session.commit()
-#             return workout.to_dict(), 201
-#         except ValueError:
-#             return {"error": "400: Workout POST Validation Error"}, 400
-
 @app.route("/workouts", methods=["GET", "POST"])
 def workouts():
     if request.method == "GET":
-        return [workout.to_dict() for workout in Workout.query.all()]
+        user_id = request.args.get("user_id")
+        if user_id:
+            workouts = Workout.query.filter_by(user_id=user_id).all()
+            return [workout.to_dict() for workout in workouts]
+        else:
+            return [workout.to_dict() for workout in Workout.query.all()]
     elif request.method == "POST":
         fields = request.get_json()
         weigh_in = fields.get("weigh_in")
@@ -340,14 +328,13 @@ def user_by_id(id):
         else:
             return {"error": "404: User not found"}, 404
         
-
 # Authenticaiton / Authorization
-
-#1. Creating my user class
 class Signup(Resource):
     def post(self):
         form_json = request.get_json()
         new_user = User(
+            # first_name=form_json["first_name"],
+            # last_name=form_json["last_name"],
             username=form_json["username"],
             password_hash=form_json["password"],
             email=form_json["email"]
@@ -385,6 +372,13 @@ class AuthorizedSession(Resource):
         except:
             return {"Unauthorized": "You must be logged in to make that request"}, 401
 api.add_resource(AuthorizedSession, "/authorized")
+
+class Logout(Resource):
+    def delete(self):
+        session["user_id"] = None
+        response = make_response("Logged out", 204)
+        return response
+api.add_resource(Logout, "/logout")
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

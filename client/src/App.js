@@ -1,12 +1,15 @@
-import {Routes, Route, useNavigate} from "react-router-dom"
-import {React, useEffect, useState} from "react"
+import { BrowserRouter as Router } from "react-router-dom"
+import {Routes, Route} from "react-router-dom"
+import React, {useEffect, useState} from "react"
 import Authentication from "./Components/Authentication"
 import NavBar from "./Components/NavBar"
-
+import Home from "./Components/Home"
+import Workout from "./Components/Workout"
+import { useRecoilState } from "recoil"
+import { userState } from "./atoms"
 
 const App = () => {
-  const [user, setUser] = useState(null)
-  const navigate = useNavigate()
+  const [user, setUser] = useRecoilState(userState)
 
   useEffect(() => {
     fetchUser()
@@ -25,49 +28,19 @@ const App = () => {
   }
 
   const updateUser = (user) => setUser(user)
-  if (!user) return (
-    <>
-      <NavBar />
-      <Routes>
-        <Route path="/login" element={<Authentication updateUser={updateUser}/>}/>
-      </Routes>
-    </>
-  )
 
   return (
-    <>
-      <NavBar />
-      <Routes>
-        <Route path="/login" element={<Authentication updateUser={updateUser}/>}/>
-      </Routes>
-    </>
+    <div>
+      <Router>
+        <NavBar updateUser={updateUser} />
+        <Routes>
+          <Route path="/login" element={<Authentication updateUser={updateUser}/>}/>
+          <Route path="/" element={<Home />}/>
+          <Route path="/workout/:id" element={<Workout />}/>
+          <Route path="*" element={<Authentication updateUser={updateUser}/>}/>
+        </Routes>
+      </Router>
+    </div>
   )
 }
-
 export default App;
-
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;

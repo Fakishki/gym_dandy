@@ -20,9 +20,13 @@ with app.app_context():
 
     print("Creating Users")
     u01 = User(username="wally123", email="wally@wally.com", first_name="Wally", last_name="Pfingsten")
+    u01.password_hash = "wally123"
     u02 = User(username="jason123", email="jason@jason.com", first_name="Jason", last_name="Post")
+    u02.password_hash = "jason123"
     u03 = User(username="jon123", email="jon@jon.com", first_name="Jon", last_name="Parker")
-    u04 = User(username="ghia123", email="ghia@ghia.com", first_name="ghia", last_name="Simmons")
+    u03.password_hash = "jon123"
+    u04 = User(username="ghia123", email="ghia@ghia.com", first_name="Ghia", last_name="Simmons")
+    u04.password_hash  = "ghia123"
     db.session.add_all([u01,u02,u03,u04])
     db.session.commit()
     print("Users Created")
