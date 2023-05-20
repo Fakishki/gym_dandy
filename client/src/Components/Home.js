@@ -23,7 +23,7 @@ const Home = () => {
 
     return (
         <div>
-            <h1>Welcome {user.username}!</h1>
+            <h1>Welcome {user && user.username}!</h1>
             <h2>Your Workouts:</h2>
             <ul>
                 {workouts.map(workout =>(
