@@ -1,3 +1,5 @@
+import { useRecoilState } from "recoil"
+import { userState } from "../atoms"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./navbar.css"
@@ -5,6 +7,7 @@ import "./navbar.css"
 function NavBar({updateUser}) {
     const [menu, setMenu] = useState(false)
     const navigate = useNavigate()
+    const [user, setUser] = useRecoilState(userState)
 
     const handleLogout = () => {
         fetch("/logout", {method: "DELETE"})
@@ -16,15 +19,16 @@ function NavBar({updateUser}) {
         })
     }
 
-    // const handleMenuToggle = () => {
-    //     setMenu(prevState => !prevState);
-    // }
+    const handleLogin = () => {
+        navigate("/login")
+    }
 
-    
     return (
         <nav className="navigation">
             <ul>
-                <li><button onClick={handleLogout}>Logout</button></li>
+                <li><button onClick={user ? handleLogout : handleLogin}>
+                        {user ? "Logout" : "Login"}
+                    </button></li>
             </ul>
         </nav>
     )

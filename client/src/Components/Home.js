@@ -47,7 +47,9 @@ const Home = () => {
             {user ? loggedInContent : loggedOutContent}
         </div>
     )
+}
 
+export default Home;
 
 //     return (
 //         <div>
@@ -64,7 +66,3 @@ const Home = () => {
 //             </ul>
 //         </div>
 //     )
-
-}
-
-export default Home;
