@@ -50,19 +50,3 @@ const Home = () => {
 }
 
 export default Home;
-
-//     return (
-//         <div>
-//             <h1>Welcome {user && user.username}!</h1>
-//             <h2>Your Workouts:</h2>
-//             <ul>
-//                 {workouts.map(workout =>(
-//                     <li key={workout.id}>
-//                         <Link to={`/workout/${workout.id}`}>
-//                             {workout.id}: {new Date(workout.created_at).toLocaleDateString()} - Weigh-in: {workout.weigh_in} lbs
-//                         </Link>
-//                     </li>
-//                 ))}
-//             </ul>
-//         </div>
-//     )

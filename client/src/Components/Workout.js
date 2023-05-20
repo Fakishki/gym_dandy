@@ -1,11 +1,12 @@
 import React, { useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import { oneWorkoutState, workoutsState } from "../atoms"
 
 const Workout = () => {
     const { id } = useParams()
     const [oneWorkout, setOneWorkout] = useRecoilState(oneWorkoutState)
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch(`/workouts/${id}`)
@@ -15,8 +16,13 @@ const Workout = () => {
             })
     }, [id]);
 
+    const backHome = () => {
+        navigate("/")
+    }
+
     return (
         <div>
+            <button onClick={backHome}>Go Back</button>
             <h1>Workout Details</h1>
             <p>Weigh-in: {oneWorkout.weigh_in}</p>
             <p>Date: {oneWorkout.created_at}</p>
