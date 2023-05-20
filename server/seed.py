@@ -2,6 +2,7 @@
 
 from random import choice, randint
 from faker import Faker
+from datetime import datetime
 
 from app import app
 from models import db, Workout, StrengthExercise, CardioExercise, Strength, Cardio, User
@@ -33,13 +34,21 @@ with app.app_context():
 
     print("Creating Workouts")
     w01 = Workout(weigh_in=100, user_id=1)
+    w01.updated_at = datetime.strptime("2023-05-21 00:09:16", "%Y-%m-%d %H:%M:%S")
     w02 = Workout(weigh_in=200, user_id=2)
+    w02.updated_at = datetime.strptime("2023-05-22 00:09:16", "%Y-%m-%d %H:%M:%S")
     w03 = Workout(weigh_in=300, user_id=1)
+    w03.updated_at = datetime.strptime("2023-05-23 00:09:16", "%Y-%m-%d %H:%M:%S")
     w04 = Workout(weigh_in=400, user_id=2)
+    w04.updated_at = datetime.strptime("2023-05-24 00:09:16", "%Y-%m-%d %H:%M:%S")
     w05 = Workout(weigh_in=500, user_id=3)
+    w05.updated_at = datetime.strptime("2023-05-25 00:09:16", "%Y-%m-%d %H:%M:%S")
     w06 = Workout(weigh_in=600, user_id=4)
+    w06.updated_at = datetime.strptime("2023-05-26 00:09:16", "%Y-%m-%d %H:%M:%S")
     w07 = Workout(weigh_in=700, user_id=3)
+    w07.updated_at = datetime.strptime("2023-05-27 00:09:16", "%Y-%m-%d %H:%M:%S")
     w08 = Workout(weigh_in=800, user_id=4)
+    w08.updated_at = datetime.strptime("2023-05-28 00:09:16", "%Y-%m-%d %H:%M:%S")
     db.session.add_all([w01,w02,w03,w04,w05,w06,w07,w08])
     db.session.commit()
     print("Workouts created")

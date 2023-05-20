@@ -17,7 +17,7 @@ const Home = () => {
         fetch(`/workouts?user_id=${user.id}`)
             .then(res => res.json())
             .then(workouts => {
-                workouts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                workouts.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
                 setWorkouts(workouts);
             })
     }
@@ -29,7 +29,9 @@ const Home = () => {
                 {workouts.map(workout =>(
                     <li key={workout.id}>
                         <Link to={`/workout/${workout.id}`}>
-                            {workout.id}: {new Date(workout.created_at).toLocaleDateString()} - Weigh-in: {workout.weigh_in} lbs
+                            {/* Workouts currently listed chron backwards by updated_date for
+                            seed/testing - Change back to created_at for launch */}
+                            {workout.id}: {new Date(workout.updated_at).toLocaleDateString()} - Weigh-in: {workout.weigh_in} lbs
                         </Link>
                     </li>
                 ))}
