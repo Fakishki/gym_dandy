@@ -5,6 +5,7 @@ import Authentication from "./Components/Authentication"
 import NavBar from "./Components/NavBar"
 import Home from "./Components/Home"
 import Workout from "./Components/Workout"
+import ExerciseLibrary from "./Components/ExerciseLibrary"
 import { useRecoilState } from "recoil"
 import { userState } from "./atoms"
 
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/login" element={<Authentication updateUser={updateUser}/>}/>
           <Route path="/" element={<Home />}/>
           <Route path="/workout/:id" element={<Workout />}/>
+          <Route path="/exercise-library" element={<ExerciseLibrary />} />
           <Route path="*" element={<Authentication updateUser={updateUser}/>}/>
         </Routes>
       </Router>

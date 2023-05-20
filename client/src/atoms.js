@@ -14,3 +14,13 @@ export const oneWorkoutState = atom({
     key: "oneWorkoutState",
     default: {},
 })
+
+export const strengthExercisesState = atom({
+    key: "strengthExercisesState",
+    default: [],
+})
+
+export const cardioExercisesState = atom({
+    key: "cardioExercisesState",
+    default: [],
+})

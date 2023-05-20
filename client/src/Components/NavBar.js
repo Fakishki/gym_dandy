@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil"
 import { userState } from "../atoms"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import "./navbar.css"
 
 function NavBar({updateUser}) {
@@ -26,9 +26,12 @@ function NavBar({updateUser}) {
     return (
         <nav className="navigation">
             <ul>
-                <li><button onClick={user ? handleLogout : handleLogin}>
+                <li>
+                    <button onClick={user ? handleLogout : handleLogin}>
                         {user ? "Logout" : "Login"}
-                    </button></li>
+                    </button>
+                </li>
+                <li><Link to="/exercise-library">Exercise Library</Link></li>
             </ul>
         </nav>
     )
