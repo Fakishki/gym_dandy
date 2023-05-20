@@ -9,9 +9,11 @@ const Home = () => {
 
     useEffect(() => {
         fetchWorkouts();
-    }, [])
+    }, [user])
 
     const fetchWorkouts = () => {
+        if (!user) return;
+
         fetch(`/workouts?user_id=${user.id}`)
             .then(res => res.json())
             .then(workouts => {
