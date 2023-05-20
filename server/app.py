@@ -42,7 +42,6 @@ def workouts():
         except ValueError:
             return {"error": "400: Workout POST Validation Error"}, 400
 
-#! NEED TO FIGURE OUT HOW TO GET THE POST METHOD TO WORK WITH THE USER
 @app.route("/workouts/<int:id>", methods=["GET", "DELETE", "PATCH"])
 def workout_by_id(id):
     workout = Workout.query.filter(Workout.id == id).one_or_none()
@@ -179,6 +178,8 @@ def strength_exercises():
         fields = request.get_json()
         try:
             strength_exercise = StrengthExercise(
+                workout_id=fields.get("workout_id"),
+                strength_id=fields.get("strength_id"),
                 weight=fields.get("weight"),
                 sets=fields.get("sets"),
                 reps=fields.get("reps")

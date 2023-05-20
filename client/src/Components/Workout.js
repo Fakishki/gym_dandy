@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import { oneWorkoutState, workoutsState } from "../atoms"
+import AddStrengthExercise from "./AddStrengthExercise"
 
 const Workout = () => {
     const { id } = useParams()
@@ -27,6 +28,7 @@ const Workout = () => {
             <p>Weigh-in: {oneWorkout.weigh_in}</p>
             <p>Date: {oneWorkout.created_at}</p>
             <h2>Strength Exercises</h2>
+            <button onClick={() => navigate("/add_strength_exercise")}>Add Strength Exercise</button>
             <ul>
                 {oneWorkout.strength_exercises?.map(strength_exercise => (
                     <li key={strength_exercise.id}>

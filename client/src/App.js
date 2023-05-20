@@ -8,6 +8,7 @@ import Workout from "./Components/Workout"
 import ExerciseLibrary from "./Components/ExerciseLibrary"
 import { useRecoilState } from "recoil"
 import { userState } from "./atoms"
+import AddStrengthExercise from "./Components/AddStrengthExercise"
 
 const App = () => {
   const [user, setUser] = useRecoilState(userState)
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/" element={<Home />}/>
           <Route path="/workout/:id" element={<Workout />}/>
           <Route path="/exercise-library" element={<ExerciseLibrary />} />
+          <Route path="/add_strength_exercise" element={<AddStrengthExercise />} />
           <Route path="*" element={<Authentication updateUser={updateUser}/>}/>
         </Routes>
       </Router>
