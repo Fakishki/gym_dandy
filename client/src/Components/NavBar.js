@@ -31,6 +31,7 @@ function NavBar({updateUser}) {
                         {user ? "Logout" : "Login"}
                     </button>
                 </li>
+                <li><Link to="/">Home</Link></li>
                 <li><Link to="/exercise-library">Exercise Library</Link></li>
             </ul>
         </nav>

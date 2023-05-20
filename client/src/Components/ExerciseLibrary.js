@@ -1,11 +1,13 @@
 import React, { useEffect } from "react"
 import { useRecoilState } from "recoil"
+import { useNavigate } from "react-router-dom"
 import { userState, strengthExercisesState, cardioExercisesState } from "../atoms"
 
 const ExerciseLibrary = () => {
     const [user] = useRecoilState(userState);
     const [strengthExercises, setStrengthExercises] = useRecoilState(strengthExercisesState);
     const [cardioExercises, setCardioExercises] = useRecoilState(cardioExercisesState);
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchStrengthExercises();
@@ -34,8 +36,14 @@ const ExerciseLibrary = () => {
             })
     }
 
+    const backHome = () => {
+        navigate("/")
+    }
+
     return (
         <div>
+            <button onClick={backHome}>Go Back</button>
+            <h1>Your Exercise Library</h1>
             <h2>Your Strength Exercises:</h2>
             <ul>
                 {strengthExercises.map(exercise => (

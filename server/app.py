@@ -172,7 +172,9 @@ def cardio_by_id(id):
 @app.route("/strength_exercises", methods=["GET", "POST"])
 def strength_exercises():
     if request.method == "GET":
-        return [strength_exercise.to_dict() for strength_exercise in StrengthExercise.query.all()]
+        user_id = session.get("user_id")
+        strength_exercises = StrengthExercise.query.join(Workout).filter(Workout.user_id == user_id).all()
+        return [strength_exercise.to_dict() for strength_exercise in strength_exercises]
     elif request.method == "POST":
         fields = request.get_json()
         try:
@@ -222,6 +224,9 @@ def strength_exercise_by_id(id):
 @app.route("/cardio_exercises", methods=["GET", "POST"])
 def cardio_exercises():
     if request.method == "GET":
+        user_id = session.get("user_id")
+        cardio_exercises = CardioExercise.query.join(Workout).filter(Workout.user_id == user_id).all()
+        return [cardio_exercise.to_dict() for cardio_exercise in cardio_exercises]
         return [cardio_exercise.to_dict() for cardio_exercise in CardioExercise.query.all()]
     elif request.method == "POST":
         fields = request.get_json()
