@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { strengthExercisesState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 
 const AddStrengthExercise = () => {
     const navigate = useNavigate();
     const { id } = useParams();
-    const strengthExercises = useRecoilValue(strengthExercisesState);
-    const [selectedStrengthExercise, setSelectedStrengthExercise] = useState(null);
+    const [strengthExercises, setStrengthExercises] = useRecoilState(strengthExercisesState);
+    const [selectedStrengthExercise, setSelectedStrengthExercise] = useState("");
     const [weight, setWeight] = useState("");
     const [sets, setSets] = useState("");
     const [reps, setReps] = useState("");
+
+    useEffect(() => {
+        fetch("/strength_exercises")
+        .then(res => res.json())
+        .then(data => {
+            data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
+            setStrengthExercises(data);
+        })
+    }, []);
 
     const submitForm = () => {
         fetch("/strength_exercises", {
@@ -20,12 +29,6 @@ const AddStrengthExercise = () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                // "workout_id": "<workout_id>",
-                // "strength_id": "<strength_id>",
-                // "weight": "<weight>",
-                // "sets": "<sets>",
-                // "reps": "<reps>"
-                
                 workout_id: id,
                 strength_id: selectedStrengthExercise,
                 weight,
@@ -46,6 +49,7 @@ const AddStrengthExercise = () => {
             <h1>Add Strength Exercise</h1>
             <label>Select a strength exercise:</label>
             <select value={selectedStrengthExercise} onChange={(e) => setSelectedStrengthExercise(e.target.value)}>
+                <option value="">-- select an exercise --</option>
                 {strengthExercises.map(exercise => (
                     <option key={exercise.id} value={exercise.id}>{exercise.strength.name}</option>                    
                 ))}
