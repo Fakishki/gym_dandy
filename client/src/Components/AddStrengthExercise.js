@@ -49,6 +49,7 @@ const AddStrengthExercise = () => {
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             navigate(`/workouts/${id}`);
         })
         .catch((error) => {
