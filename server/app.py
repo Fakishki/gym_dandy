@@ -4,6 +4,7 @@ from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS
 from config import app, db, api
 from models import Workout, StrengthExercise, CardioExercise, Strength, Cardio, User
+from sqlalchemy import and_
 
 CORS(app)
 
@@ -222,13 +223,35 @@ def strength_exercise_by_id(id):
         else:
             return {"error": "404: StrengthExercise not found"}, 404
 
+#!Added to make AddStrengthExercise.js work
+@app.route("/unique_strength_exercises", methods=["GET"])
+def get_unique_strength_exercises():
+    user_id = request.args.get("user_id")
+
+    # strength_exercises = StrengthExercise.query.filter_by(user_id=user_id).all()
+    strength_exercises = db.session.query(StrengthExercise).join(
+        Workout,
+        StrengthExercise.workout_id == Workout.id
+    ).filter(
+        Workout.user_id == user_id
+    ).all()
+
+    seen = set()
+    unique_strength_exercises = []
+    for exercise in strength_exercises:
+        if exercise.strength.name not in seen:
+            unique_strength_exercises.append(exercise)
+            seen.add(exercise.strength.name)
+
+    return [exercise.to_dict() for exercise in unique_strength_exercises]
+
 @app.route("/cardio_exercises", methods=["GET", "POST"])
 def cardio_exercises():
     if request.method == "GET":
         user_id = session.get("user_id")
         cardio_exercises = CardioExercise.query.join(Workout).filter(Workout.user_id == user_id).all()
         return [cardio_exercise.to_dict() for cardio_exercise in cardio_exercises]
-        return [cardio_exercise.to_dict() for cardio_exercise in CardioExercise.query.all()]
+        # return [cardio_exercise.to_dict() for cardio_exercise in CardioExercise.query.all()]
     elif request.method == "POST":
         fields = request.get_json()
         try:

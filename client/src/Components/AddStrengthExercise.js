@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { strengthExercisesState } from "../atoms";
+import { strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 
 const AddStrengthExercise = () => {
@@ -12,15 +12,26 @@ const AddStrengthExercise = () => {
     const [weight, setWeight] = useState("");
     const [sets, setSets] = useState("");
     const [reps, setReps] = useState("");
+    const userId = useRecoilValue(userState).id;
 
     useEffect(() => {
-        fetch("/strength_exercises")
+        fetch(`/unique_strength_exercises?user_id=${userId}`)
         .then(res => res.json())
         .then(data => {
             data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
             setStrengthExercises(data);
         })
-    }, []);
+    }, [userId]);
+
+    // TRYING TO NEW METHOD ABOVE TO MAKE STRENGTH OPTIONS UNIQUE
+    // useEffect(() => {
+    //     fetch("/strength_exercises")
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
+    //         setStrengthExercises(data);
+    //     })
+    // }, []);
 
     const submitForm = () => {
         fetch("/strength_exercises", {
@@ -51,7 +62,9 @@ const AddStrengthExercise = () => {
             <select value={selectedStrengthExercise} onChange={(e) => setSelectedStrengthExercise(e.target.value)}>
                 <option value="">-- select an exercise --</option>
                 {strengthExercises.map(exercise => (
-                    <option key={exercise.id} value={exercise.id}>{exercise.strength.name}</option>                    
+                    <option key={exercise.id} value={exercise.id}>
+                        {exercise.strength.name} ({exercise.strength.equipment})
+                        </option>                    
                 ))}
             </select>
             <label>Weight:</label>
