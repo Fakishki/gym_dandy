@@ -12,6 +12,9 @@ const AddStrengthExercise = () => {
     const [weight, setWeight] = useState("");
     const [sets, setSets] = useState("");
     const [reps, setReps] = useState("");
+    const [strengthName, setStrengthName] = useState("");
+    const [strengthEquipment, setStrengthEquipment] = useState("");
+    const [strengthFavorite, setStrengthFavorite] = useState(false);
     const userId = useRecoilValue(userState).id;
 
     useEffect(() => {
@@ -22,16 +25,6 @@ const AddStrengthExercise = () => {
             setStrengthExercises(data);
         })
     }, [userId]);
-
-    // TRYING TO NEW METHOD ABOVE TO MAKE STRENGTH OPTIONS UNIQUE
-    // useEffect(() => {
-    //     fetch("/strength_exercises")
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
-    //         setStrengthExercises(data);
-    //     })
-    // }, []);
 
     const submitForm = () => {
         fetch("/strength_exercises", {
@@ -56,6 +49,45 @@ const AddStrengthExercise = () => {
             console.error("Error:", error);
         });
     };
+
+    const submitNewForm = () => {
+        fetch("/strengths", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: strengthName,
+                equipment: strengthEquipment,
+                favorite: strengthFavorite
+            })
+        })
+        .then(response => response.json())
+        .then(newStrength => {
+            return fetch("/strength_exercises", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    workout_id: id,
+                    strength_id: newStrength.id,
+                    weight,
+                    sets,
+                    reps
+                })
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            navigate(`/workouts/${id}`);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+    };
+    
     return (
         <div>
             <h1>Add Strength Exercise</h1>
@@ -75,6 +107,21 @@ const AddStrengthExercise = () => {
             <label>Reps:</label>
             <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
             <button onClick={submitForm}>Add</button>
+            <h2>Need to add a new Strength?</h2>
+            <label>Strength Name:</label>
+            <input type="text" value={strengthName} onChange={(e) => setStrengthName(e.target.value)} />
+            <label>Equipment:</label>
+            <input type="text" value={strengthEquipment} onChange={(e) => setStrengthEquipment(e.target.value)} />
+            <label>Favorite:</label>
+            <input type="checkbox" checked={strengthFavorite} onChange={(e) => setStrengthFavorite(e.target.checked)} />
+            <label>Weight:</label>
+            <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
+            <label>Sets:</label>
+            <input type="number" value={sets} onChange={(e) => setSets(e.target.value)} />
+            <label>Reps:</label>
+            <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
+            <button onClick={submitNewForm}>Create and Add</button>
+
         </div>
     )
 }

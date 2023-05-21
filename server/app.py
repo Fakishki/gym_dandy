@@ -227,8 +227,6 @@ def strength_exercise_by_id(id):
 @app.route("/unique_strength_exercises", methods=["GET"])
 def get_unique_strength_exercises():
     user_id = request.args.get("user_id")
-
-    # strength_exercises = StrengthExercise.query.filter_by(user_id=user_id).all()
     strength_exercises = db.session.query(StrengthExercise).join(
         Workout,
         StrengthExercise.workout_id == Workout.id
