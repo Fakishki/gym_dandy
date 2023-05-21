@@ -20,6 +20,12 @@ const AddStrengthExercise = () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                // "workout_id": "<workout_id>",
+                // "strength_id": "<strength_id>",
+                // "weight": "<weight>",
+                // "sets": "<sets>",
+                // "reps": "<reps>"
+                
                 workout_id: id,
                 strength_id: selectedStrengthExercise,
                 weight,

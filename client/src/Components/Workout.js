@@ -1,14 +1,18 @@
 import React, { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { useRecoilState } from "recoil"
-import { oneWorkoutState, workoutsState } from "../atoms"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { oneWorkoutState, workoutsState, workoutDataState } from "../atoms"
 import AddStrengthExercise from "./AddStrengthExercise"
 
 const Workout = () => {
     const { id } = useParams()
+    // Trying to fix strenghtexercise not loading
+    // const oneWorkout = useRecoilValue(workoutDataState(id));
+    // MIGHT NEED THIS BACK
     const [oneWorkout, setOneWorkout] = useRecoilState(oneWorkoutState)
     const navigate = useNavigate()
 
+    // MIGHT NEED THIS BACK
     useEffect(() => {
         fetch(`/workouts/${id}`)
             .then(res => res.json())
@@ -28,7 +32,7 @@ const Workout = () => {
             <p>Weigh-in: {oneWorkout.weigh_in}</p>
             <p>Date: {oneWorkout.created_at}</p>
             <h2>Strength Exercises</h2>
-            <button onClick={() => navigate("/add_strength_exercise")}>Add Strength Exercise</button>
+            <button onClick={() => navigate(`/add_strength_exercise/${id}`)}>Add Strength Exercise</button>
             <ul>
                 {oneWorkout.strength_exercises?.map(strength_exercise => (
                     <li key={strength_exercise.id}>

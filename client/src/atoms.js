@@ -1,4 +1,4 @@
-import { atom } from "recoil"
+import { atom, selectorFamily } from "recoil"
 
 export const userState = atom({
     key: "userState",
@@ -24,3 +24,12 @@ export const cardioExercisesState = atom({
     key: "cardioExercisesState",
     default: [],
 })
+// LATEST ADD TO TRY TO SOLVE ADDED STRENGTHWORKOUT NOT APPEARING
+// export const workoutDataState = selectorFamily({
+//     key: "workoutDataState",
+//     get: (id) => async ({get}) => {
+//         const response = await fetch(`/workouts/${id}`);
+//         const data = await response.json();
+//         return data;
+//     },
+// })
