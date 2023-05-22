@@ -1,11 +1,12 @@
-import { BrowserRouter as Router } from "react-router-dom"
-import {Routes, Route} from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+// import {Routes, Route} from "react-router-dom"
 import React, {useEffect, useState} from "react"
 import Authentication from "./Components/Authentication"
 import NavBar from "./Components/NavBar"
 import Home from "./Components/Home"
 import Workout from "./Components/Workout"
 import ExerciseLibrary from "./Components/ExerciseLibrary"
+import AddWorkout from "./Components/AddWorkout"
 import { useRecoilState } from "recoil"
 import { userState } from "./atoms"
 import AddStrengthExercise from "./Components/AddStrengthExercise"
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/exercise-library" element={<ExerciseLibrary />} />
           <Route path="/add_strength_exercise" element={<AddStrengthExercise />} />
           <Route path="*" element={<Authentication updateUser={updateUser}/>}/>
+          <Route path="/add_workout" element={<AddWorkout />} />
         </Routes>
       </Router>
     </div>

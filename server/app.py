@@ -33,10 +33,12 @@ def workouts():
     elif request.method == "POST":
         fields = request.get_json()
         weigh_in = fields.get("weigh_in")
+        user_id = fields.get("user_id")
         try:
             weigh_in_int = int(weigh_in)
             workout = Workout(
-                weigh_in=weigh_in_int
+                weigh_in=weigh_in_int,
+                user_id=user_id
             )
             db.session.add(workout)
             db.session.commit()
