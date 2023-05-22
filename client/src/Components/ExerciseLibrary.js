@@ -16,25 +16,62 @@ const ExerciseLibrary = () => {
 
     const fetchStrengthExercises = () => {
         if (!user) return;
-
+    
         fetch(`/strength_exercises?user_id=${user.id}`)
             .then(res => res.json())
             .then(data => {
-                data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
-                setStrengthExercises(data);
+                let seen = new Set();
+                let filtered = data.filter(el => {
+                    let duplicate = seen.has(el.strength.name + el.strength.equipment);
+                    seen.add(el.strength.name + el.strength.equipment);
+                    return !duplicate;
+                });
+    
+                filtered.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
+                setStrengthExercises(filtered);
             })
     }
-
+    
     const fetchCardioExercises = () => {
         if (!user) return;
-
+    
         fetch(`/cardio_exercises?user_id=${user.id}`)
             .then(res => res.json())
             .then(data => {
-                data.sort((a, b) => a.cardio.name.localeCompare(b.cardio.name));
-                setCardioExercises(data);
+                let seen = new Set();
+                let filtered = data.filter(el => {
+                    let duplicate = seen.has(el.cardio.name + el.cardio.equipment);
+                    seen.add(el.cardio.name + el.cardio.equipment);
+                    return !duplicate;
+                });
+    
+                filtered.sort((a, b) => a.cardio.name.localeCompare(b.cardio.name));
+                setCardioExercises(filtered);
             })
     }
+    
+
+    // const fetchStrengthExercises = () => {
+    //     if (!user) return;
+
+    //     fetch(`/strength_exercises?user_id=${user.id}`)
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
+    //             setStrengthExercises(data);
+    //         })
+    // }
+
+    // const fetchCardioExercises = () => {
+    //     if (!user) return;
+
+    //     fetch(`/cardio_exercises?user_id=${user.id}`)
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             data.sort((a, b) => a.cardio.name.localeCompare(b.cardio.name));
+    //             setCardioExercises(data);
+    //         })
+    // }
 
     const backHome = () => {
         navigate("/")

@@ -236,7 +236,7 @@ class CardioExercise(db.Model, SerializerMixin):
     cardio_units = ["miles", "kilometers", "laps", "yards", "meters", "feet"]
 
     def __repr__(self):
-        return f"Strength Exercise: {self.id}"
+        return f"Cardio Exercise: {self.id}"
     
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
