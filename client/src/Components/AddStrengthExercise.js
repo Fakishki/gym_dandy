@@ -8,7 +8,7 @@ const AddStrengthExercise = () => {
     const navigate = useNavigate();
     // const { id } = useParams();
     const [strengthExercises, setStrengthExercises] = useRecoilState(strengthExercisesState);
-    const [selectedStrengthExercise, setSelectedStrengthExercise] = useState("");
+    // const [selectedStrengthExercise, setSelectedStrengthExercise] = useState("");
     const [weight, setWeight] = useState("");
     const [sets, setSets] = useState("");
     const [reps, setReps] = useState("");
@@ -56,7 +56,7 @@ const AddStrengthExercise = () => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            navigate(`/workouts/${workoutId}`);
+            navigate(`/workout/${workoutId}`);
         })
         .catch((error) => {
             console.error("Error:", error);
@@ -95,7 +95,7 @@ const AddStrengthExercise = () => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            navigate(`/workouts/${workoutId}`);
+            navigate(`/workout/${workoutId}`);
         })
         .catch((error) => {
             console.error("Error:", error);
