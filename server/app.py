@@ -1,4 +1,4 @@
-from flask import request, make_response, abort, session, jsonify, Flask
+from flask import request, make_response, abort, session, jsonify
 from flask_restful import Resource
 from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS

@@ -38,7 +38,7 @@ const Workout = () => {
             <ul>
                 {oneWorkout.strength_exercises?.map(strength_exercise => (
                     <li key={strength_exercise.id}>
-                        {strength_exercise.strength ? strength_exercise.strength.name : "Unnamed Strength Exercise"} -- Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}
+                        {strength_exercise.strength ? strength_exercise.strength.name : "Unnamed Strength Exercise"} - {strength_exercise.strength ? strength_exercise.strength.equipment : "No Equipment"} - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}
                     </li>
                 ))}
             </ul>
@@ -46,7 +46,7 @@ const Workout = () => {
             <ul>
                 {oneWorkout.cardio_exercises?.map(cardio_exercise => (
                     <li key={cardio_exercise.id}>
-                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} -- Distance: {cardio_exercise.distance}, Time: {cardio_exercise.time}
+                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} - {cardio_exercise.cardio ? cardio_exercise.cardio.equipment : "No Equipment"} - Distance: {cardio_exercise.distance}, Time: {cardio_exercise.time}
                     </li>
                 ))}
             </ul>
