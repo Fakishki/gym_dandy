@@ -40,6 +40,7 @@ class Workout(db.Model, SerializerMixin):
 
     user = db.relationship("User", back_populates="workouts")
     strength_exercises = db.relationship("StrengthExercise", back_populates="workout")
+    strengths = association_proxy("strength_exercises", "strength")
     cardio_exercises = db.relationship("CardioExercise", back_populates="workout")
 
     def __repr__(self):

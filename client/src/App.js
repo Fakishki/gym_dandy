@@ -40,7 +40,7 @@ const App = () => {
           <Route path="/" element={<Home />}/>
           <Route path="/workout/:id" element={<Workout />}/>
           <Route path="/exercise-library" element={<ExerciseLibrary />} />
-          <Route path="/add_strength_exercise/:id" element={<AddStrengthExercise />} />
+          <Route path="/add_strength_exercise" element={<AddStrengthExercise />} />
           <Route path="*" element={<Authentication updateUser={updateUser}/>}/>
         </Routes>
       </Router>

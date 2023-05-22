@@ -1,4 +1,4 @@
-from flask import request, make_response, abort, session, jsonify
+from flask import request, make_response, abort, session, jsonify, current_app
 from flask_restful import Resource
 from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS
@@ -224,9 +224,10 @@ def strength_exercise_by_id(id):
             return {"error": "404: StrengthExercise not found"}, 404
 
 #!Added to make AddStrengthExercise.js work
-@app.route("/unique_strength_exercises", methods=["GET"])
-def get_unique_strength_exercises():
-    user_id = request.args.get("user_id")
+@app.route("/unique_strength_exercises/<int:id>", methods=["GET"])
+def get_unique_strength_exercises(id):
+    user_id = id
+    # user_id = request.args.get("user_id")
     strength_exercises = db.session.query(StrengthExercise).join(
         Workout,
         StrengthExercise.workout_id == Workout.id
@@ -237,11 +238,16 @@ def get_unique_strength_exercises():
     seen = set()
     unique_strength_exercises = []
     for exercise in strength_exercises:
+        # Debugging
+        if exercise.strength is None:
+            current_app.logger.info(f'Exercise: {exercise} has no associated strength')
+            continue
+        current_app.logger.info(f'Exercise: {exercise}, Strength: {exercise.strength}')
         if exercise.strength.name not in seen:
             unique_strength_exercises.append(exercise)
             seen.add(exercise.strength.name)
-
-    return [exercise.to_dict() for exercise in unique_strength_exercises]
+    response = make_response([exercise.to_dict() for exercise in unique_strength_exercises], 200)
+    return response
 
 @app.route("/cardio_exercises", methods=["GET", "POST"])
 def cardio_exercises():
