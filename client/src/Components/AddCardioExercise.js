@@ -4,7 +4,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, cardioExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 
-
 const AddCardioExercise = () => {
     const navigate = useNavigate();
     // const { id } = useParams();
@@ -24,6 +23,7 @@ const AddCardioExercise = () => {
     // possible fix to strenghExercise and cardio issue
     const [selectedCardioExerciseId, setSelectedCardioExerciseId] = useState("");
     const [selectedCardioId, setSelectedCardioId] = useState("");
+    const [equipmentOptions, setEquipmentOptions] = useState([]);
     // debugger
 
     useEffect(() => {
@@ -43,17 +43,11 @@ const AddCardioExercise = () => {
             })}
     }, [userId]);  
 
-    //! OLD VERSION:
-    // useEffect(() => {
-    //     // fetch(`/unique_cardio_exercises?user_id=${userId}`)
-    //     if (userId) {
-    //     fetch(`/unique_cardio_exercises/${userId}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         data.sort((a, b) => a.cardio.name.localeCompare(b.cardio.name));
-    //         setCardioExercises(data);
-    //     })}
-    // }, [userId]);
+    useEffect(() => {
+        fetch("/cardio_equipment")
+            .then((response) => response.json())
+            .then((data) => setEquipmentOptions(data.equipment));
+    }, []);
 
     const submitForm = (e) => {
         e.preventDefault()
@@ -191,7 +185,14 @@ const AddCardioExercise = () => {
                     </div>
                     <div>
                     <label>Equipment:</label>
-                    <input type="text" value={cardioEquipment} onChange={(e) => setCardioEquipment(e.target.value)} />
+                    <select value={cardioEquipment} onChange={(e) => setCardioEquipment(e.target.value)}>
+                        <option value="">--select equipment--</option>
+                        {equipmentOptions.map((equipment) => (
+                            <option key={equipment} value={equipment}>
+                                {equipment}
+                            </option>
+                        ))}
+                    </select>
                     </div>
                     <div>
                     <label>Favorite:</label>
