@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, cardioExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 
+
 const AddCardioExercise = () => {
     const navigate = useNavigate();
     // const { id } = useParams();
@@ -38,6 +39,14 @@ const AddCardioExercise = () => {
 
     const submitForm = (e) => {
         e.preventDefault()
+
+        const isValidFormat = /^(\d{1,2}):([0-5]\d)$/.test(time);
+        if (!isValidFormat) {
+            alert("Invalid time format. Please use MM:SS format.");
+            return;
+        }
+
+
         fetch("/cardio_exercises", {
             method: "POST",
             headers: {
@@ -102,13 +111,14 @@ const AddCardioExercise = () => {
         });
     };
 
+    const handleTimeChange = (e) => {
+        setTime(e.target.value);
+    };
+
     const toggleForm = () => {
         setIsNewForm(!isNewForm);
     };
 
-
-
-    // // OLD FORM
     return (
         <div>
             <h1>Add Cardio Exercise</h1>
@@ -138,7 +148,9 @@ const AddCardioExercise = () => {
             <label>Units:</label>
             <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
             <label>Time:</label>
-            <input type="number" value={time} onChange={(e) => setTime(e.target.value)} placeholder="minutes:seconds"/>
+            <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
+            {/* <label>Time:</label>
+            <input type="number" value={time} onChange={(e) => setTime(e.target.value)} placeholder="minutes:seconds"/> */}
             <button onClick={submitForm}>Add</button>
             <h2>Need to add a new Cardio?</h2>
             <label>Cardio Name:</label>
@@ -152,7 +164,9 @@ const AddCardioExercise = () => {
             <label>Units:</label>
             <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
             <label>Time:</label>
-            <input type="number" value={time} onChange={(e) => setTime(e.target.value)} placeholder="minutes:seconds" />
+            <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
+            {/* <label>Time:</label>
+            <input type="number" value={time} onChange={(e) => setTime(e.target.value)} placeholder="minutes:seconds" /> */}
             <button onClick={submitNewForm}>Create and Add</button>
 
         </div>

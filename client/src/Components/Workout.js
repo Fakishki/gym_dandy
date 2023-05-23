@@ -131,6 +131,7 @@ const Workout = () => {
                 ))}
             </ul>
             <h2>Cardio Exercises</h2>
+            <button onClick={() => navigate(`/add_cardio_exercise`)}>Add Cardio Exercise</button>
             <ul>
                 {oneWorkout.cardio_exercises?.map(cardio_exercise => (
                     <li key={cardio_exercise.id}>

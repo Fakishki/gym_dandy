@@ -31,6 +31,7 @@ const AddStrengthExercise = () => {
         fetch(`/unique_strength_exercises/${userId}`)
         .then(res => res.json())
         .then(data => {
+            // data.sort((a, b) => String(a.strength.name + a.strength.equipment).localeCompare(String(b.strength.name + b.strength.equipment)))
             data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
             setStrengthExercises(data);
         })}
