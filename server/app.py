@@ -146,6 +146,10 @@ def strength_by_id(id):
         else:
             return {"error": "404: Strength not found"}, 404
 
+@app.route("/strength_equipment", methods=["GET"])
+def get_strength_equipment():
+    return {"equipment": Strength.strength_equipment}, 200
+
 @app.route("/cardios", methods=["GET", "POST"])
 def cardios():
     if request.method == "GET":
@@ -213,6 +217,10 @@ def cardio_by_id(id):
             return cardio.to_dict(), 200
         else:
             return {"error": "404: Cardio not found"}, 404
+        
+@app.route("/cardio_equipment", methods=["GET"])
+def get_cardio_equipment():
+    return {"equipment": Cardio.cardio_equipment}, 200
     
 @app.route("/strength_exercises", methods=["GET", "POST"])
 def strength_exercises():

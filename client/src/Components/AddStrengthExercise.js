@@ -23,6 +23,7 @@ const AddStrengthExercise = () => {
     // possible fix to strenghExercise and strength issue
     const [selectedStrengthExerciseId, setSelectedStrengthExerciseId] = useState("");
     const [selectedStrengthId, setSelectedStrengthId] = useState("");
+    const [equipmentOptions, setEquipmentOptions] = useState([]);
     // debugger
 
     useEffect(() => {
@@ -40,20 +41,13 @@ const AddStrengthExercise = () => {
                 });
                 setStrengthExercises(data);
             })}
-    }, [userId]);    
+    }, [userId]);   
     
-    //! OLD VERSION:
-    // useEffect(() => {
-    //     // fetch(`/unique_strength_exercises?user_id=${userId}`)
-    //     if (userId) {
-    //     fetch(`/unique_strength_exercises/${userId}`)
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         // data.sort((a, b) => String(a.strength.name + a.strength.equipment).localeCompare(String(b.strength.name + b.strength.equipment)))
-    //         data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
-    //         setStrengthExercises(data);
-    //     })}
-    // }, [userId]);
+    useEffect(() => {
+        fetch("/strength_equipment")
+            .then((response) => response.json())
+            .then((data) => setEquipmentOptions(data.equipment));
+    }, []);
 
     const submitForm = (e) => {
         e.preventDefault()
@@ -150,7 +144,14 @@ const AddStrengthExercise = () => {
                     </div>
                     <div>
                     <label>Equipment:</label>
-                    <input type="text" value={strengthEquipment} onChange={(e) => setStrengthEquipment(e.target.value)} />
+                    <select value={strengthEquipment} onChange={(e) => setStrengthEquipment(e.target.value)}>
+                        <option value="">--select equipment--</option>
+                        {equipmentOptions.map((equipment) => (
+                            <option key={equipment} value={equipment}>
+                                {equipment}
+                            </option>
+                        ))}
+                    </select>
                     </div>
                     <div>
                     <label>Favorite:</label>
