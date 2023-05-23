@@ -36,13 +36,14 @@ const Workout = () => {
     }
 
     const saveEdit = () => {
+        const weighInValue = editWeighIn === "" ? null : editWeighIn;
         fetch(`/workouts/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                weigh_in: editWeighIn
+                weigh_in: weighInValue
             }),
         })
             .then((res) => res.json())
