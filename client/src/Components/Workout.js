@@ -53,6 +53,39 @@ const Workout = () => {
             });
     }
 
+    const deleteWorkout = () => {
+        if(window.confirm("Are you sure you want to delete this workout? This will also delete all associated exercises.")){
+            // Delete associated strength exercises
+            oneWorkout.strength_exercises?.forEach(strength_exercise => {
+                fetch(`/strength_exercises/${strength_exercise.id}`, {
+                    method: "DELETE",
+                }).catch((error) => {
+                    console.error("Error:", error);
+                });
+            });
+            // Delete associated cardio exercises
+            oneWorkout.cardio_exercises?.forEach(cardio_exercise => {
+                fetch(`/cardio_exercises/${cardio_exercise.id}`, {
+                    method: "DELETE",
+                }).catch((error) => {
+                    console.error("Error:", error);
+                });
+            });
+            // Delete workout
+            fetch(`/workouts/${id}`, {
+                method: "DELETE",
+            })
+            .then((res) => res.json())
+            .then(() => {
+                navigate("/"); // Navigate back home after deletion
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        }
+    }
+    
+
     return (
         <div>
             <button onClick={backHome}>Go Back</button>
@@ -83,6 +116,7 @@ const Workout = () => {
                     </li>
                 ))}
             </ul>
+            <button onClick={deleteWorkout}>Delete This Workout</button>
         </div>
     )
 }

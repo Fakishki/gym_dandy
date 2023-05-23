@@ -205,10 +205,10 @@ def strength_exercise_by_id(id):
     elif request.method == "DELETE":
         if strength_exercise:
             #! Currently not allowing users to delete strength_exercises
-        #     db.session.delete(strength_exercise)
-        #     db.session.commit()
-        #     return {"message": f"StrengthExercise {strength_exercise.id} Deleted"}, 200
-            return {"error": "405: Users not allowed to delete strength_exercises"}, 405
+            db.session.delete(strength_exercise)
+            db.session.commit()
+            return {"message": f"StrengthExercise {strength_exercise.id} Deleted"}, 200
+            # return {"error": "405: Users not allowed to delete strength_exercises"}, 405
         return {"error": "404: StrengthExercise not found"}, 404            
     elif request.method == "PATCH":
         fields = request.get_json()
@@ -284,10 +284,10 @@ def cardio_exercise_by_id(id):
     elif request.method == "DELETE":
         if cardio_exercise:
             #! Currently not allowing users to delete cardio_exercises
-        #     db.session.delete(cardio_exercise)
-        #     db.session.commit()
-        #     return {"message": f"CardioExercise {cardio_exercise.id} Deleted"}, 200
-            return {"error": "405: Users not allowed to delete cardio_exercises"}, 405
+            db.session.delete(cardio_exercise)
+            db.session.commit()
+            return {"message": f"CardioExercise {cardio_exercise.id} Deleted"}, 200
+            # return {"error": "405: Users not allowed to delete cardio_exercises"}, 405
         return {"error": "404: CardioExercise not found"}, 404            
     elif request.method == "PATCH":
         fields = request.get_json()
