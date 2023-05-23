@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useRecoilState, useRecoilValue } from "recoil"
-import { oneWorkoutState, workoutsState, workoutDataState } from "../atoms"
+import { oneWorkoutState, oneStrengthExerciseState, oneCardioExerciseState, workoutsState, workoutDataState } from "../atoms"
 import AddStrengthExercise from "./AddStrengthExercise"
 
 const Workout = () => {
@@ -9,6 +9,8 @@ const Workout = () => {
     const [editMode, setEditMode] = useState(false);
     const [editWeighIn, setEditWeighIn] = useState("");
     const [oneWorkout, setOneWorkout] = useRecoilState(oneWorkoutState)
+    const [oneStrengthExercise, setOneStrengthExercise] = useRecoilState(oneStrengthExerciseState)
+    const [oneCardioExercise, setOneCardioExercise] = useRecoilState(oneCardioExerciseState)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -53,6 +55,26 @@ const Workout = () => {
             });
     }
 
+    const deleteStrengthExercise = (exerciseId) => {
+        if(window.confirm("Are you sure you want to remove this strength exercise from this workout?")){
+            fetch(`/strength_exercises/${exerciseId}`, {
+                method: "DELETE",
+            })
+            .then((res) => res.json())
+            .then(() => {
+                setOneWorkout(prevWorkout => {
+                    return {
+                        ...prevWorkout,
+                        strength_exercises: prevWorkout.strength_exercises.filter(exercise => exercise.id !== exerciseId)
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        }
+    }
+
     const deleteWorkout = () => {
         if(window.confirm("Are you sure you want to delete this workout? This will also delete all associated exercises.")){
             // Delete associated strength exercises
@@ -90,7 +112,7 @@ const Workout = () => {
         <div>
             <button onClick={backHome}>Go Back</button>
             <h1>Workout Details</h1>
-            {!editMode && <p>Weigh-in: {oneWorkout.weigh_in} <button onClick={editWorkout}>Edit Workout</button></p>}
+            {!editMode && <p>Weigh-in: {oneWorkout.weigh_in} <button onClick={editWorkout}>Edit Weigh-In</button></p>}
             {editMode && (
                 <p>
                     Weigh-in: <input type="number" value={editWeighIn} onChange={(e) => setEditWeighIn(e.target.value)} />
@@ -104,7 +126,7 @@ const Workout = () => {
             <ul>
                 {oneWorkout.strength_exercises?.map(strength_exercise => (
                     <li key={strength_exercise.id}>
-                        {strength_exercise.strength ? strength_exercise.strength.name : "Unnamed Strength Exercise"} - {strength_exercise.strength ? strength_exercise.strength.equipment : "No Equipment"} - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}
+                        {strength_exercise.strength ? strength_exercise.strength.name : "Unnamed Strength Exercise"} - {strength_exercise.strength ? strength_exercise.strength.equipment : "No Equipment"} - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}<button onClick={() => deleteStrengthExercise(strength_exercise.id)}>Remove</button>
                     </li>
                 ))}
             </ul>
