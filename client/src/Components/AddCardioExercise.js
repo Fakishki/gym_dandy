@@ -27,15 +27,33 @@ const AddCardioExercise = () => {
     // debugger
 
     useEffect(() => {
-        // fetch(`/unique_cardio_exercises?user_id=${userId}`)
         if (userId) {
-        fetch(`/unique_cardio_exercises/${userId}`)
-        .then(res => res.json())
-        .then(data => {
-            data.sort((a, b) => a.cardio.name.localeCompare(b.cardio.name));
-            setCardioExercises(data);
-        })}
-    }, [userId]);
+            fetch(`/unique_cardio_exercises/${userId}`)
+            .then(res => res.json())
+            .then(data => {
+                data.sort((a, b) => {
+                    const nameComparison = a.cardio.name.localeCompare(b.cardio.name);
+                    if (nameComparison !== 0) {
+                        return nameComparison;
+                    } else {
+                        return a.cardio.equipment.localeCompare(b.cardio.equipment);
+                    }
+                });
+                setCardioExercises(data);
+            })}
+    }, [userId]);  
+
+    //! OLD VERSION:
+    // useEffect(() => {
+    //     // fetch(`/unique_cardio_exercises?user_id=${userId}`)
+    //     if (userId) {
+    //     fetch(`/unique_cardio_exercises/${userId}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         data.sort((a, b) => a.cardio.name.localeCompare(b.cardio.name));
+    //         setCardioExercises(data);
+    //     })}
+    // }, [userId]);
 
     const submitForm = (e) => {
         e.preventDefault()

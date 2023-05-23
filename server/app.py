@@ -303,18 +303,28 @@ def get_unique_strength_exercises(id):
     ).filter(
         Workout.user_id == user_id
     ).all()
-
     seen = set()
     unique_strength_exercises = []
     for exercise in strength_exercises:
-        # Debugging
         if exercise.strength is None:
             current_app.logger.info(f'Exercise: {exercise} has no associated strength')
             continue
         current_app.logger.info(f'Exercise: {exercise}, Strength: {exercise.strength}')
-        if exercise.strength.name not in seen:
+        # create a tuple with name and equipment
+        name_equipment_tuple = (exercise.strength.name, exercise.strength.equipment)
+        if name_equipment_tuple not in seen:
             unique_strength_exercises.append(exercise)
-            seen.add(exercise.strength.name)
+            seen.add(name_equipment_tuple)
+    #! OLD VERSION
+    # for exercise in strength_exercises:
+    #     # Debugging
+    #     if exercise.strength is None:
+    #         current_app.logger.info(f'Exercise: {exercise} has no associated strength')
+    #         continue
+    #     current_app.logger.info(f'Exercise: {exercise}, Strength: {exercise.strength}')
+    #     if exercise.strength.name not in seen:
+    #         unique_strength_exercises.append(exercise)
+    #         seen.add(exercise.strength.name)
     response = make_response([exercise.to_dict() for exercise in unique_strength_exercises], 200)
     return response
 
@@ -407,18 +417,28 @@ def get_unique_cardio_exercises(id):
     ).filter(
         Workout.user_id == user_id
     ).all()
-
     seen = set()
     unique_cardio_exercises = []
     for exercise in cardio_exercises:
-        # Debugging
         if exercise.cardio is None:
             current_app.logger.info(f'Exercise: {exercise} has no associated cardio')
             continue
         current_app.logger.info(f'Exercise: {exercise}, Cardio: {exercise.cardio}')
-        if exercise.cardio.name not in seen:
+        # create a tuple with name and equipment
+        name_equipment_tuple = (exercise.cardio.name, exercise.cardio.equipment)
+        if name_equipment_tuple not in seen:
             unique_cardio_exercises.append(exercise)
-            seen.add(exercise.cardio.name)
+            seen.add(name_equipment_tuple)
+    #! OLD VERSION
+    # for exercise in cardio_exercises:
+    #     # Debugging
+    #     if exercise.cardio is None:
+    #         current_app.logger.info(f'Exercise: {exercise} has no associated cardio')
+    #         continue
+    #     current_app.logger.info(f'Exercise: {exercise}, Cardio: {exercise.cardio}')
+    #     if exercise.cardio.name not in seen:
+    #         unique_cardio_exercises.append(exercise)
+    #         seen.add(exercise.cardio.name)
     response = make_response([exercise.to_dict() for exercise in unique_cardio_exercises], 200)
     return response
 

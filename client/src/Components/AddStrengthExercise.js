@@ -26,16 +26,34 @@ const AddStrengthExercise = () => {
     // debugger
 
     useEffect(() => {
-        // fetch(`/unique_strength_exercises?user_id=${userId}`)
         if (userId) {
-        fetch(`/unique_strength_exercises/${userId}`)
-        .then(res => res.json())
-        .then(data => {
-            // data.sort((a, b) => String(a.strength.name + a.strength.equipment).localeCompare(String(b.strength.name + b.strength.equipment)))
-            data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
-            setStrengthExercises(data);
-        })}
-    }, [userId]);
+            fetch(`/unique_strength_exercises/${userId}`)
+            .then(res => res.json())
+            .then(data => {
+                data.sort((a, b) => {
+                    const nameComparison = a.strength.name.localeCompare(b.strength.name);
+                    if (nameComparison !== 0) {
+                        return nameComparison;
+                    } else {
+                        return a.strength.equipment.localeCompare(b.strength.equipment);
+                    }
+                });
+                setStrengthExercises(data);
+            })}
+    }, [userId]);    
+    
+    //! OLD VERSION:
+    // useEffect(() => {
+    //     // fetch(`/unique_strength_exercises?user_id=${userId}`)
+    //     if (userId) {
+    //     fetch(`/unique_strength_exercises/${userId}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         // data.sort((a, b) => String(a.strength.name + a.strength.equipment).localeCompare(String(b.strength.name + b.strength.equipment)))
+    //         data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
+    //         setStrengthExercises(data);
+    //     })}
+    // }, [userId]);
 
     const submitForm = (e) => {
         e.preventDefault()
