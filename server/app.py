@@ -35,7 +35,7 @@ def workouts():
         weigh_in = fields.get("weigh_in")
         user_id = fields.get("user_id")
         try:
-            weigh_in_int = int(weigh_in)
+            weigh_in_int = None if weigh_in is None else int(weigh_in)
             workout = Workout(
                 weigh_in=weigh_in_int,
                 user_id=user_id
@@ -66,9 +66,15 @@ def workout_by_id(id):
             return {"error": "400: PATCH request body missing"}, 400
         if workout:
             if "weigh_in" in fields:
-                workout.weigh_in = fields["weigh_in"]
-            db.session.commit()
-            return workout.to_dict(), 200
+                # workout.weigh_in = fields["weigh_in"]                
+                try:
+                    weigh_in = None if fields["weigh_in"] is None else int(fields["weigh_in"])
+                    workout.weigh_in = weigh_in
+
+                    db.session.commit()
+                    return workout.to_dict(), 200
+                except ValueError:
+                    return {"error": "400: Invalid weigh_in value"}, 400
         else:
             return {"error": "404: Workout not found"}, 404
 
