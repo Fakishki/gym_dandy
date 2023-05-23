@@ -260,6 +260,9 @@ const AddCardioExercise = () => {
             }
         </div>
     )
+}
+
+export default AddCardioExercise;
     
 // // OLD WAY
 //     return (
@@ -304,6 +307,3 @@ const AddCardioExercise = () => {
 
 //         </div>
 //     )
-}
-
-export default AddCardioExercise;

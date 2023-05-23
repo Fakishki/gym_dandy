@@ -158,7 +158,7 @@ const Workout = () => {
             <ul>
                 {oneWorkout.strength_exercises?.map(strength_exercise => (
                     <li key={strength_exercise.id}>
-                        {strength_exercise.strength ? strength_exercise.strength.name : "Unnamed Strength Exercise"} - {strength_exercise.strength ? strength_exercise.strength.equipment : "No Equipment"} - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}<button onClick={() => deleteStrengthExercise(strength_exercise.id)}>Remove</button>
+                        {strength_exercise.strength ? strength_exercise.strength.name : "Unnamed Strength Exercise"} ({strength_exercise.strength ? strength_exercise.strength.equipment : "No Equipment"}) - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}<button onClick={() => deleteStrengthExercise(strength_exercise.id)}>Remove</button>
                     </li>
                 ))}
             </ul>
@@ -167,7 +167,7 @@ const Workout = () => {
             <ul>
                 {oneWorkout.cardio_exercises?.map(cardio_exercise => (
                     <li key={cardio_exercise.id}>
-                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} - {cardio_exercise.cardio ? cardio_exercise.cardio.equipment : "No Equipment"} - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise._time)}<button onClick={() => deleteCardioExercise(cardio_exercise.id)}>Remove</button>
+                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} ({cardio_exercise.cardio ? cardio_exercise.cardio.equipment : "No Equipment"}) - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise._time)}<button onClick={() => deleteCardioExercise(cardio_exercise.id)}>Remove</button>
                     </li>
                 ))}
             </ul>
