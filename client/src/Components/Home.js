@@ -32,7 +32,7 @@ const Home = () => {
                         <Link to={`/workout/${workout.id}`}>
                             {/* Workouts currently listed chron backwards by updated_date for
                             seed/testing - Change back to created_at for launch */}
-                            {workout.id}: {new Date(workout.created_at).toLocaleDateString()} - Weigh-in: {workout.weigh_in} lbs
+                            {workout.id}: {new Date(workout.created_at).toLocaleDateString()} - Weigh-in: {workout.weigh_in ? `Weigh-in: ${workout.weigh_in} lbs` : 'Weigh-in: Not provided'}
                         </Link>
                     </li>
                 ))}

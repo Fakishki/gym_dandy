@@ -132,7 +132,7 @@ const Workout = () => {
         <div>
             <button onClick={backHome}>Go Back</button>
             <h1>Workout Details</h1>
-            {!editMode && <p>Weigh-in: {oneWorkout.weigh_in} <button onClick={editWorkout}>Edit Weigh-In</button></p>}
+            {!editMode && <p>Weigh-in: {oneWorkout.weigh_in ? `Weigh-in: ${oneWorkout.weigh_in} lbs` : 'Weigh-in: Not provided'} <button onClick={editWorkout}>Edit Weigh-In</button></p>}
             {editMode && (
                 <p>
                     Weigh-in: <input type="number" value={editWeighIn} onChange={(e) => setEditWeighIn(e.target.value)} />
@@ -202,7 +202,7 @@ export default Workout;
 //         <div>
 //             <button onClick={backHome}>Go Back</button>
 //             <h1>Workout Details</h1>
-//             <p>Weigh-in: {oneWorkout.weigh_in}</p>
+//             <p>Weigh-in: {oneWorkout.weigh_in ? `Weigh-in: ${oneWorkout.weigh_in} lbs` : 'Weigh-in: Not provided'}</p>
 //             <p>Date: {oneWorkout.created_at}</p>
 //             <h2>Strength Exercises</h2>
 //             <button onClick={() => navigate(`/add_strength_exercise`)}>Add Strength Exercise</button>

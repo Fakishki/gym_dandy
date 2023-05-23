@@ -6,7 +6,7 @@ import { userState, workoutsState } from "../atoms";
 const AddWorkout = () => {
   const [user] = useRecoilState(userState);
   const [workouts, setWorkouts] = useRecoilState(workoutsState);
-  const [weighIn, setWeighIn] = useState("");
+  const [weighIn, setWeighIn] = useState(null);
   const navigate = useNavigate();
 
   const handleWeighInChange = (e) => {
