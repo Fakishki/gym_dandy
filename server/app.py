@@ -203,11 +203,11 @@ def strength_exercise_by_id(id):
         else:
             return {"error": "404: StrengthExercise not found"}, 404
     elif request.method == "DELETE":
-        if strength_exercise:
-            #! Currently not allowing users to delete strength_exercises
+        if strength_exercise:           
             db.session.delete(strength_exercise)
             db.session.commit()
             return {"message": f"StrengthExercise {strength_exercise.id} Deleted"}, 200
+            #! For if we don't want to allow users to delete strength_exercises
             # return {"error": "405: Users not allowed to delete strength_exercises"}, 405
         return {"error": "404: StrengthExercise not found"}, 404            
     elif request.method == "PATCH":
@@ -258,11 +258,12 @@ def cardio_exercises():
         user_id = session.get("user_id")
         cardio_exercises = CardioExercise.query.join(Workout).filter(Workout.user_id == user_id).all()
         return [cardio_exercise.to_dict() for cardio_exercise in cardio_exercises]
-        # return [cardio_exercise.to_dict() for cardio_exercise in CardioExercise.query.all()]
     elif request.method == "POST":
         fields = request.get_json()
         try:
             cardio_exercise = CardioExercise(
+                workout_id=fields.get("workout_id"),
+                cardio_id=fields.get("cardio_id"),
                 distance=fields.get("distance"),
                 units=fields.get("units"),
                 _time=fields.get("_time")
@@ -283,10 +284,10 @@ def cardio_exercise_by_id(id):
             return {"error": "404: CardioExercise not found"}, 404
     elif request.method == "DELETE":
         if cardio_exercise:
-            #! Currently not allowing users to delete cardio_exercises
             db.session.delete(cardio_exercise)
             db.session.commit()
             return {"message": f"CardioExercise {cardio_exercise.id} Deleted"}, 200
+            #! For if we don't want to allow users to delete cardio_exercises
             # return {"error": "405: Users not allowed to delete cardio_exercises"}, 405
         return {"error": "404: CardioExercise not found"}, 404            
     elif request.method == "PATCH":
@@ -304,6 +305,32 @@ def cardio_exercise_by_id(id):
             return cardio_exercise.to_dict(), 200
         else:
             return {"error": "404: CardioExercise not found"}, 404
+
+#!Added to make AddCardioExercise.js work
+@app.route("/unique_cardio_exercises/<int:id>", methods=["GET"])
+def get_unique_cardio_exercises(id):
+    user_id = id
+    # user_id = request.args.get("user_id")
+    cardio_exercises = db.session.query(CardioExercise).join(
+        Workout,
+        CardioExercise.workout_id == Workout.id
+    ).filter(
+        Workout.user_id == user_id
+    ).all()
+
+    seen = set()
+    unique_cardio_exercises = []
+    for exercise in cardio_exercises:
+        # Debugging
+        if exercise.cardio is None:
+            current_app.logger.info(f'Exercise: {exercise} has no associated cardio')
+            continue
+        current_app.logger.info(f'Exercise: {exercise}, Cardio: {exercise.cardio}')
+        if exercise.cardio.name not in seen:
+            unique_cardio_exercises.append(exercise)
+            seen.add(exercise.cardio.name)
+    response = make_response([exercise.to_dict() for exercise in unique_cardio_exercises], 200)
+    return response
 
 @app.route("/users", methods=["GET", "POST"])
 def users():
