@@ -84,11 +84,20 @@ def strengths():
         return [strength.to_dict() for strength in Strength.query.all()]
     elif request.method == "POST":
         fields = request.get_json()
+        name = fields.get("name")
+        equipment = fields.get("equipment")
+        favorite = fields.get("favorite")
+        if not name or not isinstance(name, str):
+            return {"error": "400: Invalid name field"}, 400
+        if not equipment or not isinstance(equipment, str):
+            return {"error": "400: Invalid equipment field"}, 400
+        if not isinstance(favorite, bool):
+            return {"error": "400: Invalid favorite field"}, 400
         try:
             strength = Strength(
-                name=fields.get("name"),
-                equipment=fields.get("equipment"),
-                favorite=fields.get("favorite")
+                name=name,
+                equipment=equipment,
+                favorite=favorite
             )
             db.session.add(strength)
             db.session.commit()
@@ -117,12 +126,21 @@ def strength_by_id(id):
         if fields is None:
             return {"error": "400: PATCH request body missing"}, 400
         if strength:
-            if "name" in fields:
-                strength.name = fields["name"]
-            if "equipment" in fields:
-                strength.equipment = fields["equipment"]
-            if "favorite" in fields:
-                strength.favorite = fields["favorite"]
+            name = fields.get("name")
+            equipment = fields.get("equipment")
+            favorite = fields.get("favorite")            
+            if name is not None:
+                if not name or not isinstance(name, str):
+                    return {"error": "400: Invalid name field"}, 400
+                strength.name = name               
+            if equipment is not None:
+                if not equipment or not isinstance(equipment, str):
+                    return {"error": "400: Invalid equipment field"}, 400
+                strength.equipment = equipment               
+            if favorite is not None:
+                if not isinstance(favorite, bool):
+                    return {"error": "400: Invalid favorite field"}, 400
+                strength.favorite = favorite
             db.session.commit()
             return strength.to_dict(), 200
         else:
@@ -134,11 +152,20 @@ def cardios():
         return [cardio.to_dict() for cardio in Cardio.query.all()]
     elif request.method == "POST":
         fields = request.get_json()
+        name = fields.get("name")
+        equipment = fields.get("equipment")
+        favorite = fields.get("favorite")
+        if not name or not isinstance(name, str):
+            return {"error": "400: Invalid name field"}, 400
+        if not equipment or not isinstance(equipment, str):
+            return {"error": "400: Invalid equipment field"}, 400
+        if not isinstance(favorite, bool):
+            return {"error": "400: Invalid favorite field"}, 400
         try:
             cardio = Cardio(
-                name=fields.get("name"),
-                equipment=fields.get("equipment"),
-                favorite=fields.get("favorite")
+                name=name,
+                equipment=equipment,
+                favorite=favorite
             )
             db.session.add(cardio)
             db.session.commit()
@@ -167,12 +194,21 @@ def cardio_by_id(id):
         if fields is None:
             return {"error": "400: PATCH request body missing"}, 400
         if cardio:
-            if "name" in fields:
-                cardio.name = fields["name"]
-            if "equipment" in fields:
-                cardio.equipment = fields["equipment"]
-            if "favorite" in fields:
-                cardio.favorite = fields["favorite"]
+            name = fields.get("name")
+            equipment = fields.get("equipment")
+            favorite = fields.get("favorite")            
+            if name is not None:
+                if not name or not isinstance(name, str):
+                    return {"error": "400: Invalid name field"}, 400
+                cardio.name = name               
+            if equipment is not None:
+                if not equipment or not isinstance(equipment, str):
+                    return {"error": "400: Invalid equipment field"}, 400
+                cardio.equipment = equipment               
+            if favorite is not None:
+                if not isinstance(favorite, bool):
+                    return {"error": "400: Invalid favorite field"}, 400
+                cardio.favorite = favorite
             db.session.commit()
             return cardio.to_dict(), 200
         else:
@@ -186,13 +222,28 @@ def strength_exercises():
         return [strength_exercise.to_dict() for strength_exercise in strength_exercises]
     elif request.method == "POST":
         fields = request.get_json()
+        workout_id = fields.get("workout_id")
+        strength_id = fields.get("strength_id")
+        weight = fields.get("weight")
+        sets = fields.get("sets")
+        reps = fields.get("reps")
+        if not workout_id:
+            return {"error": "400: Invalid workout_id"}, 400
+        if not strength_id:
+            return {"error": "400: Invalid strength_id"}, 400
+        if not weight:
+            return {"error": "400: Invalid weight"}, 400
+        if not sets:
+            return {"error": "400: Invalid sets"}, 400
+        if not reps:
+            return {"error": "400: Invalid reps"}, 400
         try:
             strength_exercise = StrengthExercise(
-                workout_id=fields.get("workout_id"),
-                strength_id=fields.get("strength_id"),
-                weight=fields.get("weight"),
-                sets=fields.get("sets"),
-                reps=fields.get("reps")
+                workout_id=workout_id,
+                strength_id=strength_id,
+                weight=weight,
+                sets=sets,
+                reps=reps
             )
             db.session.add(strength_exercise)
             db.session.commit()
@@ -221,12 +272,21 @@ def strength_exercise_by_id(id):
         if fields is None:
             return {"error": "400: PATCH request body missing"}, 400
         if strength_exercise:
-            if "weight" in fields:
-                strength_exercise.weight = fields["weight"]
-            if "sets" in fields:
-                strength_exercise.sets = fields["sets"]
-            if "reps" in fields:
-                strength_exercise.reps = fields["reps"]
+            weight = fields.get("weight")
+            sets = fields.get("sets")
+            reps = fields.get("reps")
+            if weight is not None:
+                if not weight:
+                    return {"error": "400: Invalid weight field"}, 400
+                strength_exercise.weight = weight
+            if sets is not None:
+                if not sets:
+                    return {"error": "400: Invalid sets field"}, 400
+                strength_exercise.sets = sets
+            if reps is not None:
+                if not reps:
+                    return {"error": "400: Invalid reps field"}, 400
+                strength_exercise.reps = reps
             db.session.commit()
             return strength_exercise.to_dict(), 200
         else:
@@ -266,13 +326,28 @@ def cardio_exercises():
         return [cardio_exercise.to_dict() for cardio_exercise in cardio_exercises]
     elif request.method == "POST":
         fields = request.get_json()
+        workout_id = fields.get("workout_id")
+        cardio_id = fields.get("cardio_id")
+        distance = fields.get("distance")
+        units = fields.get("units")
+        _time = fields.get("_time")
+        if not workout_id:
+            return {"error": "400: Invalid workout_id"}, 400
+        if not cardio_id:
+            return {"error": "400: Invalid cardio_id"}, 400
+        if not distance:
+            return {"error": "400: Invalid distance"}, 400
+        if not units:
+            return {"error": "400: Invalid units"}, 400
+        if not _time:
+            return {"error": "400: Invalid time"}, 400
         try:
             cardio_exercise = CardioExercise(
-                workout_id=fields.get("workout_id"),
-                cardio_id=fields.get("cardio_id"),
-                distance=fields.get("distance"),
-                units=fields.get("units"),
-                _time=fields.get("_time")
+                workout_id=workout_id,
+                cardio_id=cardio_id,
+                distance=distance,
+                units=units,
+                _time=_time
             )
             db.session.add(cardio_exercise)
             db.session.commit()
@@ -301,12 +376,21 @@ def cardio_exercise_by_id(id):
         if fields is None:
             return {"error": "400: PATCH request body missing"}, 400
         if cardio_exercise:
-            if "distance" in fields:
-                cardio_exercise.distance = fields["distance"]
-            if "units" in fields:
-                cardio_exercise.units = fields["units"]
-            if "_time" in fields:
-                cardio_exercise._time = fields["_time"]
+            distance = fields.get("distance")
+            units = fields.get("units")
+            _time = fields.get("_time")
+            if distance is not None:
+                if not distance:
+                    return {"error": "400: Invalid distance field"}, 400
+                cardio_exercise.distance = distance
+            if units is not None:
+                if not units:
+                    return {"error": "400: Invalid units field"}, 400
+                cardio_exercise.units = units
+            if _time is not None:
+                if not _time:
+                    return {"error": "400: Invalid _time field"}, 400
+                cardio_exercise._time = _time
             db.session.commit()
             return cardio_exercise.to_dict(), 200
         else:
