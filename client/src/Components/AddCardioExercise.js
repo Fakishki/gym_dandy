@@ -39,17 +39,22 @@ const AddCardioExercise = () => {
 
     const submitForm = (e) => {
         e.preventDefault()
-
         // Validating Time format
-        const isValidFormat = /^(\d{1,2}):([0-5]\d)$/.test(time);
+        const isValidFormat = /^(\d{1,2}):([0-5]\d):([0-5]\d)$|^(\d{1,2}):([0-5]\d)$/.test(time);
         if (!isValidFormat) {
-            alert("Invalid time format. Please use MM:SS format.");
+            alert("Invalid time format. Please use MM:SS or HH:MM:SS format.");
             return;
         }
-
-        // Converting MM:SS to seconds
-        const [minutes, seconds] = time.split(":").map(Number);
-        const timeInSeconds = minutes * 60 + seconds;
+        // Converting hours, minutes, and seconds to just seconds
+        const timeParts = time.split(":").map(Number);
+        let timeInSeconds;
+        if (timeParts.length === 3) {
+            const [hours, minutes, seconds] = timeParts;
+            timeInSeconds = hours * 3600 + minutes * 60 + seconds;
+        } else {
+            const [minutes, seconds] = timeParts;
+            timeInSeconds = minutes * 60 + seconds;
+        }
 
         fetch("/cardio_exercises", {
             method: "POST",
@@ -78,17 +83,22 @@ const AddCardioExercise = () => {
 
     const submitNewForm = (e) => {
         e.preventDefault()
-
         // Validating Time format
-        const isValidFormat = /^(\d{1,2}):([0-5]\d)$/.test(time);
+        const isValidFormat = /^(\d{1,2}):([0-5]\d):([0-5]\d)$|^(\d{1,2}):([0-5]\d)$/.test(time);
         if (!isValidFormat) {
-            alert("Invalid time format. Please use MM:SS format.");
+            alert("Invalid time format. Please use MM:SS or HH:MM:SS format.");
             return;
         }
-
-        // Converting MM:SS to seconds
-        const [minutes, seconds] = time.split(":").map(Number);
-        const timeInSeconds = minutes * 60 + seconds;
+        // Converting hours, minutes, and seconds to just seconds
+        const timeParts = time.split(":").map(Number);
+        let timeInSeconds;
+        if (timeParts.length === 3) {
+            const [hours, minutes, seconds] = timeParts;
+            timeInSeconds = hours * 3600 + minutes * 60 + seconds;
+        } else {
+            const [minutes, seconds] = timeParts;
+            timeInSeconds = minutes * 60 + seconds;
+        }
 
         fetch("/cardios", {
             method: "POST",
