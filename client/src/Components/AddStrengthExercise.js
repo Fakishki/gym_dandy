@@ -112,6 +112,7 @@ const AddStrengthExercise = () => {
     // // OLD FORM
     return (
         <div>
+            <button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</button>
             <h1>Add Strength Exercise</h1>
             <label>Select a strength exercise:</label>
             {/* OLD WAY: */}

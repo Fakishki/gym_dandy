@@ -147,6 +147,7 @@ const AddCardioExercise = () => {
 
     return (
         <div>
+            <button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</button>
             <h1>Add Cardio Exercise</h1>
             <label>Select a cardio exercise:</label>
             {/* OLD WAY: */}
