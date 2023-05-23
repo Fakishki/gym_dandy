@@ -39,6 +39,11 @@ const AddStrengthExercise = () => {
 
     const submitForm = (e) => {
         e.preventDefault()
+        // Input validation
+        if (!selectedStrengthId || !weight || !sets || !reps || selectedStrengthId === "") {
+            alert("All fields must be filled out");
+            return;
+        }
         fetch("/strength_exercises", {
             method: "POST",
             headers: {
@@ -66,6 +71,11 @@ const AddStrengthExercise = () => {
 
     const submitNewForm = (e) => {
         e.preventDefault()
+        // Input validation
+        if (!strengthName || !strengthEquipment || !weight || !sets || !reps || strengthName.trim() === "") {
+            alert("All fields must be filled out");
+            return;
+        }
         fetch("/strengths", {
             method: "POST",
             headers: {

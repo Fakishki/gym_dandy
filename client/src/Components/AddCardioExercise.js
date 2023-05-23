@@ -39,6 +39,11 @@ const AddCardioExercise = () => {
 
     const submitForm = (e) => {
         e.preventDefault()
+        // Input validation
+        if (!selectedCardioId || !distance || !units || !time || selectedCardioId === "") {
+            alert("All fields must be filled out");
+            return;
+        }
         // Validating Time format
         const isValidFormat = /^(\d{1,2}):([0-5]\d):([0-5]\d)$|^(\d{1,2}):([0-5]\d)$/.test(time);
         if (!isValidFormat) {
@@ -83,6 +88,11 @@ const AddCardioExercise = () => {
 
     const submitNewForm = (e) => {
         e.preventDefault()
+        // Input validation
+        if (!cardioName || !cardioEquipment || !distance || !units || !time || cardioName.trim() === "") {
+            alert("All fields must be filled out");
+            return;
+        }
         // Validating Time format
         const isValidFormat = /^(\d{1,2}):([0-5]\d):([0-5]\d)$|^(\d{1,2}):([0-5]\d)$/.test(time);
         if (!isValidFormat) {
