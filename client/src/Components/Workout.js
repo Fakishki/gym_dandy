@@ -75,6 +75,26 @@ const Workout = () => {
         }
     }
 
+    const deleteCardioExercise = (exerciseId) => {
+        if(window.confirm("Are you sure you want to remove this cardio exercise from this workout?")){
+            fetch(`/cardio_exercises/${exerciseId}`, {
+                method: "DELETE",
+            })
+            .then((res) => res.json())
+            .then(() => {
+                setOneWorkout(prevWorkout => {
+                    return {
+                        ...prevWorkout,
+                        cardio_exercises: prevWorkout.cardio_exercises.filter(exercise => exercise.id !== exerciseId)
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        }
+    }
+
     const deleteWorkout = () => {
         if(window.confirm("Are you sure you want to delete this workout? This will also delete all associated exercises.")){
             // Delete associated strength exercises
@@ -135,7 +155,7 @@ const Workout = () => {
             <ul>
                 {oneWorkout.cardio_exercises?.map(cardio_exercise => (
                     <li key={cardio_exercise.id}>
-                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} - {cardio_exercise.cardio ? cardio_exercise.cardio.equipment : "No Equipment"} - Distance: {cardio_exercise.distance}, Time: {cardio_exercise.time}
+                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} - {cardio_exercise.cardio ? cardio_exercise.cardio.equipment : "No Equipment"} - Distance: {cardio_exercise.distance}, Time: {cardio_exercise.time}<button onClick={() => deleteCardioExercise(cardio_exercise.id)}>Remove</button>
                     </li>
                 ))}
             </ul>
