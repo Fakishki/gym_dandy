@@ -40,12 +40,16 @@ const AddCardioExercise = () => {
     const submitForm = (e) => {
         e.preventDefault()
 
+        // Validating Time format
         const isValidFormat = /^(\d{1,2}):([0-5]\d)$/.test(time);
         if (!isValidFormat) {
             alert("Invalid time format. Please use MM:SS format.");
             return;
         }
 
+        // Converting MM:SS to seconds
+        const [minutes, seconds] = time.split(":").map(Number);
+        const timeInSeconds = minutes * 60 + seconds;
 
         fetch("/cardio_exercises", {
             method: "POST",
@@ -59,7 +63,7 @@ const AddCardioExercise = () => {
                 // cardio_id: selectedCardioExercise,
                 distance,
                 units,
-                _time: time
+                _time: timeInSeconds
             })
         })
         .then(response => response.json())
@@ -74,6 +78,18 @@ const AddCardioExercise = () => {
 
     const submitNewForm = (e) => {
         e.preventDefault()
+
+        // Validating Time format
+        const isValidFormat = /^(\d{1,2}):([0-5]\d)$/.test(time);
+        if (!isValidFormat) {
+            alert("Invalid time format. Please use MM:SS format.");
+            return;
+        }
+
+        // Converting MM:SS to seconds
+        const [minutes, seconds] = time.split(":").map(Number);
+        const timeInSeconds = minutes * 60 + seconds;
+
         fetch("/cardios", {
             method: "POST",
             headers: {
@@ -97,7 +113,7 @@ const AddCardioExercise = () => {
                     cardio_id: newCardio.id,
                     distance,
                     units,
-                    _time: time
+                    _time: timeInSeconds
                 })
             })
         })

@@ -127,6 +127,17 @@ const Workout = () => {
             });
         }
     }
+
+    const formatTime = (timeInSeconds => {
+        const hours = Math.floor(timeInSeconds / 3600);
+        const minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);
+        const seconds = timeInSeconds - (hours * 3600) - (minutes * 60);
+        let result = [minutes, seconds].map(value => value < 10 ? "0" + value : value).join(":");
+        if (hours > 0) {
+            result = hours + ":" + result;
+        }
+        return result;
+    })
     
 
     return (
@@ -156,7 +167,7 @@ const Workout = () => {
             <ul>
                 {oneWorkout.cardio_exercises?.map(cardio_exercise => (
                     <li key={cardio_exercise.id}>
-                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} - {cardio_exercise.cardio ? cardio_exercise.cardio.equipment : "No Equipment"} - Distance: {cardio_exercise.distance}, Time: {cardio_exercise.time}<button onClick={() => deleteCardioExercise(cardio_exercise.id)}>Remove</button>
+                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} - {cardio_exercise.cardio ? cardio_exercise.cardio.equipment : "No Equipment"} - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise._time)}<button onClick={() => deleteCardioExercise(cardio_exercise.id)}>Remove</button>
                     </li>
                 ))}
             </ul>
