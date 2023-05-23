@@ -9,6 +9,10 @@ const AddWorkout = () => {
   const [weighIn, setWeighIn] = useState(null);
   const navigate = useNavigate();
 
+  const backHome = () => {
+    navigate("/")
+  }
+
   const handleWeighInChange = (e) => {
     setWeighIn(e.target.value);
   };
@@ -37,6 +41,7 @@ const AddWorkout = () => {
 
   return (
     <div>
+      <button onClick={backHome}>Go Back</button>
       <form onSubmit={handleSubmit}>
         <label>
           Weigh-in:
