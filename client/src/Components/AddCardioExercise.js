@@ -173,59 +173,137 @@ const AddCardioExercise = () => {
         setIsNewForm(!isNewForm);
     };
 
+
+
+
     return (
         <div>
             <button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</button>
-            <h1>Add Cardio Exercise</h1>
-            <label>Select a cardio exercise:</label>
-            {/* OLD WAY: */}
-            {/* <select value={selectedCardioExercise} onChange={(e) => setSelectedCardioExercise(e.target.value)}> */}
-            {/* NEW WAY: */}
-            <select value={JSON.stringify({cardioExerciseId: selectedCardioExerciseId, cardioId: selectedCardioId})} onChange={(e) => {
-            // <select value={selectedCardioExercise} onChange={(e) => {
-                // Parsing the JSON value here, inside the onChange handler
-                const {cardioExerciseId, cardioId} = JSON.parse(e.target.value);
-                setSelectedCardioExerciseId(cardioExerciseId);
-                setSelectedCardioId(cardioId);
-            }}>
-                <option value="">-- select an exercise --</option>
-                {cardioExercises.map(exercise => (
-                    // OLD WAY:
-                    // <option key={exercise.id} value={exercise.id}>
-                    // NEW WAY:
-                    <option key={exercise.id} value={JSON.stringify({cardioExerciseId: exercise.id, cardioId: exercise.cardio.id})}>
-                        {exercise.cardio.name} ({exercise.cardio.equipment})
-                    </option>                    
-                ))}
-            </select>
-            <label>Distance:</label>
-            <input type="number" value={distance} onChange={(e) => setDistance(e.target.value)} />
-            <label>Units:</label>
-            <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
-            <label>Time:</label>
-            <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
-            {/* <label>Time:</label>
-            <input type="number" value={time} onChange={(e) => setTime(e.target.value)} placeholder="minutes:seconds"/> */}
-            <button onClick={submitForm}>Add</button>
-            <h2>Need to add a new Cardio?</h2>
-            <label>Cardio Name:</label>
-            <input type="text" value={cardioName} onChange={(e) => setCardioName(e.target.value)} />
-            <label>Equipment:</label>
-            <input type="text" value={cardioEquipment} onChange={(e) => setCardioEquipment(e.target.value)} />
-            <label>Favorite:</label>
-            <input type="checkbox" checked={cardioFavorite} onChange={(e) => setCardioFavorite(e.target.checked)} />
-            <label>Distance:</label>
-            <input type="number" value={distance} onChange={(e) => setDistance(e.target.value)} />
-            <label>Units:</label>
-            <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
-            <label>Time:</label>
-            <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
-            {/* <label>Time:</label>
-            <input type="number" value={time} onChange={(e) => setTime(e.target.value)} placeholder="minutes:seconds" /> */}
-            <button onClick={submitNewForm}>Create and Add</button>
-
+            <h1>Add a Cardio Exercise to your Workout</h1>
+            {
+                isNewForm ?
+                <>
+                    {/* Here's the new cardio form */}
+                    <h4>Add a new Exercise / Equipment combo</h4>
+                    <div>
+                    <label>Exercise Name:</label>
+                    <input type="text" value={cardioName} onChange={(e) => setCardioName(e.target.value)} />
+                    </div>
+                    <div>
+                    <label>Equipment:</label>
+                    <input type="text" value={cardioEquipment} onChange={(e) => setCardioEquipment(e.target.value)} />
+                    </div>
+                    <div>
+                    <label>Favorite:</label>
+                    <input type="checkbox" checked={cardioFavorite} onChange={(e) => setCardioFavorite(e.target.checked)} />
+                    </div>
+                    <div>
+                    <h4>Enter your exercise details:</h4>
+                    </div>
+                    <div>
+                    <label>Distance:</label>
+                    <input type="number" value={distance} onChange={(e) => setDistance(e.target.value)} />
+                    </div>
+                    <div>
+                    <label>Units:</label>
+                    <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
+                    </div>
+                    <div>
+                    <label>Time:</label>
+                    <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
+                    </div>
+                    <div>
+                    <button onClick={submitNewForm}>Create and Add to Workout</button>
+                    </div>
+                    <div>
+                    <h5>Want to use an existing Exercise / Equipment combo?</h5>
+                    <button onClick={toggleForm}>Use an Existing Cardio Exercise</button>
+                    </div>
+                </> :
+                <>
+                    {/* Here's the existing cardio form */}
+                    <div>
+                    <label>Select a Cardio Exercise:</label>
+                    <select value={JSON.stringify({cardioExerciseId: selectedCardioExerciseId, cardioId: selectedCardioId})} onChange={(e) => {
+                        const {cardioExerciseId, cardioId} = JSON.parse(e.target.value);
+                        setSelectedCardioExerciseId(cardioExerciseId);
+                        setSelectedCardioId(cardioId);
+                    }}>
+                        <option value="">-- select an exercise --</option>
+                        {cardioExercises.map(exercise => (
+                            <option key={exercise.id} value={JSON.stringify({cardioExerciseId: exercise.id, cardioId: exercise.cardio.id})}>
+                                {exercise.cardio.name} ({exercise.cardio.equipment})
+                            </option>                    
+                        ))}
+                    </select>
+                    <h5>Don't see the Exercise / Equipment combo you're looking for?</h5>
+                    <button onClick={toggleForm}>Create New Cardio Exercise</button></div>
+                    <div>
+                    <h4>Enter your exercise details:</h4>
+                    </div>
+                    <div>
+                    <label>Distance:</label>
+                    <input type="number" value={distance} onChange={(e) => setDistance(e.target.value)} />
+                    </div>
+                    <div>
+                    <label>Units:</label>
+                    <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
+                    </div>
+                    <div>
+                    <label>Time:</label>
+                    <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
+                    </div>
+                    <div>
+                    <button onClick={submitForm}>Add to Workout</button>
+                    </div>
+                </>
+            }
         </div>
     )
+    
+// // OLD WAY
+//     return (
+//         <div>
+//             <button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</button>
+//             <h1>Add Cardio Exercise</h1>
+//             <label>Select a cardio exercise:</label>
+//             <select value={JSON.stringify({cardioExerciseId: selectedCardioExerciseId, cardioId: selectedCardioId})} onChange={(e) => {
+//                 // Parsing the JSON value here, inside the onChange handler
+//                 const {cardioExerciseId, cardioId} = JSON.parse(e.target.value);
+//                 setSelectedCardioExerciseId(cardioExerciseId);
+//                 setSelectedCardioId(cardioId);
+//             }}>
+//                 <option value="">-- select an exercise --</option>
+//                 {cardioExercises.map(exercise => (
+//                     <option key={exercise.id} value={JSON.stringify({cardioExerciseId: exercise.id, cardioId: exercise.cardio.id})}>
+//                         {exercise.cardio.name} ({exercise.cardio.equipment})
+//                     </option>                    
+//                 ))}
+//             </select>
+//             <label>Distance:</label>
+//             <input type="number" value={distance} onChange={(e) => setDistance(e.target.value)} />
+//             <label>Units:</label>
+//             <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
+//             <label>Time:</label>
+//             <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
+//             <button onClick={submitForm}>Add</button>
+//             <h2>Need to add a new Cardio?</h2>
+//             <label>Cardio Name:</label>
+//             <input type="text" value={cardioName} onChange={(e) => setCardioName(e.target.value)} />
+//             <label>Equipment:</label>
+//             <input type="text" value={cardioEquipment} onChange={(e) => setCardioEquipment(e.target.value)} />
+//             <label>Favorite:</label>
+//             <input type="checkbox" checked={cardioFavorite} onChange={(e) => setCardioFavorite(e.target.checked)} />
+//             <label>Distance:</label>
+//             <input type="number" value={distance} onChange={(e) => setDistance(e.target.value)} />
+//             <label>Units:</label>
+//             <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
+//             <label>Time:</label>
+//             <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
+//             <button onClick={submitNewForm}>Create and Add</button>
+
+//         </div>
+//     )
 }
 
 export default AddCardioExercise;
