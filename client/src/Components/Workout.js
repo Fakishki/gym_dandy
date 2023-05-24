@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { oneWorkoutState, oneStrengthExerciseState, oneCardioExerciseState, workoutsState, workoutDataState, userState } from "../atoms"
 import AddStrengthExercise from "./AddStrengthExercise"
+import { Button } from "semantic-ui-react"
 
 const Workout = () => {
     const { id } = useParams()
@@ -148,36 +149,36 @@ const Workout = () => {
 
     const loggedInContent = (
         <div>
-            <button onClick={backHome}>Go Back</button>
+            <Button onClick={backHome}>Go Back</Button>
             <h1>Workout Details</h1>
-            {!editMode && <p>Weigh-in: {oneWorkout.weigh_in ? `Weigh-in: ${oneWorkout.weigh_in} lbs` : 'Weigh-in: Not provided'} <button onClick={editWorkout}>Edit Weigh-In</button></p>}
+            {!editMode && <p>Weigh-in: {oneWorkout.weigh_in ? `Weigh-in: ${oneWorkout.weigh_in} lbs` : 'Weigh-in: Not provided'} <Button onClick={editWorkout}>Edit Weigh-In</Button></p>}
             {editMode && (
                 <p>
                     Weigh-in: <input type="number" value={editWeighIn} onChange={(e) => setEditWeighIn(e.target.value)} />
-                    <button onClick={saveEdit}>Save</button>
-                    <button onClick={cancelEdit}>Cancel</button>
+                    <Button onClick={saveEdit}>Save</Button>
+                    <Button onClick={cancelEdit}>Cancel</Button>
                 </p>
             )}
             <p>Date: {oneWorkout.created_at}</p>
             <h2>Strength Exercises</h2>
-            <button onClick={() => navigate(`/add_strength_exercise`)}>Add Strength Exercise</button>
+            <Button onClick={() => navigate(`/add_strength_exercise`)}>Add Strength Exercise</Button>
             <ul>
                 {oneWorkout.strength_exercises?.map(strength_exercise => (
                     <li key={strength_exercise.id}>
-                        {strength_exercise.strength ? strength_exercise.strength.name : "Unnamed Strength Exercise"} ({strength_exercise.strength ? strength_exercise.strength.equipment : "No Equipment"}) - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}<button onClick={() => deleteStrengthExercise(strength_exercise.id)}>Remove</button>
+                        {strength_exercise.strength ? strength_exercise.strength.name : "Unnamed Strength Exercise"} ({strength_exercise.strength ? strength_exercise.strength.equipment : "No Equipment"}) - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps} <Button onClick={() => deleteStrengthExercise(strength_exercise.id)} size="mini" color="red" icon="delete" labelPosition="left" content="Remove" />
                     </li>
                 ))}
             </ul>
             <h2>Cardio Exercises</h2>
-            <button onClick={() => navigate(`/add_cardio_exercise`)}>Add Cardio Exercise</button>
+            <Button onClick={() => navigate(`/add_cardio_exercise`)}>Add Cardio Exercise</Button>
             <ul>
                 {oneWorkout.cardio_exercises?.map(cardio_exercise => (
                     <li key={cardio_exercise.id}>
-                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} ({cardio_exercise.cardio ? cardio_exercise.cardio.equipment : "No Equipment"}) - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise._time)}<button onClick={() => deleteCardioExercise(cardio_exercise.id)}>Remove</button>
+                        {cardio_exercise.cardio ? cardio_exercise.cardio.name : "Unnamed Cardio Exercise"} ({cardio_exercise.cardio ? cardio_exercise.cardio.equipment : "No Equipment"}) - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise._time)} <Button onClick={() => deleteStrengthExercise(cardio_exercise.id)} size="mini" color="red" icon="delete" labelPosition="left" content="Remove" />
                     </li>
                 ))}
             </ul>
-            <button onClick={deleteWorkout}>Delete This Workout</button>
+            <Button onClick={deleteWorkout}>Delete This Workout</Button>
         </div>
     )
 
@@ -224,12 +225,12 @@ export default Workout;
 
 //     return (
 //         <div>
-//             <button onClick={backHome}>Go Back</button>
+//             <Button onClick={backHome}>Go Back</Button>
 //             <h1>Workout Details</h1>
 //             <p>Weigh-in: {oneWorkout.weigh_in ? `Weigh-in: ${oneWorkout.weigh_in} lbs` : 'Weigh-in: Not provided'}</p>
 //             <p>Date: {oneWorkout.created_at}</p>
 //             <h2>Strength Exercises</h2>
-//             <button onClick={() => navigate(`/add_strength_exercise`)}>Add Strength Exercise</button>
+//             <Button onClick={() => navigate(`/add_strength_exercise`)}>Add Strength Exercise</Button>
 //             <ul>
 //                 {oneWorkout.strength_exercises?.map(strength_exercise => (
 //                     <li key={strength_exercise.id}>
