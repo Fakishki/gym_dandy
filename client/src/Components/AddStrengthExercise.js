@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
-import { Button, Grid } from "semantic-ui-react";
+import { Button, Grid, Segment } from "semantic-ui-react";
 import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
 
 const AddStrengthExercise = () => {
@@ -132,6 +132,7 @@ const AddStrengthExercise = () => {
     };
 
     const loggedInContent = (
+        <Segment>
         <Grid>
           <Grid.Row columns={1}>
             <Grid.Column>
@@ -242,6 +243,7 @@ const AddStrengthExercise = () => {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        </Segment>
       )
 
     const loggedOutContent = (
