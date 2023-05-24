@@ -131,7 +131,7 @@ const AddStrengthExercise = () => {
         setIsNewForm(!isNewForm);
     };
 
-    return (
+    const loggedInContent = (
         <Grid>
           <Grid.Row columns={1}>
             <Grid.Column>
@@ -243,6 +243,18 @@ const AddStrengthExercise = () => {
           </Grid.Row>
         </Grid>
       )
+
+      const loggedOutContent = (
+        <div>
+            <h2>You must be logged in to view this content</h2>
+        </div>
+    )
+
+    return (
+        <div>
+            {user ? loggedInContent : loggedOutContent}
+        </div>
+    )
 }
     
 export default AddStrengthExercise;
