@@ -41,12 +41,14 @@ const Home = () => {
     );
 
     const loggedOutContent = (
-        <h2>Please register or log in to access your workout tracker!</h2>
+        <>
+            <h2>Please click Log In above to access your workout tracker!</h2>
+        </>
     );
 
     return (
         <div>
-            <h1>Welcome {user ? user.username : ""}</h1>
+            <h1>Welcome to endorFun {user ? user.username : ""}</h1>
             {user ? loggedInContent : loggedOutContent}
         </div>
     )

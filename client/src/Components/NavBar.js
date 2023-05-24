@@ -2,6 +2,7 @@ import { useRecoilState } from "recoil"
 import { userState } from "../atoms"
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
+import { Button } from "semantic-ui-react"
 import "./navbar.css"
 
 function NavBar({updateUser}) {
@@ -23,53 +24,29 @@ function NavBar({updateUser}) {
         navigate("/login")
     }
 
+    const LoginLogoutButton = () => {
+        return user ? (
+            <Button icon='log out' labelPosition="left" onClick={handleLogout}>Log Out</Button>
+        ) : (
+            <Button icon='sign in' labelPosition="left" onClick={handleLogin}>Sign In</Button>
+        );
+    };
+
     return (
         <nav className="navigation">
-            <ul>
-                <li>
-                    <button onClick={user ? handleLogout : handleLogin}>
-                        {user ? "Logout" : "Login"}
-                    </button>
-                </li>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/exercise-library">Exercise Library</Link></li>
-            </ul>
+            {user ? (
+                <Button.Group widths='4'>
+                    <Button as={Link} to="/">Workouts</Button>
+                    <Button as={Link} to="/exercise-library">Exercise Library</Button>
+                    <Button as={Link} to="/analytics">Analytics</Button>
+                    <LoginLogoutButton user={user} handleLogin={handleLogin} handleLogout={handleLogout} />
+                </Button.Group>
+            ) : (
+                <Button.Group fluid>
+                    <LoginLogoutButton user={user} handleLogin={handleLogin} handleLogout={handleLogout} />
+                </Button.Group>
+            )}
         </nav>
     )
-
 }
 export default NavBar
-//     return (
-//         <nav className="navigation">
-//             <a href="/" className="brand-name">
-//                 My Workout Tracker
-//             </a>
-//             <button className="hamburger" onClick={handleMenuToggle}>
-//                 <svg
-//                     xmlns="http://www.w3.org/2000/svg"
-//                     className="h-5 w-5"
-//                     viewBox="0 0 20 20"
-//                     fill="white"
-//                 >
-//                     <path
-//                     fillRule="evenodd"
-//                     d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
-//                     clipRule="evenodd"
-//                 />
-//               </svg>
-//             </button>
-//             <div
-//                 className={`navigation-menu ${menu ? 'active' : ''}`}>
-//                     <ul>
-//                         <li>
-//                             <a href="/login">Login/Signup</a>
-//                         </li>
-//                         <li onClick={handleLogout}>Logout</li>
-//                     </ul>
-//                 </div>
-//         </nav>
-
-//     )
-// }
-
-// export default NavBar

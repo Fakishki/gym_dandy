@@ -51,16 +51,15 @@ export const AddToWorkoutButton = ( {onClick, buttonText = "Add to Workout"} ) =
 }
 
 // NavBar Buttons
-export const LoginLogoutButton = ( {workoutId, buttonText = "Go Back To Workout"} ) => {
-  const navigate = useNavigate();
+export const ButtonExampleGroupEqualWidth = () => {
   return (
     <div>
-      <Button animated onClick={() => navigate(`/workout/${workoutId}`)}>
-        <Button.Content visible>{buttonText}</Button.Content>
-        <Button.Content hidden>
-          <Icon name='arrow left' />
-        </Button.Content>
-      </Button>
+      <Button.Group widths='4'>
+        <Button>Workouts</Button>
+        <Button>Exercise Library</Button>
+        <Button>Analytics</Button>
+        <Button>Log In</Button>
+      </Button.Group>
     </div>
   )
 }
