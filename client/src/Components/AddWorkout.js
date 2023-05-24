@@ -7,7 +7,7 @@ import { Button } from "semantic-ui-react";
 const AddWorkout = () => {
   const [user] = useRecoilState(userState);
   const [workouts, setWorkouts] = useRecoilState(workoutsState);
-  const [weighIn, setWeighIn] = useState(null);
+  const [weighIn, setWeighIn] = useState("");
   const navigate = useNavigate();
 
   const backHome = () => {
@@ -20,13 +20,14 @@ const AddWorkout = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let finalWeighIn = weighIn === "" ? null : weighIn; // Check if weighIn is empty and set it to null
     fetch("/workouts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        weigh_in: weighIn,
+        weigh_in: finalWeighIn, // Use finalWeighIn instead of weighIn
         user_id: user.id
       }),
     })
