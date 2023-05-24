@@ -244,7 +244,7 @@ const AddStrengthExercise = () => {
         </Grid>
       )
 
-      const loggedOutContent = (
+    const loggedOutContent = (
         <div>
             <h2>You must be logged in to view this content</h2>
         </div>
