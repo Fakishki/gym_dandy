@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 import { Button, Grid } from "semantic-ui-react";
+import BackToWorkoutButton from "../SemanticComponents/Buttons";
 
 const AddStrengthExercise = () => {
     const navigate = useNavigate();
@@ -132,11 +133,15 @@ const AddStrengthExercise = () => {
 
     return (
         <Grid>
+          <Grid.Row columns={1}>
+            <Grid.Column>
+            <BackToWorkoutButton workoutId={workoutId} />
+              <h1>Add a Strength Exercise to your Workout</h1>
+            </Grid.Column>
+          </Grid.Row>
           <Grid.Row columns={2}>
             <Grid.Column>
               {/* Forms */}
-              <Button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</Button>
-              <h1>Add a Strength Exercise to your Workout</h1>
               {
                 isNewForm ?
                   <>
@@ -221,12 +226,12 @@ const AddStrengthExercise = () => {
               {/* Toggle Button */}
               {isNewForm ?
                 <div>
-                  <h5>Want to use an existing Exercise / Equipment combo?</h5>
+                  <h4>Want to use an existing Exercise / Equipment combo?</h4>
                   <Button onClick={toggleForm}>Use an Existing Strength Exercise</Button>
                 </div>
                 :
                 <div>
-                  <h5>Don't see the Exercise / Equipment combo you're looking for?</h5>
+                  <h4>Don't see the Exercise / Equipment combo you're looking for?</h4>
                   <Button onClick={toggleForm}>Create New Strength Exercise</Button>
                 </div>
               }
