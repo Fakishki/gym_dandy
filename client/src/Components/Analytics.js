@@ -13,7 +13,7 @@ function Analytics () {
 
     const loggedOutContent = (
         <div>
-            <h2>You must be logged in to view this page</h2>
+            <h2>You must be logged in to view this content</h2>
         </div>
     )
 

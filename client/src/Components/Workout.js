@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useRecoilState, useRecoilValue } from "recoil"
-import { oneWorkoutState, oneStrengthExerciseState, oneCardioExerciseState, workoutsState, workoutDataState } from "../atoms"
+import { oneWorkoutState, oneStrengthExerciseState, oneCardioExerciseState, workoutsState, workoutDataState, userState } from "../atoms"
 import AddStrengthExercise from "./AddStrengthExercise"
 
 const Workout = () => {
@@ -11,6 +11,7 @@ const Workout = () => {
     const [oneWorkout, setOneWorkout] = useRecoilState(oneWorkoutState)
     const [oneStrengthExercise, setOneStrengthExercise] = useRecoilState(oneStrengthExerciseState)
     const [oneCardioExercise, setOneCardioExercise] = useRecoilState(oneCardioExerciseState)
+    const [user] = useRecoilState(userState)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -138,9 +139,14 @@ const Workout = () => {
         }
         return result;
     })
-    
 
-    return (
+    const loggedOutContent = (
+        <div>
+            <h2>You must be logged in to view this content</h2>
+        </div>
+    )
+
+    const loggedInContent = (
         <div>
             <button onClick={backHome}>Go Back</button>
             <h1>Workout Details</h1>
@@ -172,6 +178,12 @@ const Workout = () => {
                 ))}
             </ul>
             <button onClick={deleteWorkout}>Delete This Workout</button>
+        </div>
+    )
+
+    return (
+        <div>
+            {user ? loggedInContent : loggedOutContent}
         </div>
     )
 }
