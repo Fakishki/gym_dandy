@@ -181,8 +181,7 @@ const Workout = () => {
                     <Header as="h5">
                       {strength_exercise.strength 
                         ? strength_exercise.strength.name 
-                        : "Unnamed Strength Exercise"} 
-                      ({strength_exercise.strength 
+                        : "Unnamed Strength Exercise"} ({strength_exercise.strength 
                         ? strength_exercise.strength.equipment 
                         : "No Equipment"}) 
                       - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}
@@ -211,8 +210,7 @@ const Workout = () => {
                     <Header as="h5">
                       {cardio_exercise.cardio 
                         ? cardio_exercise.cardio.name 
-                        : "Unnamed Cardio Exercise"} 
-                      ({cardio_exercise.cardio 
+                        : "Unnamed Cardio Exercise"} ({cardio_exercise.cardio 
                         ? cardio_exercise.cardio.equipment 
                         : "No Equipment"}) 
                       - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise._time)}
