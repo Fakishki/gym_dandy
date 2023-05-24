@@ -36,9 +36,9 @@ function NavBar({updateUser}) {
         <nav className="navigation">
             {user ? (
                 <Button.Group widths='4'>
-                    <Button as={Link} to="/">Workouts</Button>
-                    <Button as={Link} to="/exercise-library">Exercise Library</Button>
-                    <Button as={Link} to="/analytics">Analytics (coming soon)</Button>
+                    <Button as={Link} to="/" icon="th list" labelPosition="left" content="Workouts" />
+                    <Button as={Link} to="/exercise-library" icon="book" labelPosition="left" content="Exercise Library" />
+                    <Button as={Link} to="/analytics" icon="chart line" labelPosition="left" content="Analytics" />
                     <LoginLogoutButton />
                 </Button.Group>
             ) : (
