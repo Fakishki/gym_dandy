@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 import { Button, Grid } from "semantic-ui-react";
-import { BackToWorkoutButton, NewExerciseButton, UseExistingButton } from "../SemanticComponents/Buttons";
+import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
 
 const AddStrengthExercise = () => {
     const navigate = useNavigate();
@@ -181,7 +181,9 @@ const AddStrengthExercise = () => {
                     <label>Reps:</label>
                     <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
                     </div>
-                    <Button onClick={submitNewForm}>Create and Add to Workout</Button>
+                    <div>
+                    <AddToWorkoutButton onClick={submitNewForm} buttonText="Create and Add to Workout" />
+                    </div>
                   </> :
                   <>
                     {/* Existing strength form */}
@@ -218,7 +220,9 @@ const AddStrengthExercise = () => {
                     <label>Reps:</label>
                     <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
                     </div>
-                    <Button onClick={submitForm}>Add to Workout</Button>
+                    <div>
+                    <AddToWorkoutButton onClick={submitNewForm} buttonText="Add to Workout" />
+                    </div>
                   </>
               }
             </Grid.Column>
@@ -241,7 +245,7 @@ const AddStrengthExercise = () => {
       )
 }
     
-    export default AddStrengthExercise;
+export default AddStrengthExercise;
     
 // ! OLD VERSION
 //     return (

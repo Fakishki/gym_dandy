@@ -16,7 +16,7 @@ export const BackToWorkoutButton = ( {workoutId, buttonText = "Go Back To Workou
   )
 }
 
-export const NewExerciseButton =  ( {onClick, buttonText = "Create New Exercise"} ) => {
+export const NewExerciseButton = ( {onClick, buttonText = "Create New Exercise"} ) => {
   return (
     <div>
       <Button icon labelPosition="left" onClick={onClick}>
@@ -27,11 +27,22 @@ export const NewExerciseButton =  ( {onClick, buttonText = "Create New Exercise"
   )
 }
 
-export const UseExistingButton =  ( {onClick, buttonText = "Use Existing Exercise"} ) => {
+export const UseExistingButton = ( {onClick, buttonText = "Use Existing Exercise"} ) => {
   return (
     <div>
       <Button icon labelPosition="left" onClick={onClick}>
         <Icon name='list' />
+        {buttonText}
+      </Button>
+    </div>
+  )
+}
+
+export const AddToWorkoutButton = ( {onClick, buttonText = "Add to Workout"} ) => {
+  return (
+    <div>
+      <Button icon labelPosition="left" onClick={onClick}>
+        <Icon name="plus" />
         {buttonText}
       </Button>
     </div>

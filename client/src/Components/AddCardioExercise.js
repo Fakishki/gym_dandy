@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, cardioExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
+import { Button, Grid } from "semantic-ui-react";
+import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
 
 const AddCardioExercise = () => {
     const navigate = useNavigate();
@@ -178,13 +180,20 @@ const AddCardioExercise = () => {
     };
 
 
-
+    
 
     return (
-        <div>
-            <button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</button>
-            <h1>Add a Cardio Exercise to your Workout</h1>
-            {
+        <Grid>
+          <Grid.Row columns={1}>
+            <Grid.Column>
+            <BackToWorkoutButton workoutId={workoutId} />
+              <h1>Add a Strength Exercise to your Workout</h1>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              {/* Forms */}
+              {
                 isNewForm ?
                 <>
                     {/* Here's the new cardio form */}
@@ -224,11 +233,7 @@ const AddCardioExercise = () => {
                     <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
                     </div>
                     <div>
-                    <button onClick={submitNewForm}>Create and Add to Workout</button>
-                    </div>
-                    <div>
-                    <h5>Want to use an existing Exercise / Equipment combo?</h5>
-                    <button onClick={toggleForm}>Use an Existing Cardio Exercise</button>
+                    <AddToWorkoutButton onClick={submitNewForm} buttonText="Create and Add to Workout" />
                     </div>
                 </> :
                 <>
@@ -252,8 +257,7 @@ const AddCardioExercise = () => {
                             </option>                    
                         ))}
                     </select>
-                    <h5>Don't see the Exercise / Equipment combo you're looking for?</h5>
-                    <button onClick={toggleForm}>Create New Cardio Exercise</button></div>
+                    </div>
                     <div>
                     <h4>Enter your exercise details:</h4>
                     </div>
@@ -270,12 +274,28 @@ const AddCardioExercise = () => {
                     <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
                     </div>
                     <div>
-                    <button onClick={submitForm}>Add to Workout</button>
+                    <AddToWorkoutButton onClick={submitForm} buttonText="Add to Workout" />
                     </div>
                 </>
             }
-        </div>
-    )
+            </Grid.Column>
+                <Grid.Column>
+                {/* Toggle Button */}
+                {isNewForm ?
+                    <div>
+                    <h4>Want to use an existing Exercise / Equipment combo?</h4>
+                    <UseExistingButton onClick={toggleForm} buttonText = "Use Existing Cardio Exercise" />
+                    </div>
+                    :
+                    <div>
+                    <h4>Don't see the Exercise / Equipment combo you're looking for?</h4>
+                    <NewExerciseButton onClick={toggleForm} buttonText="Create New Cardio Exercise" />
+                    </div>
+                }
+                </Grid.Column>
+            </Grid.Row>
+            </Grid>
+      )
 }
 
 export default AddCardioExercise;
@@ -283,7 +303,7 @@ export default AddCardioExercise;
 // // OLD WAY
 //     return (
 //         <div>
-//             <button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</button>
+//             <Button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</Button>
 //             <h1>Add Cardio Exercise</h1>
 //             <label>Select a cardio exercise:</label>
 //             <select value={JSON.stringify({cardioExerciseId: selectedCardioExerciseId, cardioId: selectedCardioId})} onChange={(e) => {
@@ -305,7 +325,7 @@ export default AddCardioExercise;
 //             <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
 //             <label>Time:</label>
 //             <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
-//             <button onClick={submitForm}>Add</button>
+//             <Button onClick={submitForm}>Add</Button>
 //             <h2>Need to add a new Cardio?</h2>
 //             <label>Cardio Name:</label>
 //             <input type="text" value={cardioName} onChange={(e) => setCardioName(e.target.value)} />
@@ -319,7 +339,7 @@ export default AddCardioExercise;
 //             <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
 //             <label>Time:</label>
 //             <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
-//             <button onClick={submitNewForm}>Create and Add</button>
+//             <Button onClick={submitNewForm}>Create and Add</Button>
 
 //         </div>
 //     )
