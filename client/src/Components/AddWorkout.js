@@ -40,7 +40,7 @@ const AddWorkout = () => {
       });
   };
 
-  return (
+  const loggedInContent = (
     <div>
       <Button onClick={backHome}>Go Back</Button>
       <form onSubmit={handleSubmit}>
@@ -52,6 +52,18 @@ const AddWorkout = () => {
       </form>
     </div>
   );
+
+  const loggedOutContent = (
+    <div>
+        <h2>You must be logged in to view this content</h2>
+    </div>
+  )
+
+  return (
+    <div>
+      {user ? loggedInContent : loggedOutContent}
+    </div>
+  )
 };
 
 export default AddWorkout;

@@ -26,9 +26,9 @@ function NavBar({updateUser}) {
 
     const LoginLogoutButton = () => {
         return user ? (
-            <Button icon='log out' labelPosition="left" onClick={handleLogout}>Log Out</Button>
+            <Button icon='log out' labelPosition="left" onClick={handleLogout} content="Log Out" />
         ) : (
-            <Button icon='sign in' labelPosition="left" onClick={handleLogin}>Sign In</Button>
+            <Button icon='sign in' labelPosition="left" onClick={handleLogin} content="Sign In" />
         );
     };
 
@@ -39,11 +39,11 @@ function NavBar({updateUser}) {
                     <Button as={Link} to="/">Workouts</Button>
                     <Button as={Link} to="/exercise-library">Exercise Library</Button>
                     <Button as={Link} to="/analytics">Analytics (coming soon)</Button>
-                    <LoginLogoutButton user={user} handleLogin={handleLogin} handleLogout={handleLogout} />
+                    <LoginLogoutButton />
                 </Button.Group>
             ) : (
                 <Button.Group fluid>
-                    <LoginLogoutButton user={user} handleLogin={handleLogin} handleLogout={handleLogout} />
+                    <LoginLogoutButton />
                 </Button.Group>
             )}
         </nav>

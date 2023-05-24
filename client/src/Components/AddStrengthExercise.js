@@ -221,7 +221,7 @@ const AddStrengthExercise = () => {
                     <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
                     </div>
                     <div>
-                    <AddToWorkoutButton onClick={submitNewForm} buttonText="Add to Workout" />
+                    <AddToWorkoutButton onClick={submitForm} buttonText="Add to Workout" />
                     </div>
                   </>
               }

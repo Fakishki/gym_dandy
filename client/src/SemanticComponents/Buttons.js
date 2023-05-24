@@ -49,17 +49,3 @@ export const AddToWorkoutButton = ( {onClick, buttonText = "Add to Workout"} ) =
     </div>
   )
 }
-
-// NavBar Buttons
-export const ButtonExampleGroupEqualWidth = () => {
-  return (
-    <div>
-      <Button.Group widths='4'>
-        <Button>Workouts</Button>
-        <Button>Exercise Library</Button>
-        <Button>Analytics</Button>
-        <Button>Log In</Button>
-      </Button.Group>
-    </div>
-  )
-}
