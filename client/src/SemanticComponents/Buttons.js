@@ -2,13 +2,12 @@ import React from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
 
-const BackToWorkoutButton = ( {workoutId} ) => {
+export const BackToWorkoutButton = ( {workoutId, buttonText = "Go Back To Workout"} ) => {
   const navigate = useNavigate();
-
   return (
     <div>
       <Button animated onClick={() => navigate(`/workout/${workoutId}`)}>
-        <Button.Content visible>Go Back To Workout</Button.Content>
+        <Button.Content visible>{buttonText}</Button.Content>
         <Button.Content hidden>
           <Icon name='arrow left' />
         </Button.Content>
@@ -17,4 +16,24 @@ const BackToWorkoutButton = ( {workoutId} ) => {
   )
 }
 
-export default BackToWorkoutButton
+export const NewExerciseButton =  ( {onClick, buttonText = "Create New Exercise"} ) => {
+  return (
+    <div>
+      <Button icon labelPosition="left" onClick={onClick}>
+        <Icon name='write' />
+        {buttonText}
+      </Button>
+    </div>
+  )
+}
+
+export const UseExistingButton =  ( {onClick, buttonText = "Use Existing Exercise"} ) => {
+  return (
+    <div>
+      <Button icon labelPosition="left" onClick={onClick}>
+        <Icon name='list' />
+        {buttonText}
+      </Button>
+    </div>
+  )
+}

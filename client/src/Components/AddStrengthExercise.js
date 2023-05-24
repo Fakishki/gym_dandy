@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 import { Button, Grid } from "semantic-ui-react";
-import BackToWorkoutButton from "../SemanticComponents/Buttons";
+import { BackToWorkoutButton, NewExerciseButton, UseExistingButton } from "../SemanticComponents/Buttons";
 
 const AddStrengthExercise = () => {
     const navigate = useNavigate();
@@ -146,7 +146,7 @@ const AddStrengthExercise = () => {
                 isNewForm ?
                   <>
                     {/* New strength form */}
-                    <h4>Add a new Exercise / Equipment combo</h4>
+                    <h4>Create a new Exercise / Equipment combo</h4>
                     <div>
                     <label>Exercise Name:</label>
                     <input type="text" value={strengthName} onChange={(e) => setStrengthName(e.target.value)} />
@@ -227,12 +227,12 @@ const AddStrengthExercise = () => {
               {isNewForm ?
                 <div>
                   <h4>Want to use an existing Exercise / Equipment combo?</h4>
-                  <Button onClick={toggleForm}>Use an Existing Strength Exercise</Button>
+                  <UseExistingButton onClick={toggleForm} buttonText = "Use Existing Strength Exercise" />
                 </div>
                 :
                 <div>
                   <h4>Don't see the Exercise / Equipment combo you're looking for?</h4>
-                  <Button onClick={toggleForm}>Create New Strength Exercise</Button>
+                  <NewExerciseButton onClick={toggleForm} buttonText="Create New Strength Exercise" />
                 </div>
               }
             </Grid.Column>

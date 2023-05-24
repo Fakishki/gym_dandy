@@ -57,6 +57,11 @@ const AddCardioExercise = () => {
             return;
         }
         // Validating Time format
+        const isZeroTime = /^0{1,2}:00(:00)?$/g.test(time);
+        if (isZeroTime) {
+            alert("Time cannot be zero")
+            return;
+        }
         const isValidFormat = /^(\d{1,2}):([0-5]\d):([0-5]\d)$|^(\d{1,2}):([0-5]\d)$/.test(time);
         if (!isValidFormat) {
             alert("Invalid time format. Please use MM:SS or HH:MM:SS format.");
@@ -106,6 +111,11 @@ const AddCardioExercise = () => {
             return;
         }
         // Validating Time format
+        const isZeroTime = /^0{1,2}:00(:00)?$/g.test(time);
+        if (isZeroTime) {
+            alert("Time cannot be zero")
+            return;
+        }
         const isValidFormat = /^(\d{1,2}):([0-5]\d):([0-5]\d)$|^(\d{1,2}):([0-5]\d)$/.test(time);
         if (!isValidFormat) {
             alert("Invalid time format. Please use MM:SS or HH:MM:SS format.");
