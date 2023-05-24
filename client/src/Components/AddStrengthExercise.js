@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
+import { Button, Grid } from "semantic-ui-react";
 
 const AddStrengthExercise = () => {
     const navigate = useNavigate();
@@ -130,13 +131,16 @@ const AddStrengthExercise = () => {
     };
 
     return (
-        <div>
-            <button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</button>
-            <h1>Add a Strength Exercise to your Workout</h1>
-            {
+        <Grid>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              {/* Forms */}
+              <Button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</Button>
+              <h1>Add a Strength Exercise to your Workout</h1>
+              {
                 isNewForm ?
-                <>
-                    {/* Here's the new strength form */}
+                  <>
+                    {/* New strength form */}
                     <h4>Add a new Exercise / Equipment combo</h4>
                     <div>
                     <label>Exercise Name:</label>
@@ -172,17 +176,10 @@ const AddStrengthExercise = () => {
                     <label>Reps:</label>
                     <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
                     </div>
-                    <div>
-                    <button onClick={submitNewForm}>Create and Add to Workout</button>
-                    </div>
-                    <div>
-                    <h5>Want to use an existing Exercise / Equipment combo?</h5>
-                    <button onClick={toggleForm}>Use an Existing Strength Exercise</button>
-                    </div>
-                </> :
-                <>
-                    {/* Here's the existing strength form */}
-                    <div>
+                    <Button onClick={submitNewForm}>Create and Add to Workout</Button>
+                  </> :
+                  <>
+                    {/* Existing strength form */}
                     <label>Select a Strength Exercise:</label>
                     <select value={selectedStrengthExerciseId && selectedStrengthId ? JSON.stringify({strengthExerciseId: selectedStrengthExerciseId, strengthId: selectedStrengthId}) : ""} onChange={(e) => {
                         if (e.target.value) {
@@ -201,8 +198,6 @@ const AddStrengthExercise = () => {
                             </option>                    
                         ))}
                     </select>
-                    <h5>Don't see the Exercise / Equipment combo you're looking for?</h5>
-                    <button onClick={toggleForm}>Create New Strength Exercise</button></div>
                     <div>
                     <h4>Enter your exercise details:</h4>
                     </div>
@@ -218,16 +213,131 @@ const AddStrengthExercise = () => {
                     <label>Reps:</label>
                     <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
                     </div>
-                    <div>
-                    <button onClick={submitForm}>Add to Workout</button>
-                    </div>
-                </>
-            }
-        </div>
-    )
+                    <Button onClick={submitForm}>Add to Workout</Button>
+                  </>
+              }
+            </Grid.Column>
+            <Grid.Column>
+              {/* Toggle Button */}
+              {isNewForm ?
+                <div>
+                  <h5>Want to use an existing Exercise / Equipment combo?</h5>
+                  <Button onClick={toggleForm}>Use an Existing Strength Exercise</Button>
+                </div>
+                :
+                <div>
+                  <h5>Don't see the Exercise / Equipment combo you're looking for?</h5>
+                  <Button onClick={toggleForm}>Create New Strength Exercise</Button>
+                </div>
+              }
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      )
 }
+    
+    export default AddStrengthExercise;
+    
+// ! OLD VERSION
+//     return (
+//         <div>
+//             <Button onClick={() => navigate(`/workout/${workoutId}`)}>Cancel</Button>
+//             <h1>Add a Strength Exercise to your Workout</h1>
+//             {
+//                 isNewForm ?
+//                 <>
+//                     {/* Here's the new strength form */}
+//                     <h4>Add a new Exercise / Equipment combo</h4>
+//                     <div>
+//                     <label>Exercise Name:</label>
+//                     <input type="text" value={strengthName} onChange={(e) => setStrengthName(e.target.value)} />
+//                     </div>
+//                     <div>
+//                     <label>Equipment:</label>
+//                     <select value={strengthEquipment} onChange={(e) => setStrengthEquipment(e.target.value)}>
+//                         <option value="">--select equipment--</option>
+//                         {equipmentOptions.map((equipment) => (
+//                             <option key={equipment} value={equipment}>
+//                                 {equipment}
+//                             </option>
+//                         ))}
+//                     </select>
+//                     </div>
+//                     <div>
+//                     <label>Favorite:</label>
+//                     <input type="checkbox" checked={strengthFavorite} onChange={(e) => setStrengthFavorite(e.target.checked)} />
+//                     </div>
+//                     <div>
+//                     <h4>Enter your exercise details:</h4>
+//                     </div>
+//                     <div>
+//                     <label>Weight:</label>
+//                     <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
+//                     </div>
+//                     <div>
+//                     <label>Sets:</label>
+//                     <input type="number" value={sets} onChange={(e) => setSets(e.target.value)} />
+//                     </div>
+//                     <div>
+//                     <label>Reps:</label>
+//                     <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
+//                     </div>
+//                     <div>
+//                     <Button onClick={submitNewForm}>Create and Add to Workout</Button>
+//                     </div>
+//                     <div>
+//                     <h5>Want to use an existing Exercise / Equipment combo?</h5>
+//                     <Button onClick={toggleForm}>Use an Existing Strength Exercise</Button>
+//                     </div>
+//                 </> :
+//                 <>
+//                     {/* Here's the existing strength form */}
+//                     <div>
+//                     <label>Select a Strength Exercise:</label>
+//                     <select value={selectedStrengthExerciseId && selectedStrengthId ? JSON.stringify({strengthExerciseId: selectedStrengthExerciseId, strengthId: selectedStrengthId}) : ""} onChange={(e) => {
+//                         if (e.target.value) {
+//                             const {strengthExerciseId, strengthId} = JSON.parse(e.target.value);
+//                             setSelectedStrengthExerciseId(strengthExerciseId);
+//                             setSelectedStrengthId(strengthId);
+//                         } else {
+//                             setSelectedStrengthExerciseId("");
+//                             setSelectedStrengthId("");
+//                         }
+//                     }}>
+//                         <option value="">-- select an exercise --</option>
+//                         {strengthExercises.map(exercise => (
+//                             <option key={exercise.id} value={JSON.stringify({strengthExerciseId: exercise.id, strengthId: exercise.strength.id})}>
+//                                 {exercise.strength.name} ({exercise.strength.equipment})
+//                             </option>                    
+//                         ))}
+//                     </select>
+//                     <h5>Don't see the Exercise / Equipment combo you're looking for?</h5>
+//                     <Button onClick={toggleForm}>Create New Strength Exercise</Button></div>
+//                     <div>
+//                     <h4>Enter your exercise details:</h4>
+//                     </div>
+//                     <div>
+//                     <label>Weight:</label>
+//                     <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
+//                     </div>
+//                     <div>
+//                     <label>Sets:</label>
+//                     <input type="number" value={sets} onChange={(e) => setSets(e.target.value)} />
+//                     </div>
+//                     <div>
+//                     <label>Reps:</label>
+//                     <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
+//                     </div>
+//                     <div>
+//                     <Button onClick={submitForm}>Add to Workout</Button>
+//                     </div>
+//                 </>
+//             }
+//         </div>
+//     )
+// }
 
-export default AddStrengthExercise;
+// export default AddStrengthExercise;
 
 //     return (
 //         <div>

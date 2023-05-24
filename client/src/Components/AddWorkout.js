@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState, workoutsState } from "../atoms";
+import { Button } from "semantic-ui-react";
 
 const AddWorkout = () => {
   const [user] = useRecoilState(userState);
@@ -41,13 +42,13 @@ const AddWorkout = () => {
 
   return (
     <div>
-      <button onClick={backHome}>Go Back</button>
+      <Button onClick={backHome}>Go Back</Button>
       <form onSubmit={handleSubmit}>
         <label>
           Weigh-in:
           <input type="number" value={weighIn} onChange={handleWeighInChange} />
         </label>
-        <button type="submit">Create New Workout</button>
+        <Button type="submit">Create New Workout</Button>
       </form>
     </div>
   );
