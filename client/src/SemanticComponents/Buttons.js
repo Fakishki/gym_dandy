@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
 
+// AddExercise Buttons
 export const BackToWorkoutButton = ( {workoutId, buttonText = "Go Back To Workout"} ) => {
   const navigate = useNavigate();
   return (
@@ -44,6 +45,21 @@ export const AddToWorkoutButton = ( {onClick, buttonText = "Add to Workout"} ) =
       <Button icon labelPosition="left" onClick={onClick}>
         <Icon name="plus" />
         {buttonText}
+      </Button>
+    </div>
+  )
+}
+
+// NavBar Buttons
+export const LoginLogoutButton = ( {workoutId, buttonText = "Go Back To Workout"} ) => {
+  const navigate = useNavigate();
+  return (
+    <div>
+      <Button animated onClick={() => navigate(`/workout/${workoutId}`)}>
+        <Button.Content visible>{buttonText}</Button.Content>
+        <Button.Content hidden>
+          <Icon name='arrow left' />
+        </Button.Content>
       </Button>
     </div>
   )

@@ -49,35 +49,12 @@ const ExerciseLibrary = () => {
                 setCardioExercises(filtered);
             })
     }
-    
-
-    // const fetchStrengthExercises = () => {
-    //     if (!user) return;
-
-    //     fetch(`/strength_exercises?user_id=${user.id}`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             data.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
-    //             setStrengthExercises(data);
-    //         })
-    // }
-
-    // const fetchCardioExercises = () => {
-    //     if (!user) return;
-
-    //     fetch(`/cardio_exercises?user_id=${user.id}`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             data.sort((a, b) => a.cardio.name.localeCompare(b.cardio.name));
-    //             setCardioExercises(data);
-    //         })
-    // }
 
     const backHome = () => {
         navigate("/")
     }
 
-    return (
+    const loggedInContent = (
         <div>
             <button onClick={backHome}>Go Back</button>
             <h1>Your Exercise Library</h1>
@@ -97,6 +74,16 @@ const ExerciseLibrary = () => {
                     </li>
                 ))}
             </ul>
+        </div>
+    );
+
+    const loggedOutContent = (
+        <h2>Please log in to access your Exercise Library!</h2>
+    );
+
+    return (
+        <div>
+            {user ? loggedInContent : loggedOutContent}
         </div>
     )
 }
