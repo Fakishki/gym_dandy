@@ -38,7 +38,7 @@ function NavBar({updateUser}) {
                 <Button.Group widths='4'>
                     <Button as={Link} to="/">Workouts</Button>
                     <Button as={Link} to="/exercise-library">Exercise Library</Button>
-                    <Button as={Link} to="/analytics">Analytics</Button>
+                    <Button as={Link} to="/analytics">Analytics (coming soon)</Button>
                     <LoginLogoutButton user={user} handleLogin={handleLogin} handleLogout={handleLogout} />
                 </Button.Group>
             ) : (
