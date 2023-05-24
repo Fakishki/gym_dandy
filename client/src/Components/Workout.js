@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { oneWorkoutState, oneStrengthExerciseState, oneCardioExerciseState, workoutsState, workoutDataState, userState } from "../atoms"
 import AddStrengthExercise from "./AddStrengthExercise"
-import { Button, Header, Grid } from "semantic-ui-react"
+import { Button, Header, Grid, Segment } from "semantic-ui-react"
 
 const Workout = () => {
     const { id } = useParams()
@@ -165,55 +165,69 @@ const Workout = () => {
             </p>
           )}
           <p>Date: {oneWorkout.created_at}</p>
-          <h2>Strength Exercises</h2>
-          <div style={{marginBottom: '2rem'}}>
-            <Button onClick={() => navigate(`/add_strength_exercise`)}>Add Strength Exercise</Button>
-          </div>
-          <Grid>
-            {oneWorkout.strength_exercises?.map(strength_exercise => (
-              <Grid.Row key={strength_exercise.id}>
-                <Grid.Column width={6}>
-                  <Header as="h5">
-                    {strength_exercise.strength 
-                      ? strength_exercise.strength.name 
-                      : "Unnamed Strength Exercise"} 
-                    ({strength_exercise.strength 
-                      ? strength_exercise.strength.equipment 
-                      : "No Equipment"}) 
-                    - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}
-                  </Header>
+          <Segment style={{marginBottom: '2rem'}}>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={4}>
+                  <Header as="h2">Strength Exercises</Header>
                 </Grid.Column>
                 <Grid.Column width={3}>
-                  <Button onClick={() => deleteStrengthExercise(strength_exercise.id)} size="mini" color="red" icon="delete" labelPosition="left" content="Remove" />
+                  <Button color="green" onClick={() => navigate(`/add_strength_exercise`)}>Add Strength Exercise</Button>
                 </Grid.Column>
               </Grid.Row>
-            ))}
-          </Grid>
-          <h2>Cardio Exercises</h2>
-          <div style={{marginBottom: '2rem'}}>
-            <Button onClick={() => navigate(`/add_cardio_exercise`)}>Add Cardio Exercise</Button>
-          </div>
+              {oneWorkout.strength_exercises?.map(strength_exercise => (
+                <Grid.Row key={strength_exercise.id}>
+                  <Grid.Column width={5}>
+                    <Header as="h5">
+                      {strength_exercise.strength 
+                        ? strength_exercise.strength.name 
+                        : "Unnamed Strength Exercise"} 
+                      ({strength_exercise.strength 
+                        ? strength_exercise.strength.equipment 
+                        : "No Equipment"}) 
+                      - Weight: {strength_exercise.weight}, Sets: {strength_exercise.sets}, Reps: {strength_exercise.reps}
+                    </Header>
+                  </Grid.Column>
+                  <Grid.Column width={3}>
+                    <Button onClick={() => deleteStrengthExercise(strength_exercise.id)} size="mini" color="red" icon="delete" labelPosition="left" content="Remove" />
+                  </Grid.Column>
+                </Grid.Row>
+              ))}
+            </Grid>
+          </Segment>
+          <Segment style={{marginBottom: '2rem'}}>
           <Grid>
-            {oneWorkout.cardio_exercises?.map(cardio_exercise => (
-              <Grid.Row key={cardio_exercise.id}>
-                <Grid.Column width={6}>
-                  <Header as="h5">
-                    {cardio_exercise.cardio 
-                      ? cardio_exercise.cardio.name 
-                      : "Unnamed Cardio Exercise"} 
-                    ({cardio_exercise.cardio 
-                      ? cardio_exercise.cardio.equipment 
-                      : "No Equipment"}) 
-                    - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise._time)}
-                  </Header>
+              <Grid.Row>
+                <Grid.Column width={4}>
+                  <Header as="h2">Cardio Exercises</Header>
                 </Grid.Column>
                 <Grid.Column width={3}>
-                  <Button onClick={() => deleteCardioExercise(cardio_exercise.id)} size="mini" color="red" icon="delete" labelPosition="left" content="Remove" />
+                  <Button color="green" onClick={() => navigate(`/add_cardio_exercise`)}>Add Cardio Exercise</Button>
                 </Grid.Column>
               </Grid.Row>
-            ))}
-          </Grid>
-          <Button onClick={deleteWorkout} color="red">Delete This Entire Workout</Button>
+              {oneWorkout.cardio_exercises?.map(cardio_exercise => (
+                <Grid.Row key={cardio_exercise.id}>
+                  <Grid.Column width={5}>
+                    <Header as="h5">
+                      {cardio_exercise.cardio 
+                        ? cardio_exercise.cardio.name 
+                        : "Unnamed Cardio Exercise"} 
+                      ({cardio_exercise.cardio 
+                        ? cardio_exercise.cardio.equipment 
+                        : "No Equipment"}) 
+                      - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise._time)}
+                    </Header>
+                  </Grid.Column>
+                  <Grid.Column width={3}>
+                    <Button onClick={() => deleteCardioExercise(cardio_exercise.id)} size="mini" color="red" icon="delete" labelPosition="left" content="Remove" />
+                  </Grid.Column>
+                </Grid.Row>
+              ))}
+            </Grid>
+          </Segment>
+          <Segment>
+          <Button style={{ marginBottom: "20px" }} fluid onClick={deleteWorkout} color="red">Delete This Entire Workout</Button>
+          </Segment>
         </div>
       )
 
