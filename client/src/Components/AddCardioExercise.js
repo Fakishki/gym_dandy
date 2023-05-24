@@ -225,10 +225,15 @@ const AddCardioExercise = () => {
                     {/* Here's the existing cardio form */}
                     <div>
                     <label>Select a Cardio Exercise:</label>
-                    <select value={JSON.stringify({cardioExerciseId: selectedCardioExerciseId, cardioId: selectedCardioId})} onChange={(e) => {
-                        const {cardioExerciseId, cardioId} = JSON.parse(e.target.value);
-                        setSelectedCardioExerciseId(cardioExerciseId);
-                        setSelectedCardioId(cardioId);
+                    <select value={selectedCardioExerciseId && selectedCardioId ? JSON.stringify({cardioExerciseId: selectedCardioExerciseId, cardioId: selectedCardioId}) : ""} onChange={(e) => {
+                        if (e.target.value) {
+                            const {cardioExerciseId, cardioId} = JSON.parse(e.target.value);
+                            setSelectedCardioExerciseId(cardioExerciseId);
+                            setSelectedCardioId(cardioId);
+                        } else {
+                            setSelectedCardioExerciseId("");
+                            setSelectedCardioId("");
+                        }
                     }}>
                         <option value="">-- select an exercise --</option>
                         {cardioExercises.map(exercise => (

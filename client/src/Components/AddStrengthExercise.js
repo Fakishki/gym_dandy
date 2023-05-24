@@ -184,10 +184,15 @@ const AddStrengthExercise = () => {
                     {/* Here's the existing strength form */}
                     <div>
                     <label>Select a Strength Exercise:</label>
-                    <select value={JSON.stringify({strengthExerciseId: selectedStrengthExerciseId, strengthId: selectedStrengthId})} onChange={(e) => {
-                        const {strengthExerciseId, strengthId} = JSON.parse(e.target.value);
-                        setSelectedStrengthExerciseId(strengthExerciseId);
-                        setSelectedStrengthId(strengthId);
+                    <select value={selectedStrengthExerciseId && selectedStrengthId ? JSON.stringify({strengthExerciseId: selectedStrengthExerciseId, strengthId: selectedStrengthId}) : ""} onChange={(e) => {
+                        if (e.target.value) {
+                            const {strengthExerciseId, strengthId} = JSON.parse(e.target.value);
+                            setSelectedStrengthExerciseId(strengthExerciseId);
+                            setSelectedStrengthId(strengthId);
+                        } else {
+                            setSelectedStrengthExerciseId("");
+                            setSelectedStrengthId("");
+                        }
                     }}>
                         <option value="">-- select an exercise --</option>
                         {strengthExercises.map(exercise => (
