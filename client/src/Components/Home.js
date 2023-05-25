@@ -1,12 +1,13 @@
 import React, { useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import { userState, workoutsState } from "../atoms"
-import { Segment } from "semantic-ui-react"
+import { Segment, Button } from "semantic-ui-react"
 
 const Home = () => {
     const [user, setUser] = useRecoilState(userState);
     const [workouts, setWorkouts] = useRecoilState(workoutsState);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchWorkouts();
@@ -27,18 +28,20 @@ const Home = () => {
         <Segment>
         <>
             <h2>Your Workouts:</h2>
-            <Link to="/add_workout">Create New Workout</Link>
-            <ul>
-                {workouts.map(workout =>(
-                    <li key={workout.id}>
-                        <Link to={`/workout/${workout.id}`}>
-                            {/* Workouts currently listed chron backwards by updated_date for
-                            seed/testing - Change back to created_at for launch */}
-                            {workout.id}: {new Date(workout.created_at).toLocaleDateString()} - Weigh-in: {workout.weigh_in ? `Weigh-in: ${workout.weigh_in} lbs` : 'Weigh-in: Not provided'}
-                        </Link>
-                    </li>
+            <Button color="green" style={{marginBottom: "10px"}}onClick={() => navigate(`/add_workout`)}>Create New Workout</Button>
+            <div>
+                {workouts.map(workout => (
+                    <Button 
+                    as={Link} 
+                    to={`/workout/${workout.id}`} 
+                    key={workout.id} 
+                    style={{textAlign: 'left', marginBottom: '10px', display: 'block'}}
+                    >
+                    {workout.id}: {new Date(workout.created_at).toLocaleDateString()} - Weigh-in: {workout.weigh_in ? `Weigh-in: ${workout.weigh_in} lbs` : 'Weigh-in: Not provided'}
+                    </Button>
                 ))}
-            </ul>
+            </div>
+
         </>
         </Segment>
     );
