@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil"
 import { oneWorkoutState, oneStrengthExerciseState, oneCardioExerciseState, workoutsState, workoutDataState, userState } from "../atoms"
 import AddStrengthExercise from "./AddStrengthExercise"
 import { Button, Header, Grid, Segment } from "semantic-ui-react"
+import { BackHomeButton } from "../SemanticComponents/Buttons"
 
 const Workout = () => {
     const { id } = useParams()
@@ -149,7 +150,7 @@ const Workout = () => {
 
     const loggedInContent = (
         <div>
-          <Button onClick={backHome}>Go Back</Button>
+          <BackHomeButton />
           <h1>Workout Details</h1>
           {!editMode && (
             <p>

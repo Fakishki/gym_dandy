@@ -49,3 +49,17 @@ export const AddToWorkoutButton = ( {onClick, buttonText = "Add to Workout"} ) =
     </div>
   )
 }
+
+export const BackHomeButton = ( {onClick, buttonText = "Back to Workout List"} ) => {
+  const navigate = useNavigate();
+  return (
+    <div>
+      <Button animated onClick={() => navigate(`/`)}>
+        <Button.Content visible>{buttonText}</Button.Content>
+        <Button.Content hidden>
+          <Icon name='arrow left' />
+        </Button.Content>
+      </Button>
+    </div>
+  )
+}

@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import { useRecoilState } from "recoil"
 import { useNavigate } from "react-router-dom"
 import { userState, strengthExercisesState, cardioExercisesState } from "../atoms"
+import { BackHomeButton } from "../SemanticComponents/Buttons"
 
 const ExerciseLibrary = () => {
     const [user] = useRecoilState(userState);
@@ -56,7 +57,7 @@ const ExerciseLibrary = () => {
 
     const loggedInContent = (
         <div>
-            <button onClick={backHome}>Go Back</button>
+            <BackHomeButton />
             <h1>Your Exercise Library</h1>
             <h2>Your Strength Exercises:</h2>
             <ul>
