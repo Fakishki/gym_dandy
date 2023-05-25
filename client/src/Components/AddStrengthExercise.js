@@ -35,7 +35,7 @@ const AddStrengthExercise = () => {
         if (selectedStrengthExerciseId && selectedStrengthId) {
             // Debug step 1: Logging parameters
             console.log(`userId: ${userId}, selectedStrengthExerciseId: ${selectedStrengthExerciseId}, selectedStrengthId: ${selectedStrengthId}`);
-            fetch(`/previous_weights/${userId}/${selectedStrengthId}`)
+            fetch(`/previous_strength_strength_exercises/${userId}/${selectedStrengthId}`)
             .then(response => {
                 // Ensure the fetch was successful, else throw an error
                 if (!response.ok) {
@@ -48,8 +48,14 @@ const AddStrengthExercise = () => {
                 console.log("Response data:", data);
                 if (data.error) {
                     setPreviousWeights(null);
+                    setSets("");
+                    setReps("");
                 } else {
                     setPreviousWeights(data);
+                    if (data.length > 0) {
+                        setSets(data[0].sets)
+                        setReps(data[0].reps)
+                    }
                 }
             })
             .catch(error => {
@@ -58,6 +64,8 @@ const AddStrengthExercise = () => {
             });
         } else {
             setPreviousWeights(null);
+            setSets("");
+            setReps("");
         }
     }, [selectedStrengthExerciseId, selectedStrengthId]);
 
