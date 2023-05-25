@@ -456,7 +456,7 @@ def get_unique_cardio_exercises(id):
 @app.route("/previous_strength_strength_exercises/<int:user_id>/<int:strength_id>", methods=["GET"])
 def get_previous_weights(user_id, strength_id):
     try:
-        weights = StrengthExercise.query.join(Workout).filter(Workout.user_id == user_id, StrengthExercise.strength_id == strength_id).order_by(StrengthExercise.created_at.desc()).limit(4).all()
+        weights = StrengthExercise.query.join(Workout).filter(Workout.user_id == user_id, StrengthExercise.strength_id == strength_id).order_by(StrengthExercise.created_at.desc()).all()
         if weights:
             return [weight.to_dict() for weight in weights]
         else:
