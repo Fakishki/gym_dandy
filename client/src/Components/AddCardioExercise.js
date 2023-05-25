@@ -26,6 +26,7 @@ const AddCardioExercise = () => {
     const [selectedCardioExerciseId, setSelectedCardioExerciseId] = useState("");
     const [selectedCardioId, setSelectedCardioId] = useState("");
     const [equipmentOptions, setEquipmentOptions] = useState([]);
+    const [cardioExerciseUnitsOptions, setCardioExerciseUnitsOptions] = useState([]);
     // debugger
 
     useEffect(() => {
@@ -49,6 +50,12 @@ const AddCardioExercise = () => {
         fetch("/cardio_equipment")
             .then((response) => response.json())
             .then((data) => setEquipmentOptions(data.equipment));
+    }, []);
+
+    useEffect(() => {
+        fetch("/cardio_exercise_units")
+            .then((response) => response.json())
+            .then((data) => setCardioExerciseUnitsOptions(data.cardio_exercise_units));
     }, []);
 
     const submitForm = (e) => {
@@ -225,7 +232,14 @@ const AddCardioExercise = () => {
                         </Form.Field>
                         <Form.Field>
                           <label>Units:</label>
-                          <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
+                          <select value={units} onChange={(e) => setUnits(e.target.value)}>
+                            <option value="">--select units--</option>
+                            {cardioExerciseUnitsOptions.map((cardio_units) => (
+                                <option key={cardio_units} value={cardio_units}>
+                                    {cardio_units}
+                                </option>
+                            ))}
+                            </select>
                         </Form.Field>
                         <Form.Field>
                           <label>Time:</label>
@@ -269,7 +283,14 @@ const AddCardioExercise = () => {
                         </Form.Field>
                         <Form.Field>
                             <label>Units:</label>
-                            <input type="text" value={units} onChange={(e) => setUnits(e.target.value)} />
+                            <select value={units} onChange={(e) => setUnits(e.target.value)}>
+                            <option value="">--select units--</option>
+                            {cardioExerciseUnitsOptions.map((cardio_units) => (
+                                <option key={cardio_units} value={cardio_units}>
+                                    {cardio_units}
+                                </option>
+                            ))}
+                            </select>
                         </Form.Field>
                         <Form.Field>
                             <label>Time:</label>

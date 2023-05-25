@@ -222,7 +222,7 @@ def cardio_by_id(id):
 @app.route("/cardio_equipment", methods=["GET"])
 def get_cardio_equipment():
     return {"equipment": Cardio.cardio_equipment}, 200
-    
+
 @app.route("/strength_exercises", methods=["GET", "POST"])
 def strength_exercises():
     if request.method == "GET":
@@ -450,6 +450,10 @@ def get_unique_cardio_exercises(id):
     #         seen.add(exercise.cardio.name)
     response = make_response([exercise.to_dict() for exercise in unique_cardio_exercises], 200)
     return response
+
+@app.route("/cardio_exercise_units", methods=["GET"])
+def get_cardio_exericse_units():
+    return {"cardio_exercise_units": CardioExercise.cardio_units}, 200
 
 # Two prev weights Step 4 (Steps 1-3 are in AddStrengthExercise.js)
 #! THIS IS GOING TO BE USEFUL FOR CHARTS AND GRAPHS -- ALSO MAYBE THE ACCOMPANYING JS/JSX
