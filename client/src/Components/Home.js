@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import { userState, workoutsState } from "../atoms"
+import { Segment } from "semantic-ui-react"
 
 const Home = () => {
     const [user, setUser] = useRecoilState(userState);
@@ -23,6 +24,7 @@ const Home = () => {
     }
 
     const loggedInContent = (
+        <Segment>
         <>
             <h2>Your Workouts:</h2>
             <Link to="/add_workout">Create New Workout</Link>
@@ -38,6 +40,7 @@ const Home = () => {
                 ))}
             </ul>
         </>
+        </Segment>
     );
 
     const loggedOutContent = (
@@ -47,10 +50,10 @@ const Home = () => {
     );
 
     return (
-        <div>
+        <Segment>
             <h1>Welcome to endorFun {user ? user.username : ""}</h1>
             {user ? loggedInContent : loggedOutContent}
-        </div>
+        </Segment>
     )
 }
 

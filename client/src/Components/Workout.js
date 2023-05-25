@@ -149,23 +149,46 @@ const Workout = () => {
     )
 
     const loggedInContent = (
-        <div>
-          <BackHomeButton />
-          <h1>Workout Details</h1>
-          {!editMode && (
-            <p>
-              Weigh-in: {oneWorkout.weigh_in ? `Weigh-in: ${oneWorkout.weigh_in} lbs` : 'Weigh-in: Not provided'} 
-              <Button onClick={editWorkout}>Edit Weigh-In</Button>
-            </p>
-          )}
-          {editMode && (
-            <p>
-              Weigh-in: <input type="number" value={editWeighIn} onChange={(e) => setEditWeighIn(e.target.value)} />
-              <Button onClick={saveEdit}>Save</Button>
-              <Button onClick={cancelEdit}>Cancel</Button>
-            </p>
-          )}
-          <p>Date: {oneWorkout.created_at}</p>
+        <Segment>
+            <Segment>
+          <Grid>
+            <Grid.Row columns={1}>
+                <Grid.Column>
+              <BackHomeButton />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column width={3}>
+                <Header as="h2">Workout Details</Header>
+              </Grid.Column>
+              <Grid.Column width={5}>
+                <Header as="h2">Date: {oneWorkout.created_at}</Header>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column width={2}>
+                <Header as="h3">Weigh-in:</Header>
+              </Grid.Column>
+              <Grid.Column width={3}>
+                {!editMode && (
+                  <Header as="h3">
+                    {oneWorkout.weigh_in ? `${oneWorkout.weigh_in} lbs` : 'Not provided'} 
+                  </Header>
+                )}
+                {editMode && (
+                  <p>
+                    <input type="number" value={editWeighIn} onChange={(e) => setEditWeighIn(e.target.value)} />
+                    <Button onClick={saveEdit}>Save</Button>
+                    <Button onClick={cancelEdit}>Cancel</Button>
+                  </p>
+                )}
+              </Grid.Column>
+              <Grid.Column width={5}>
+                <Button onClick={editWorkout}>Edit Weigh-In</Button>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          </Segment>
           <Segment style={{marginBottom: '2rem'}}>
             <Grid>
               <Grid.Row>
@@ -227,7 +250,7 @@ const Workout = () => {
           <Segment>
           <Button style={{ marginBottom: "20px" }} fluid onClick={deleteWorkout} color="red">Delete This Entire Workout</Button>
           </Segment>
-        </div>
+        </Segment>
       )
 
     return (
