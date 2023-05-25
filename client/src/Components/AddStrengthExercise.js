@@ -26,7 +26,40 @@ const AddStrengthExercise = () => {
     const [selectedStrengthExerciseId, setSelectedStrengthExerciseId] = useState("");
     const [selectedStrengthId, setSelectedStrengthId] = useState("");
     const [equipmentOptions, setEquipmentOptions] = useState([]);
+    // Two prev weights Step 1
+    const [previousWeights, setPreviousWeights] = useState(null);
+
     // debugger
+
+    useEffect(() => {
+        if (selectedStrengthExerciseId && selectedStrengthId) {
+            // Debug step 1: Logging parameters
+            console.log(`userId: ${userId}, selectedStrengthExerciseId: ${selectedStrengthExerciseId}, selectedStrengthId: ${selectedStrengthId}`);
+            fetch(`/previous_weights/${userId}/${selectedStrengthId}`)
+            .then(response => {
+                // Ensure the fetch was successful, else throw an error
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Debug step 2: Logging the response
+                console.log("Response data:", data);
+                if (data.error) {
+                    setPreviousWeights(null);
+                } else {
+                    setPreviousWeights(data);
+                }
+            })
+            .catch(error => {
+                // This will catch any fetch or parsing errors
+                console.error("Fetch or parsing error:", error);
+            });
+        } else {
+            setPreviousWeights(null);
+        }
+    }, [selectedStrengthExerciseId, selectedStrengthId]);
 
     useEffect(() => {
         if (userId) {
@@ -213,6 +246,14 @@ const AddStrengthExercise = () => {
                       <Form.Field>
                         <label>Weight:</label>
                         <input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} />
+                        {/* Two prev weights Step 3 (STEP 4 is in app.py) */}
+                        {previousWeights ? (
+                            <div>
+                                Previous weights: {previousWeights.map(weight => weight.weight).join(', ')}
+                            </div>
+                        ) : (
+                            <div>No Previous Data</div>
+                        )}
                       </Form.Field>
                       <Form.Field>
                         <label>Sets:</label>

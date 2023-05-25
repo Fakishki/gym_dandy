@@ -188,7 +188,7 @@ const AddCardioExercise = () => {
             <Grid.Row columns={1}>
               <Grid.Column>
                 <BackToWorkoutButton workoutId={workoutId} />
-                <h1>Add a Strength Exercise to your Workout</h1>
+                <h1>Add a Cardio Exercise to your Workout</h1>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row columns={2}>

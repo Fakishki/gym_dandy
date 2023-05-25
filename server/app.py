@@ -2,10 +2,11 @@ from flask import request, make_response, abort, session, jsonify, current_app
 from flask_restful import Resource
 from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS
-from config import app, db, api
+from config import app, db, api, Flask
 from models import Workout, StrengthExercise, CardioExercise, Strength, Cardio, User
 from sqlalchemy import and_
 from sqlalchemy.orm import contains_eager, joinedload
+import logging
 
 CORS(app)
 
@@ -449,6 +450,21 @@ def get_unique_cardio_exercises(id):
     #         seen.add(exercise.cardio.name)
     response = make_response([exercise.to_dict() for exercise in unique_cardio_exercises], 200)
     return response
+
+# Two prev weights Step 4 (Steps 1-3 are in AddStrengthExercise.js)
+#! THIS IS GOING TO BE USEFUL FOR CHARTS AND GRAPHS -- ALSO MAYBE THE ACCOMPANYING JS/JSX
+@app.route("/previous_weights/<int:user_id>/<int:strength_id>", methods=["GET"])
+def get_previous_weights(user_id, strength_id):
+    try:
+        weights = StrengthExercise.query.join(Workout).filter(Workout.user_id == user_id, StrengthExercise.strength_id == strength_id).order_by(StrengthExercise.created_at.desc()).limit(4).all()
+        if weights:
+            return [weight.to_dict() for weight in weights]
+        else:
+            return {"error": "No previous data"}, 404
+    except Exception as e:
+        app.logger.error(f"Error fetching weights: {e}")
+        return {"error": str(e)}, 500
+
 
 @app.route("/users", methods=["GET", "POST"])
 def users():
