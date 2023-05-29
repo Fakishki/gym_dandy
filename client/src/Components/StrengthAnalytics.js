@@ -22,33 +22,28 @@ const AddStrengthExercise = () => {
 
     useEffect(() => {
         if (selectedStrengthExerciseId && selectedStrengthId) {
-            // Debug step 1: Logging parameters
-            console.log(`userId: ${userId}, selectedStrengthId: ${selectedStrengthId}`);
             fetch(`/previous_strength_strength_exercises/${userId}/${selectedStrengthId}`)
             .then(response => {
-                // Ensure the fetch was successful, else throw an error
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.json();
             })
             .then(data => {
-                // Debug step 2: Logging the response
-                console.log("Response data:", data);
                 if (data.error) {
-                    setPreviousWeights(null);
+                    setPreviousWeights(false);
                     setChartData([]);
                 } else {
-                    setPreviousWeights(data);
-                    const chartData = data.map((weight, index) => ({
-                        name: `Measurement ${index +1 }`,
-                        weight: weight.weight
-                    }))
+                    setPreviousWeights(data.length > 0);
+                    const chartData = data.map((record) => ({
+                        name: new Date(record.created_at).toLocaleDateString(),
+                        weight: record.weight
+                    }));
+                    chartData.reverse();
                     setChartData(chartData);
                 }
             })
             .catch(error => {
-                // This will catch any fetch or parsing errors
                 console.error("Fetch or parsing error:", error);
             });
         } else {
@@ -111,7 +106,7 @@ const AddStrengthExercise = () => {
                       </Form.Field>
                       <Form.Field>
                         {previousWeights ? (
-                            <LineChart width={500} height={300} data={chartData}>
+                            <LineChart width={600} height={400} data={chartData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis />
