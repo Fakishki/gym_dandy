@@ -12,6 +12,7 @@ import AddStrengthExercise from "./Components/AddStrengthExercise"
 import AddCardioExercise from "./Components/AddCardioExercise"
 import Analytics from "./Components/Analytics"
 import { userState } from "./atoms"
+import StrengthAnalytics from "./Components/StrengthAnalytics"
 
 
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="*" element={<Authentication updateUser={updateUser}/>}/>
           <Route path="/add_workout" element={<AddWorkout />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/strength_analytics" element={<StrengthAnalytics />} />
         </Routes>
       </Router>
     </div>

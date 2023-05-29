@@ -34,3 +34,13 @@ export const cardioExercisesState = atom({
     key: "cardioExercisesState",
     default: [],
 })
+
+export const selectedStrengthState = atom({
+    key: "selectedStrengthState",
+    default: null,
+})
+
+export const chartDataState = atom({
+    key: "chartDataState",
+    default: [],
+})
