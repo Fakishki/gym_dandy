@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import { Button, Grid, Segment, Form } from "semantic-ui-react";
 import { BackAnalyticsButton } from "../SemanticComponents/Buttons";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const AddStrengthExercise = () => {
     const navigate = useNavigate();
@@ -74,10 +74,10 @@ const AddStrengthExercise = () => {
             <Grid.Row columns={1}>
               <Grid.Column>
                 <BackAnalyticsButton />
-                <h1>Add a Strength Exercise to your Workout</h1>
+                <h1>Strength Exercise Analytics</h1>
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row columns={2}>
+            <Grid.Row columns={1}>
               <Grid.Column>
                 {/* Forms */}
                 {
@@ -85,7 +85,7 @@ const AddStrengthExercise = () => {
                     {/* Existing strength form */}
                     <Form>
                       <Form.Field>
-                        <label>Select a Strength Exercise:</label>
+                        <label>Select a Strength Exercise to view a chart of your progress:</label>
                         <select value={selectedStrengthExerciseId && selectedStrengthId ? JSON.stringify({strengthExerciseId: selectedStrengthExerciseId, strengthId: selectedStrengthId}) : ""} onChange={(e) => {
                           if (e.target.value) {
                               const {strengthExerciseId, strengthId} = JSON.parse(e.target.value);
@@ -106,16 +106,20 @@ const AddStrengthExercise = () => {
                       </Form.Field>
                       <Form.Field>
                         {previousWeights ? (
-                            <LineChart width={600} height={400} data={chartData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Line type="monotone" dataKey="weight" stroke="#8884d8" />
-                        </LineChart>
+                            <div style={{maxWidth: "1000px"}}>
+                                <ResponsiveContainer width="100%" aspect={2.3}>
+                                    <LineChart width={600} height={400} data={chartData}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="weight" stroke="#8884d8" />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
                         ) : (
-                            <div>No Data to Show</div>
+                            <div>No Data to Show (select an exercise above)</div>
                         )}
                       </Form.Field>
                     </Form>

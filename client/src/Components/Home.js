@@ -37,7 +37,7 @@ const Home = () => {
                     key={workout.id} 
                     style={{textAlign: 'left', marginBottom: '10px', display: 'block'}}
                     >
-                    {workout.id}: {new Date(workout.created_at).toLocaleDateString()} - Weigh-in: {workout.weigh_in ? `Weigh-in: ${workout.weigh_in} lbs` : 'Weigh-in: Not provided'}
+                    {new Date(workout.created_at).toLocaleDateString()} - {workout.weigh_in ? `Weigh-in: ${workout.weigh_in} lbs` : 'Weigh-in: Not provided'} (ID: {workout.id})
                     </Button>
                 ))}
             </div>

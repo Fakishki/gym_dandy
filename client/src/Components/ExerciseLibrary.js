@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil"
 import { useNavigate } from "react-router-dom"
 import { userState, strengthExercisesState, cardioExercisesState } from "../atoms"
 import { BackHomeButton } from "../SemanticComponents/Buttons"
+import { Button, Segment, Grid } from "semantic-ui-react"
 
 const ExerciseLibrary = () => {
     const [user] = useRecoilState(userState);
@@ -56,9 +57,11 @@ const ExerciseLibrary = () => {
     }
 
     const loggedInContent = (
-        <div>
+        <Segment>
             <BackHomeButton />
             <h1>Your Exercise Library</h1>
+            <h3>Below are all of the exercises you've tracked in gym_dandy</h3>
+            <h3>For more details, visit the Analytics section</h3>
             <h2>Your Strength Exercises:</h2>
             <ul>
                 {strengthExercises.map(exercise => (
@@ -75,7 +78,7 @@ const ExerciseLibrary = () => {
                     </li>
                 ))}
             </ul>
-        </div>
+        </Segment>
     );
 
     const loggedOutContent = (
