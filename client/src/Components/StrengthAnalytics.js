@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import { Button, Grid, Segment, Form } from "semantic-ui-react";
-import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
+import { BackAnalyticsButton } from "../SemanticComponents/Buttons";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 
 const AddStrengthExercise = () => {
@@ -73,7 +73,7 @@ const AddStrengthExercise = () => {
           <Grid>
             <Grid.Row columns={1}>
               <Grid.Column>
-                <BackToWorkoutButton workoutId={workoutId} />
+                <BackAnalyticsButton />
                 <h1>Add a Strength Exercise to your Workout</h1>
               </Grid.Column>
             </Grid.Row>
