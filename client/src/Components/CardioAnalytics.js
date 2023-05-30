@@ -22,7 +22,7 @@ const CardioAnalytics = () => {
 
     useEffect(() => {
         if (selectedCardioExerciseId && selectedCardioId) {
-            fetch(`/previous_cardio_cardio_exercises/${userId}/${selectedCardioId}`)
+            fetch(`/analytics_previous_cardio_cardio_exercises/${userId}/${selectedCardioId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

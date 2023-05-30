@@ -478,12 +478,33 @@ def get_previous_cardio_exercises(user_id, cardio_id):
         ).order_by(CardioExercise.created_at.desc()).all()
 
         if exercises:
+            return [exercise.to_dict() for exercise in exercises]
+        else:
+            return {"error": "No previous data"}, 404
+    except Exception as e:
+        app.logger.error(f"Error fetching cardio exercises: {e}")
+        return {"error": str(e)}, 500
+
+
+@app.route("/analytics_previous_cardio_cardio_exercises/<int:user_id>/<int:cardio_id>", methods=["GET"])
+def analytics_get_previous_cardio_exercises(user_id, cardio_id):
+    try:
+        exercises = CardioExercise.query.join(Workout).filter(
+            Workout.user_id == user_id, 
+            CardioExercise.cardio_id == cardio_id
+        ).order_by(CardioExercise.created_at.desc()).all()
+
+        if exercises:
             return [{
                 'distance': exercise.distance,
                 'time': exercise.time,
                 'units': exercise.units,
                 'created_at': exercise.created_at,
-                'workout_created_at': exercise.workout.created_at
+                'workout_created_at': exercise.workout.created_at,
+                'cardio': {
+                    'name': exercise.cardio.name,
+                    'equipment': exercise.cardio.equipment
+                }
             } for exercise in exercises]
         else:
             return {"error": "No previous data"}, 404
