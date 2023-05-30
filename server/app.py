@@ -519,8 +519,8 @@ def get_overdue_exercises(user_id):
         ten_days_ago = datetime.now() - timedelta(days=10)
 
         # Subqueries to get the most recent workout date for each strength and cardio exercise
-        most_recent_strength_workout = db.session.query(StrengthExercise.strength_id, func.max(Workout.created_at).label('max_date')).join(Workout, Workout.id == StrengthExercise.workout_id).group_by(StrengthExercise.strength_id).subquery()
-        most_recent_cardio_workout = db.session.query(CardioExercise.cardio_id, func.max(Workout.created_at).label('max_date')).join(Workout, Workout.id == CardioExercise.workout_id).group_by(CardioExercise.cardio_id).subquery()
+        most_recent_strength_workout = db.session.query(StrengthExercise.strength_id, func.max(Workout.created_at).label('max_date')).join(Workout, Workout.id == StrengthExercise.workout_id).filter(Workout.user_id == user_id).group_by(StrengthExercise.strength_id).subquery()
+        most_recent_cardio_workout = db.session.query(CardioExercise.cardio_id, func.max(Workout.created_at).label('max_date')).join(Workout, Workout.id == CardioExercise.workout_id).filter(Workout.user_id == user_id).group_by(CardioExercise.cardio_id).subquery()
 
         # Main queries
         overdue_strengths = Strength.query.filter(
