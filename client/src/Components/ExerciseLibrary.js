@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useRecoilState } from "recoil"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { userState, strengthExercisesState, cardioExercisesState } from "../atoms"
 import { BackHomeButton } from "../SemanticComponents/Buttons"
 import { Button, Segment, Grid } from "semantic-ui-react"
@@ -52,35 +52,91 @@ const ExerciseLibrary = () => {
             })
     }
 
-    const backHome = () => {
-        navigate("/")
+    const handleFavoriteClick = async (exerciseType, exercise) => {
+        const updatedFavoriteStatus = !exercise[exerciseType].favorite;
+        await fetch(`/${exerciseType}s/${exercise[exerciseType].id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ favorite: updatedFavoriteStatus })
+        });
+        if (exerciseType === 'strength') {
+            fetchStrengthExercises();
+        } else {
+            fetchCardioExercises();
+        }
     }
 
     const loggedInContent = (
         <Segment>
             <BackHomeButton />
+            <Segment>
             <h1>Your Exercise Library</h1>
             <h3>Below are all of the exercises you've tracked in gym_dandy</h3>
             <h3>For more details, visit the Analytics section</h3>
+            </Segment>
+            <Segment>
             <h2>Your Strength Exercises:</h2>
             <ul>
                 {strengthExercises.map(exercise => (
-                    <li key={exercise.id}>
-                        {exercise.strength.name} ({exercise.strength.equipment})
-                    </li>
+                    <Grid 
+                        key={exercise.id}
+                        verticalAlign='middle' 
+                        style={{marginBottom: "10px"}}
+                    >
+                        <Grid.Row columns={4}>
+                            <Grid.Column>
+                                <Button fluid style={{textAlign: "left"}}>
+                                    {exercise.strength.name} ({exercise.strength.equipment})
+                                </Button>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Button 
+                                    fluid
+                                    floated="right"
+                                    color={exercise.strength.favorite ? 'blue' : 'green'}
+                                    onClick={() => handleFavoriteClick('strength', exercise)}>
+                                    {exercise.strength.favorite ? "FAVORITE (click to unfavorite)" : "Add to favorites"}
+                                </Button>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 ))}
             </ul>
+            </Segment>
+            <Segment>
             <h2>Your Cardio Exercises:</h2>
             <ul>
                 {cardioExercises.map(exercise => (
-                    <li key={exercise.id}>
-                        {exercise.cardio.name} ({exercise.cardio.equipment})
-                    </li>
+                    <Grid 
+                        key={exercise.id}
+                        verticalAlign='middle' 
+                        style={{marginBottom: "10px"}}
+                    >
+                        <Grid.Row columns={4}>
+                            <Grid.Column>
+                                <Button fluid style={{textAlign: "left"}}>
+                                    {exercise.cardio.name} ({exercise.cardio.equipment})
+                                </Button>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Button 
+                                    fluid
+                                    floated="right"
+                                    color={exercise.cardio.favorite ? 'blue' : 'green'}
+                                    onClick={() => handleFavoriteClick('cardio', exercise)}>
+                                    {exercise.cardio.favorite ? "FAVORITE (click to unfavorite)" : "Add to favorites"}
+                                </Button>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
                 ))}
             </ul>
         </Segment>
+        </Segment>
     );
-
+    
     const loggedOutContent = (
         <h2>Please log in to access your Exercise Library!</h2>
     );
