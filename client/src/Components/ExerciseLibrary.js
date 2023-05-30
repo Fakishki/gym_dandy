@@ -88,11 +88,11 @@ const ExerciseLibrary = () => {
                     <Grid 
                         key={exercise.id}
                         verticalAlign='middle' 
-                        style={{marginBottom: "10px"}}
+                        // style={{marginBottom: "10px"}}
                     >
                         <Grid.Row columns={4}>
                             <Grid.Column>
-                                <Button fluid style={{textAlign: "left"}} onClick={() => {
+                                <Button fluid size="mini" style={{textAlign: "left"}} onClick={() => {
                                     setSelectedExerciseType('strength');
                                     setSelectedExerciseId(exercise.strength.id);
                                     setIsExerciseModalOpen(true);
@@ -103,6 +103,7 @@ const ExerciseLibrary = () => {
                             <Grid.Column>
                                 <Button 
                                     fluid
+                                    size="mini"
                                     floated="right"
                                     color={exercise.strength.favorite ? 'blue' : 'green'}
                                     onClick={() => handleFavoriteClick('strength', exercise)}>
@@ -121,11 +122,11 @@ const ExerciseLibrary = () => {
                     <Grid 
                         key={exercise.id}
                         verticalAlign='middle' 
-                        style={{marginBottom: "10px"}}
+                        // style={{marginBottom: "10px"}}
                     >
                         <Grid.Row columns={4}>
                             <Grid.Column>
-                                <Button fluid style={{textAlign: "left"}} onClick={() => {
+                                <Button fluid size="mini" style={{textAlign: "left"}} onClick={() => {
                                     setSelectedExerciseType('cardio');
                                     setSelectedExerciseId(exercise.cardio.id);
                                     setIsExerciseModalOpen(true);
@@ -136,6 +137,7 @@ const ExerciseLibrary = () => {
                             <Grid.Column>
                                 <Button 
                                     fluid
+                                    size="mini"
                                     floated="right"
                                     color={exercise.cardio.favorite ? 'blue' : 'green'}
                                     onClick={() => handleFavoriteClick('cardio', exercise)}>
