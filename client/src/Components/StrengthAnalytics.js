@@ -6,7 +6,7 @@ import { Button, Grid, Segment, Form } from "semantic-ui-react";
 import { BackAnalyticsButton } from "../SemanticComponents/Buttons";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
-const AddStrengthExercise = () => {
+const StrengthAnalytics = () => {
     const navigate = useNavigate();
     const [strengthExercises, setStrengthExercises] = useRecoilState(strengthExercisesState);
     const user = useRecoilValue(userState);
@@ -36,7 +36,7 @@ const AddStrengthExercise = () => {
                 } else {
                     setPreviousWeights(data.length > 0);
                     const chartData = data.map((record) => ({
-                        name: new Date(record.created_at).toLocaleDateString(),
+                        name: new Date(record.workout.created_at).toLocaleDateString(),
                         weight: record.weight
                     }));
                     chartData.reverse();
@@ -144,4 +144,4 @@ const AddStrengthExercise = () => {
     )
 }
     
-export default AddStrengthExercise;
+export default StrengthAnalytics;

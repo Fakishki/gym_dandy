@@ -13,6 +13,7 @@ import AddCardioExercise from "./Components/AddCardioExercise"
 import Analytics from "./Components/Analytics"
 import { userState } from "./atoms"
 import StrengthAnalytics from "./Components/StrengthAnalytics"
+import CardioAnalytics from "./Components/CardioAnalytics"
 
 
 const App = () => {
@@ -51,6 +52,7 @@ const App = () => {
           <Route path="/add_workout" element={<AddWorkout />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/strength_analytics" element={<StrengthAnalytics />} />
+          <Route path="/cardio_analytics" element={<CardioAnalytics />} />
         </Routes>
       </Router>
     </div>

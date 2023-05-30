@@ -469,6 +469,26 @@ def get_previous_weights(user_id, strength_id):
         app.logger.error(f"Error fetching weights: {e}")
         return {"error": str(e)}, 500
 
+@app.route("/previous_cardio_cardio_exercises/<int:user_id>/<int:cardio_id>", methods=["GET"])
+def get_previous_cardio_exercises(user_id, cardio_id):
+    try:
+        exercises = CardioExercise.query.join(Workout).filter(
+            Workout.user_id == user_id, 
+            CardioExercise.cardio_id == cardio_id
+        ).order_by(CardioExercise.created_at.desc()).all()
+
+        if exercises:
+            return [{
+                'distance': exercise.distance,
+                'time': exercise.time,
+                'units': exercise.units
+            } for exercise in exercises]
+        else:
+            return {"error": "No previous data"}, 404
+    except Exception as e:
+        app.logger.error(f"Error fetching cardio exercises: {e}")
+        return {"error": str(e)}, 500
+
 
 @app.route("/users", methods=["GET", "POST"])
 def users():
