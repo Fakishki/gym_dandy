@@ -241,7 +241,7 @@ const Workout = () => {
                                                                     : "Unnamed Cardio Exercise"} ({cardio_exercise.cardio 
                                                                     ? cardio_exercise.cardio.equipment 
                                                                     : "No Equipment"}) 
-                                                                - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise.time)}
+                                                                - Distance: {cardio_exercise.distance}, Time: {formatTime(cardio_exercise._time)}
                                                             </Header>
                                                         </Grid.Column>
                                                         <Grid.Column width={4}>
