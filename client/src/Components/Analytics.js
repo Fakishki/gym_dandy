@@ -23,6 +23,7 @@ function Analytics () {
               <Grid.Column>
                 <>
                 <Button onClick={() => navigate(`/strength_analytics`)}>Strength Exercise Analytics</Button>
+                <Button onClick={() => navigate(`/cardio_analytics`)}>Cardio Exercise Analytics</Button>
                 </>
               </Grid.Column>
             </Grid.Row>

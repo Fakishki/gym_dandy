@@ -481,7 +481,9 @@ def get_previous_cardio_exercises(user_id, cardio_id):
             return [{
                 'distance': exercise.distance,
                 'time': exercise.time,
-                'units': exercise.units
+                'units': exercise.units,
+                'created_at': exercise.created_at,
+                'workout_created_at': exercise.workout.created_at
             } for exercise in exercises]
         else:
             return {"error": "No previous data"}, 404

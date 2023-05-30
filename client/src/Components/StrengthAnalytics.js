@@ -36,6 +36,7 @@ const StrengthAnalytics = () => {
                 } else {
                     setPreviousWeights(data.length > 0);
                     const chartData = data.map((record) => ({
+                        // This is currently showing the Workout created_at date. If you want strength_exercise created_at, remove ".workout"
                         name: new Date(record.workout.created_at).toLocaleDateString(),
                         weight: record.weight
                     }));

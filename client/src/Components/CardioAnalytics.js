@@ -35,7 +35,12 @@ const CardioAnalytics = () => {
                     setChartData([]);
                 } else {
                     setPreviousDistance(data.length > 0);
+                    
+                    console.log('Fetched Data:', data);  // Log the fetched data
+
                     const chartData = data.map((record) => {
+                        console.log('Record:', record);  // Log the individual record
+
                         // Convert time to seconds for calculation
                         const [minutes, seconds] = record.time.split(":").map(Number);
                         const timeInSeconds = minutes * 60 + seconds;
@@ -47,19 +52,26 @@ const CardioAnalytics = () => {
             
                         // Calculate pace (time per distance unit)
                         const paceInSeconds = timeInSeconds / record.distance;
+
+                        // Convert pace to "minutes' format
+                        const paceMinutes = paceInSeconds / 60;
             
-                        // Convert pace back to "minutes:seconds" format
-                        const paceMinutes = Math.floor(paceInSeconds / 60);
-                        const paceSeconds = Math.floor(paceInSeconds % 60);
+                        // // Depreciated in favor of above method - Convert pace back to "minutes:seconds" format
+                        // const paceMinutes = Math.floor(paceInSeconds / 60);
+                        // const paceSeconds = Math.floor(paceInSeconds % 60);
             
                         return {
-                            name: new Date(record.created_at).toLocaleDateString(),
+                            name: new Date(record.workout_created_at).toLocaleDateString(),
                             distance: record.distance,
                             time: record.time,
                             units: record.units,
-                            pace: `${paceMinutes}:${paceSeconds < 10 ? "0" + paceSeconds : paceSeconds}`
+                            // Depreciated
+                            // pace: `${paceMinutes}:${paceSeconds < 10 ? "0" + paceSeconds : paceSeconds}`
+                            pace: paceMinutes
                         };
                     }).filter(record => record !== null); // remove null records from chartData
+
+                    console.log('Chart Data:', chartData);  // Log the processed chart data
             
                     chartData.reverse();
                     setChartData(chartData);
@@ -134,7 +146,14 @@ const CardioAnalytics = () => {
                                     <LineChart width={600} height={400} data={chartData}>
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="name" />
-                                        <YAxis />
+                                        <YAxis 
+                                            domain={["dataMin", "dataMax"]}
+                                            tickFormatter={(value) => {
+                                                const minutes = Math.floor(value);
+                                                const seconds = Math.round((value - minutes) * 60);
+                                                return `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+                                            }}
+                                        />
                                         <Tooltip />
                                         <Legend />
                                         <Line type="monotone" dataKey="pace" stroke="#8884d8" />
