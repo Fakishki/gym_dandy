@@ -4,8 +4,9 @@ from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS
 from config import app, db, api, Flask
 from models import Workout, StrengthExercise, CardioExercise, Strength, Cardio, User
-from sqlalchemy import and_
+from sqlalchemy import func, and_
 from sqlalchemy.orm import contains_eager, joinedload
+from datetime import datetime, timedelta
 import logging
 
 CORS(app)
@@ -511,6 +512,62 @@ def analytics_get_previous_cardio_exercises(user_id, cardio_id):
     except Exception as e:
         app.logger.error(f"Error fetching cardio exercises: {e}")
         return {"error": str(e)}, 500
+
+@app.route("/overdue_exercises/<int:user_id>", methods=["GET"])
+def get_overdue_exercises(user_id):
+    try:
+        ten_days_ago = datetime.now() - timedelta(days=10)
+
+        # Subqueries to get the most recent workout date for each strength and cardio exercise
+        most_recent_strength_workout = db.session.query(StrengthExercise.strength_id, func.max(Workout.created_at).label('max_date')).join(Workout, Workout.id == StrengthExercise.workout_id).group_by(StrengthExercise.strength_id).subquery()
+        most_recent_cardio_workout = db.session.query(CardioExercise.cardio_id, func.max(Workout.created_at).label('max_date')).join(Workout, Workout.id == CardioExercise.workout_id).group_by(CardioExercise.cardio_id).subquery()
+
+        # Main queries
+        overdue_strengths = Strength.query.filter(
+            Strength.id == most_recent_strength_workout.c.strength_id,
+            most_recent_strength_workout.c.max_date < ten_days_ago,
+            Strength.favorite == True
+        ).all()
+
+        overdue_cardios = Cardio.query.filter(
+            Cardio.id == most_recent_cardio_workout.c.cardio_id,
+            most_recent_cardio_workout.c.max_date < ten_days_ago,
+            Cardio.favorite == True
+        ).all()
+
+        return {
+            'strengths': [strength.to_dict() for strength in overdue_strengths],
+            'cardios': [cardio.to_dict() for cardio in overdue_cardios]
+        }
+    except Exception as e:
+        app.logger.error(f"Error fetching overdue exercises: {e}")
+        return {"error": str(e)}, 500
+
+
+# @app.route("/overdue_exercises/<int:user_id>", methods=["GET"])
+# def get_overdue_exercises(user_id):
+#     try:
+#         ten_days_ago = datetime.now() - timedelta(days=10)
+        
+#         overdue_strengths = Strength.query.join(StrengthExercise).join(Workout).filter(
+#             Workout.user_id == user_id, 
+#             Workout.created_at < ten_days_ago,
+#             Strength.favorite == True
+#         ).group_by(Strength.id).having(func.max(Workout.created_at) < ten_days_ago).all()
+
+#         overdue_cardios = Cardio.query.join(CardioExercise).join(Workout).filter(
+#             Workout.user_id == user_id, 
+#             Workout.created_at < ten_days_ago,
+#             Cardio.favorite == True
+#         ).group_by(Cardio.id).having(func.max(Workout.created_at) < ten_days_ago).all()
+
+#         return {
+#             'strengths': [strength.to_dict() for strength in overdue_strengths],
+#             'cardios': [cardio.to_dict() for cardio in overdue_cardios]
+#         }
+#     except Exception as e:
+#         app.logger.error(f"Error fetching overdue exercises: {e}")
+#         return {"error": str(e)}, 500
 
 
 @app.route("/users", methods=["GET", "POST"])

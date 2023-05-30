@@ -14,6 +14,7 @@ import Analytics from "./Components/Analytics"
 import { userState } from "./atoms"
 import StrengthAnalytics from "./Components/StrengthAnalytics"
 import CardioAnalytics from "./Components/CardioAnalytics"
+import OverdueExercises from "./Components/OverdueExercises"
 
 
 const App = () => {
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/strength_analytics" element={<StrengthAnalytics />} />
           <Route path="/cardio_analytics" element={<CardioAnalytics />} />
+          <Route path="/overdue_exercises" element={<OverdueExercises />} />
         </Routes>
       </Router>
     </div>

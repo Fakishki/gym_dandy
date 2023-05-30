@@ -16,7 +16,7 @@ const Exercise = ({ exerciseType, exerciseId, open, onClose }) => {
         if (!exerciseId || !user) return;
         const response = await fetch(`/previous_${exerciseType}_${exerciseType}_exercises/${user.id}/${exerciseId}`);
         const data = await response.json();
-        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        data.sort((a, b) => new Date(b.workout.created_at) - new Date(a.workout.created_at));
         setExerciseInstances(data);
     
         if (data.length > 0) {
@@ -64,7 +64,7 @@ const Exercise = ({ exerciseType, exerciseId, open, onClose }) => {
             <Modal.Content>
                 {exerciseInstances.map(exercise => (
                     <Segment key={exercise.id}>
-                        <Header>{new Date(exercise.created_at).toLocaleString()}</Header>
+                        <Header>{new Date(exercise.workout.created_at).toLocaleString()}</Header>
                         <List>
                             {renderExerciseDetails(exercise)}
                         </List>
