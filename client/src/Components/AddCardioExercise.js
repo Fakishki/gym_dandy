@@ -12,7 +12,7 @@ const AddCardioExercise = () => {
     const [cardioExercises, setCardioExercises] = useRecoilState(cardioExercisesState);
     // const [selectedCardioExercise, setSelectedCardioExercise] = useState("");
     const [distance, setDistance] = useState("");
-    const [units, setUnits] = useState("");
+    const [units, setUnits] = useState("miles");
     const [time, setTime] = useState("");
     const [cardioName, setCardioName] = useState("");
     const [cardioEquipment, setCardioEquipment] = useState("");
@@ -240,6 +240,7 @@ const AddCardioExercise = () => {
                                 </option>
                             ))}
                             </select>
+                            <div>Tip: Use the same units each time you record this exercise</div>
                         </Form.Field>
                         <Form.Field>
                           <label>Time:</label>
@@ -291,6 +292,7 @@ const AddCardioExercise = () => {
                                 </option>
                             ))}
                             </select>
+                            <div>Tip: Use the same units each time you record this exercise</div>
                         </Form.Field>
                         <Form.Field>
                             <label>Time:</label>
