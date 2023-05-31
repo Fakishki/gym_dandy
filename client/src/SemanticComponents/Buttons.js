@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
 
@@ -77,3 +77,34 @@ export const BackAnalyticsButton = ( {onClick, buttonText = "Back to Analytics"}
     </div>
   )
 }
+
+export const BlueButton = ({ onClick, buttonText }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  return (
+    <div>
+      <Button
+        style={{
+          marginBottom: "10px",
+          backgroundColor: "#22194D",
+          color: "white",
+          backgroundColor: isHovered ? "#57565C" : "#22194D",
+          // Apply other styles based on hover state
+        }}
+        onClick={onClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {buttonText}
+      </Button>
+    </div>
+  );
+};

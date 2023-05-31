@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil"
 import { userState } from "../atoms"
-import { BackHomeButton } from "../SemanticComponents/Buttons"
+import { BackHomeButton, BlueButton } from "../SemanticComponents/Buttons"
 import { useNavigate } from "react-router-dom"
 import { Button, Segment, Grid } from "semantic-ui-react"
 import { useState } from "react"
@@ -15,16 +15,16 @@ function Analytics () {
             <Grid.Row columns={1}>
               <Grid.Column>
                 <BackHomeButton />
-                <h1>Welcome to gym_dandy Analytics</h1>
-                <h2>Use these tools to track your workout progress over time</h2>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row columns={1}>
-              <Grid.Column>
+                <Segment style={{ backgroundColor: '#f7ca8b' }}>
+                <h1>gym_dandy Analytics</h1>
+                <Segment style={{ backgroundColor: '#fcf2e3'}}>
+                <h3>Use these tools to track your workout progress over time</h3>
                 <>
-                <Button onClick={() => navigate(`/strength_analytics`)}>Strength Exercise Analytics</Button>
-                <Button onClick={() => navigate(`/cardio_analytics`)}>Cardio Exercise Analytics</Button>
+                <BlueButton onClick={() => navigate(`/strength_analytics`)} buttonText="Strength Exercise Analytics" />
+                <BlueButton onClick={() => navigate(`/cardio_analytics`)} buttonText="Cardio Exercise Analytics" />
                 </>
+                </Segment>
+                </Segment>
               </Grid.Column>
             </Grid.Row>
           </Grid>

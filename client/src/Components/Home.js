@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import { userState, workoutsState } from "../atoms"
 import { Segment, Button } from "semantic-ui-react"
+import { BlueButton } from "../SemanticComponents/Buttons"
 
 const Home = () => {
     const [user, setUser] = useRecoilState(userState);
@@ -36,7 +37,7 @@ const Home = () => {
         
         <Segment>
         <>
-            <Button style={{marginBottom: "10px", backgroundColor: "#22194D", color: "white"}} onClick={() => navigate(`/add_workout`)}>Create New Workout</Button>
+            <BlueButton onClick={() => navigate(`/add_workout`)} buttonText="Create New Workout" />
             <Segment style={{ backgroundColor: '#fcf2e3'}}>
             <h2>Your Previous Workouts:</h2>
             <div>
