@@ -38,9 +38,11 @@ const StrengthAnalytics = () => {
                     const chartData = data.map((record) => ({
                         // This is currently showing the Workout created_at date. If you want strength_exercise created_at, remove ".workout"
                         name: new Date(record.workout.created_at).toLocaleDateString(),
-                        weight: record.weight
+                        weight: record.weight,
+                        sets: record.sets,
+                        reps: record.reps
                     }));
-                    chartData.reverse();
+                    // chartData.reverse(); <-- OLD AND MAYBE NOT NEEDED
                     setChartData(chartData);
                 }
             })
@@ -68,6 +70,21 @@ const StrengthAnalytics = () => {
                 setStrengthExercises(data);
             })}
     }, [userId]);   
+
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="custom-tooltip">
+                    <p className="label">{`Date : ${label}`}</p>
+                    <p className="intro">{`Weight : ${payload[0].value}`}</p>
+                    <p className="desc">{`Sets : ${payload[0].payload.sets}`}</p>
+                    <p className="desc">{`Reps : ${payload[0].payload.reps}`}</p>
+                </div>
+            );
+        }
+    
+        return null;
+    };    
     
     const loggedInContent = (
         <Segment>
@@ -113,7 +130,7 @@ const StrengthAnalytics = () => {
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="name" />
                                         <YAxis />
-                                        <Tooltip />
+                                        <Tooltip content={<CustomTooltip />}/>
                                         <Legend />
                                         <Line type="monotone" dataKey="weight" stroke="#8884d8" />
                                     </LineChart>
