@@ -5,7 +5,7 @@ from models import db, Workout, StrengthExercise, CardioExercise, Strength, Card
 
 import pandas as pd
 
-df = pd.read_excel('./imports/wally_strength_exercises.xlsx')
+df = pd.read_excel('./imports/wally_cardio_exercises.xlsx')
 
 # with app.app_context():
 #     for index, row in df.iterrows():
@@ -25,11 +25,20 @@ df = pd.read_excel('./imports/wally_strength_exercises.xlsx')
 #     db.session.commit()
 # print("Strengths added")
 
+# with app.app_context():
+#     for index, row in df.iterrows():
+#         strength_exercise = StrengthExercise(workout_id=row['workout_id'], weight=row['weight'], strength_id=row['strength_id'], sets=row['sets'], reps=row['reps'])
+
+#         db.session.add(strength_exercise)
+
+#     db.session.commit()
+# print("StrengthExercises added")
+
 with app.app_context():
     for index, row in df.iterrows():
-        strength_exercise = StrengthExercise(workout_id=row['workout_id'], weight=row['weight'], strength_id=row['strength_id'], sets=row['sets'], reps=row['reps'])
+        cardio_exercise = CardioExercise(workout_id=row['workout_id'], distance=row['distance'], time=row['time'], units=row['units'], cardio_id=row['cardio_id'])
 
-        db.session.add(strength_exercise)
+        db.session.add(cardio_exercise)
 
     db.session.commit()
-print("StrengthExercises added")
+print("CardioExercises added")
