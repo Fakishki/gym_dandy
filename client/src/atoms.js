@@ -66,3 +66,14 @@ export const overdueExercisesState = selectorFamily({
             });
     },
 });
+
+export const workoutDataState = selectorFamily({
+    key: 'workoutDataState',
+    get: (workoutId) => ({get}) => {
+      return fetch(`/workouts/${workoutId}`)
+        .then(res => res.json())
+        .catch(error => {
+          throw error;
+        });
+    },
+  });

@@ -25,11 +25,20 @@ const Home = () => {
     }
 
     const loggedInContent = (
+        <>
+        <Segment>
+            <h5>
+                - This is your <span style={{ textDecoration: 'underline' }}>Workouts</span> page (aka your Home page) where you can create a new workout, or view and edit previous workouts.<br></br>
+                - Select <span style={{ textDecoration: 'underline' }}>Exercise Library</span> above to see all the exercises you've recorded, and you can add or remove them from your Favorites.<br></br>
+                - Click <span style={{ textDecoration: 'underline' }}>Analytics</span> above to view graphs which chart your progress over time performing each of your exercises.
+            </h5>
+        </Segment>
+        
         <Segment>
         <>
             <Button style={{marginBottom: "10px", backgroundColor: "#22194D", color: "white"}} onClick={() => navigate(`/add_workout`)}>Create New Workout</Button>
             <Segment style={{ backgroundColor: '#fcf2e3'}}>
-            <h2>Your Past Workouts:</h2>
+            <h2>Your Previous Workouts:</h2>
             <div>
                 {workouts.map(workout => (
                     <Button 
@@ -46,6 +55,7 @@ const Home = () => {
 
         </>
         </Segment>
+        </>
     );
 
     const loggedOutContent = (
@@ -56,7 +66,7 @@ const Home = () => {
 
     return (
         <Segment style={{ backgroundColor: '#f7ca8b' }}>
-            <h1>Greetings, {user ? user.username : "person who isn't logged in"}. Welcome to gym_dandy</h1>
+            <h1>Greetings, {user ? user.username : "person who isn't logged in"}, and welcome to gym_dandy</h1>
             {user ? loggedInContent : loggedOutContent}
         </Segment>
     )

@@ -103,6 +103,36 @@ const CardioAnalytics = () => {
             })}
     }, [userId]);   
     
+    const CustomCardioTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+            const paceMinutes = Math.floor(payload[0].value);
+            const paceSeconds = Math.floor((payload[0].value - paceMinutes) * 60);
+    
+            let paceDisplay = `${paceMinutes}:${paceSeconds < 10 ? "0" + paceSeconds : paceSeconds}`;
+            if (paceMinutes > 60) {
+                const hours = Math.floor(paceMinutes / 60);
+                const remainingMinutes = paceMinutes % 60;
+                paceDisplay = `${hours}:${remainingMinutes < 10 ? "0" + remainingMinutes : remainingMinutes}:${paceSeconds < 10 ? "0" + paceSeconds : paceSeconds}`;
+            }
+            
+            return (
+                <div className="custom-tooltip" style={{
+                    backgroundColor: '#fcf2e3',
+                    border: '2px solid #f7ca8b',
+                    padding: '5px',
+                    borderRadius: '10px'
+                }}>
+                    <p className="label">{`Date : ${label}`}</p>
+                    <p className="intro">{`Pace : ${paceDisplay}`}</p>
+                    <p className="desc">{`Distance : ${payload[0].payload.distance}`}</p>
+                    <p className="desc">{`Units : ${payload[0].payload.units}`}</p>
+                </div>
+            );
+        }
+    
+        return null;
+    };
+    
     const loggedInContent = (
         <Segment>
           <Grid>
@@ -120,7 +150,7 @@ const CardioAnalytics = () => {
                     {/* Existing cardio form */}
                     <Form>
                       <Form.Field>
-                        <label>Select a Cardio Exercise to view a chart of your progress:</label>
+                        <label>Select a Cardio Exercise to view a chart of your progress - Chart measures pace in minutes per unit (miles/km/etc) </label>
                         <select value={selectedCardioExerciseId && selectedCardioId ? JSON.stringify({cardioExerciseId: selectedCardioExerciseId, cardioId: selectedCardioId}) : ""} onChange={(e) => {
                           if (e.target.value) {
                               const {cardioExerciseId, cardioId} = JSON.parse(e.target.value);
@@ -154,7 +184,7 @@ const CardioAnalytics = () => {
                                                 return `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
                                             }}
                                         />
-                                        <Tooltip />
+                                        <Tooltip content={<CustomCardioTooltip />} />
                                         <Legend />
                                         <Line type="monotone" dataKey="pace" stroke="#8884d8" />
                                     </LineChart>

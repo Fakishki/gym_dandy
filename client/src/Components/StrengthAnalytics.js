@@ -17,6 +17,7 @@ const StrengthAnalytics = () => {
     const [selectedStrengthId, setSelectedStrengthId] = useState("");
     const [previousWeights, setPreviousWeights] = useState(null);
     const [chartData, setChartData] = useState([]);
+    const [paddedMinWeight, setPaddedMinWeight] = useState(0);
 
     // debugger
 
@@ -36,14 +37,19 @@ const StrengthAnalytics = () => {
                 } else {
                     setPreviousWeights(data.length > 0);
                     const chartData = data.map((record) => ({
-                        // This is currently showing the Workout created_at date. If you want strength_exercise created_at, remove ".workout"
                         name: new Date(record.workout.created_at).toLocaleDateString(),
-                        // name: new Date(record.workout.created_at).toISOString().split('T')[0], <-- UNNEEDED FIX (FOR NOW)
                         weight: record.weight,
                         sets: record.sets,
                         reps: record.reps
                     }));
-                    // chartData.reverse(); <-- OLD AND MAYBE NOT NEEDED
+    
+                    let minWeight = chartData.length > 0 ? chartData[0].weight : 0;
+                    chartData.forEach(item => {
+                        if (item.weight < minWeight) minWeight = item.weight;
+                    });
+    
+                    const paddedMin = minWeight * 0.9;
+                    setPaddedMinWeight(paddedMin);
                     setChartData(chartData);
                 }
             })
@@ -54,6 +60,7 @@ const StrengthAnalytics = () => {
             setPreviousWeights(null);
         }
     }, [selectedStrengthExerciseId, selectedStrengthId]);
+    
 
     useEffect(() => {
         if (userId) {
@@ -90,8 +97,8 @@ const StrengthAnalytics = () => {
         }
     
         return null;
-    };    
-    
+    };
+
     const loggedInContent = (
         <Segment>
           <Grid>
@@ -135,7 +142,7 @@ const StrengthAnalytics = () => {
                                     <LineChart width={600} height={400} data={chartData}>
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <XAxis dataKey="name" />
-                                        <YAxis />
+                                        <YAxis domain={[paddedMinWeight, 'auto']} />
                                         <Tooltip content={<CustomTooltip />}/>
                                         <Legend />
                                         <Line type="monotone" dataKey="weight" stroke="#8884d8" />
