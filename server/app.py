@@ -516,7 +516,7 @@ def analytics_get_previous_cardio_exercises(user_id, cardio_id):
 @app.route("/overdue_exercises/<int:user_id>", methods=["GET"])
 def get_overdue_exercises(user_id):
     try:
-        ten_days_ago = datetime.now() - timedelta(days=10)
+        fourteen_days_ago = datetime.now() - timedelta(days=14)
 
         # Subqueries to get the most recent workout date for each strength and cardio exercise
         most_recent_strength_workout = db.session.query(StrengthExercise.strength_id, func.max(Workout.created_at).label('max_date')).join(Workout, Workout.id == StrengthExercise.workout_id).filter(Workout.user_id == user_id).group_by(StrengthExercise.strength_id).subquery()
@@ -525,13 +525,13 @@ def get_overdue_exercises(user_id):
         # Main queries
         overdue_strengths = Strength.query.filter(
             Strength.id == most_recent_strength_workout.c.strength_id,
-            most_recent_strength_workout.c.max_date < ten_days_ago,
+            most_recent_strength_workout.c.max_date < fourteen_days_ago,
             Strength.favorite == True
         ).all()
 
         overdue_cardios = Cardio.query.filter(
             Cardio.id == most_recent_cardio_workout.c.cardio_id,
-            most_recent_cardio_workout.c.max_date < ten_days_ago,
+            most_recent_cardio_workout.c.max_date < fourteen_days_ago,
             Cardio.favorite == True
         ).all()
 
@@ -547,19 +547,19 @@ def get_overdue_exercises(user_id):
 # @app.route("/overdue_exercises/<int:user_id>", methods=["GET"])
 # def get_overdue_exercises(user_id):
 #     try:
-#         ten_days_ago = datetime.now() - timedelta(days=10)
+#         fourteen_days_ago = datetime.now() - timedelta(days=14)
         
 #         overdue_strengths = Strength.query.join(StrengthExercise).join(Workout).filter(
 #             Workout.user_id == user_id, 
-#             Workout.created_at < ten_days_ago,
+#             Workout.created_at < fourteen_days_ago,
 #             Strength.favorite == True
-#         ).group_by(Strength.id).having(func.max(Workout.created_at) < ten_days_ago).all()
+#         ).group_by(Strength.id).having(func.max(Workout.created_at) < fourteen_days_ago).all()
 
 #         overdue_cardios = Cardio.query.join(CardioExercise).join(Workout).filter(
 #             Workout.user_id == user_id, 
-#             Workout.created_at < ten_days_ago,
+#             Workout.created_at < fourteen_days_ago,
 #             Cardio.favorite == True
-#         ).group_by(Cardio.id).having(func.max(Workout.created_at) < ten_days_ago).all()
+#         ).group_by(Cardio.id).having(func.max(Workout.created_at) < fourteen_days_ago).all()
 
 #         return {
 #             'strengths': [strength.to_dict() for strength in overdue_strengths],

@@ -21,7 +21,7 @@ const OverdueExercises = () => {
     return (
         <Segment style={{ backgroundColor: '#f7ca8b' }}>
             <h2>Can't decide on an exercise?</h2>
-            <h3>Here are some of your favorite exercises that you haven't done in over 10 days:</h3>
+            <h3>Here are some of your favorite exercises that you haven't done in over two weeks:</h3>
             <Segment style={{ backgroundColor: '#fcf2e3'}}>
             <h4>Overdue Strength Exercises:</h4>
             <List>
