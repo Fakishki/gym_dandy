@@ -72,8 +72,10 @@ class Strength(db.Model, SerializerMixin):
     
     strength_equipment = [
         "Barbells",
+        "Bench",
         "Bowflex",
         "Cables",
+        "Crunch Assist",
         "Cybex",
         "Dumbbells",
         "Echelon Fitness",
