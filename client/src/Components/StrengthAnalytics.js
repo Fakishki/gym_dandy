@@ -74,7 +74,12 @@ const StrengthAnalytics = () => {
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="custom-tooltip">
+                <div className="custom-tooltip" style={{
+                    backgroundColor: '#fcf2e3',
+                    border: '2px solid #f7ca8b',
+                    padding: '5px',
+                    borderRadius: '10px'
+                }}>
                     <p className="label">{`Date : ${label}`}</p>
                     <p className="intro">{`Weight : ${payload[0].value}`}</p>
                     <p className="desc">{`Sets : ${payload[0].payload.sets}`}</p>
