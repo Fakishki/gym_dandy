@@ -5,6 +5,7 @@ import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 import { Button, Grid, Segment, Form } from "semantic-ui-react";
 import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
+import { workoutModificationState } from "../atoms"
 
 const AddStrengthExercise = () => {
     const navigate = useNavigate();
@@ -28,8 +29,13 @@ const AddStrengthExercise = () => {
     const [equipmentOptions, setEquipmentOptions] = useState([]);
     // Two prev weights Step 1
     const [previousWeights, setPreviousWeights] = useState(null);
+    const [workoutModification, setWorkoutModification] = useRecoilState(workoutModificationState);
 
     // debugger
+
+    const markWorkoutModified = () => {
+        setWorkoutModification(Date.now());
+    };
 
     useEffect(() => {
         if (selectedStrengthExerciseId && selectedStrengthId) {
@@ -123,6 +129,7 @@ const AddStrengthExercise = () => {
         .catch((error) => {
             console.error("Error:", error);
         });
+        markWorkoutModified();
     };
 
     const submitNewForm = (e) => {
@@ -167,6 +174,7 @@ const AddStrengthExercise = () => {
         .catch((error) => {
             console.error("Error:", error);
         });
+        markWorkoutModified();
     };
 
     const toggleForm = () => {
