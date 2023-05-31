@@ -458,10 +458,22 @@ def get_cardio_exericse_units():
 
 # Two prev weights Step 4 (Steps 1-3 are in AddStrengthExercise.js)
 #! THIS IS GOING TO BE USEFUL FOR CHARTS AND GRAPHS -- ALSO MAYBE THE ACCOMPANYING JS/JSX
-@app.route("/previous_strength_strength_exercises/<int:user_id>/<int:strength_id>", methods=["GET"])
+@app.route("/previous_strength_exercise_weights/<int:user_id>/<int:strength_id>", methods=["GET"])
 def get_previous_weights(user_id, strength_id):
     try:
-        weights = StrengthExercise.query.join(Workout).filter(Workout.user_id == user_id, StrengthExercise.strength_id == strength_id).order_by(StrengthExercise.created_at.desc()).all()
+        weights = StrengthExercise.query.join(Workout).filter(Workout.user_id == user_id, StrengthExercise.strength_id == strength_id).order_by(Workout.created_at.desc()).all()
+        if weights:
+            return [weight.to_dict() for weight in weights]
+        else:
+            return {"error": "No previous data"}, 404
+    except Exception as e:
+        app.logger.error(f"Error fetching weights: {e}")
+        return {"error": str(e)}, 500
+
+@app.route("/previous_strength_strength_exercises/<int:user_id>/<int:strength_id>", methods=["GET"])
+def get_previous_strength_exercises(user_id, strength_id):
+    try:
+        weights = StrengthExercise.query.join(Workout).filter(Workout.user_id == user_id, StrengthExercise.strength_id == strength_id).order_by(Workout.created_at.asc()).all()
         if weights:
             return [weight.to_dict() for weight in weights]
         else:

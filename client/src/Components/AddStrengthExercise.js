@@ -35,7 +35,7 @@ const AddStrengthExercise = () => {
         if (selectedStrengthExerciseId && selectedStrengthId) {
             // Debug step 1: Logging parameters
             console.log(`userId: ${userId}, selectedStrengthId: ${selectedStrengthId}`);
-            fetch(`/previous_strength_strength_exercises/${userId}/${selectedStrengthId}`)
+            fetch(`/previous_strength_exercise_weights/${userId}/${selectedStrengthId}`)
             .then(response => {
                 // Ensure the fetch was successful, else throw an error
                 if (!response.ok) {
