@@ -195,8 +195,11 @@ const Workout = () => {
                                             </p>
                                         )}
                                     </Grid.Column>
-                                    <Grid.Column width={4}>
+                                    <Grid.Column width={3}>
                                         <Button onClick={editWorkout}>Edit Weigh-In</Button>
+                                    </Grid.Column>
+                                    <Grid.Column width={4}>
+                                        <Button onClick={deleteWorkout} color="red">Delete This Entire Workout</Button>
                                     </Grid.Column>
                                 </Grid.Row>
                                 <Grid.Row>
