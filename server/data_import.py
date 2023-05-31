@@ -5,7 +5,7 @@ from models import db, Workout, StrengthExercise, CardioExercise, Strength, Card
 
 import pandas as pd
 
-df = pd.read_excel('./imports/wally_cardio_exercises.xlsx')
+df = pd.read_excel('./imports/wally_cardio_exercises_2.xlsx')
 
 # with app.app_context():
 #     for index, row in df.iterrows():
