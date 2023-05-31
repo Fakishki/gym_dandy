@@ -27,8 +27,9 @@ const Home = () => {
     const loggedInContent = (
         <Segment>
         <>
-            <h2>Your Workouts:</h2>
             <Button style={{marginBottom: "10px", backgroundColor: "#22194D", color: "white"}} onClick={() => navigate(`/add_workout`)}>Create New Workout</Button>
+            <Segment style={{ backgroundColor: '#fcf2e3'}}>
+            <h2>Your Past Workouts:</h2>
             <div>
                 {workouts.map(workout => (
                     <Button 
@@ -41,6 +42,7 @@ const Home = () => {
                     </Button>
                 ))}
             </div>
+            </Segment>
 
         </>
         </Segment>
@@ -48,13 +50,13 @@ const Home = () => {
 
     const loggedOutContent = (
         <>
-            <h2>Please click Log In above to access your workout tracker!</h2>
+            <h2>Please click Log In above to access gym_dandy!</h2>
         </>
     );
 
     return (
         <Segment style={{ backgroundColor: '#f7ca8b' }}>
-            <h1>Welcome to endorFun {user ? user.username : ""}</h1>
+            <h1>Greetings, {user ? user.username : "person who isn't logged in"}. Welcome to gym_dandy</h1>
             {user ? loggedInContent : loggedOutContent}
         </Segment>
     )

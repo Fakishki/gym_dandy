@@ -19,9 +19,10 @@ const OverdueExercises = () => {
     }
 
     return (
-        <Segment>
+        <Segment style={{ backgroundColor: '#f7ca8b' }}>
             <h2>Can't decide on an exercise?</h2>
-            <h3>Here are some of your favorite exercises that you haven't performed in over 10 days:</h3>
+            <h3>Here are some of your favorite exercises that you haven't done in over 10 days:</h3>
+            <Segment style={{ backgroundColor: '#fcf2e3'}}>
             <h4>Overdue Strength Exercises:</h4>
             <List>
                 {overdueStrengthsCardios.strengths.map(strength => (
@@ -34,7 +35,8 @@ const OverdueExercises = () => {
                     <List.Item key={cardio.id}>{`${cardio.name} (${cardio.equipment})`}</List.Item>
                 ))}
             </List>
-            <h4>You can add Exercises to your Favorites in the Exercise Library</h4>
+            <h4>You can add exercises to your Favorites in the Exercise Library</h4>
+            </Segment>
         </Segment>
     )
 }

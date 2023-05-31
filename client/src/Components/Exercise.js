@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { userState } from '../atoms';
-import { Modal, Header, List, Segment } from 'semantic-ui-react';
+import { Modal, Header, List, Segment, Button } from 'semantic-ui-react';
 
 const Exercise = ({ exerciseType, exerciseId, open, onClose }) => {
     const [exerciseInstances, setExerciseInstances] = useState([]);
@@ -60,7 +60,9 @@ const Exercise = ({ exerciseType, exerciseId, open, onClose }) => {
 
     return (
         <Modal open={open} onClose={onClose}>
-            <Modal.Header>{exerciseName ? `${exerciseName} History` : 'No History for this Exercise'}</Modal.Header>
+            <Modal.Header style={{ backgroundColor: '#f7ca8b' }}>{exerciseName ? `Here are all the times you've recorded ${exerciseName}` : 'No History for this Exercise'}
+                <Button floated="right" onClick={onClose}>Close</Button>
+            </Modal.Header>
             <Modal.Content>
                 {exerciseInstances.map(exercise => (
                     <Segment key={exercise.id}>

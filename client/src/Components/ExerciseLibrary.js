@@ -78,11 +78,13 @@ const ExerciseLibrary = () => {
             <BackHomeButton />
             <Segment style={{ backgroundColor: '#f7ca8b' }}>
             <h1>Your Exercise Library</h1>
-            <h4>Below are all of the exercises you've tracked in gym_dandy</h4>
+            <Segment style={{ backgroundColor: '#fcf2e3'}}>
+            <h4>Below are all of the exercises you've recorded in gym_dandy</h4>
             <h4>Add exercises to your favorites to get reminders when you haven't done them in a while</h4>
             </Segment>
-            <Segment>
+            <Segment style={{ backgroundColor: '#fcf2e3'}}>
             <h2>Your Strength Exercises:</h2>
+            <Segment>
             <ul>
                 {strengthExercises.map(exercise => (
                     <Grid 
@@ -90,7 +92,7 @@ const ExerciseLibrary = () => {
                         verticalAlign='middle' 
                         // style={{marginBottom: "10px"}}
                     >
-                        <Grid.Row columns={4}>
+                        <Grid.Row columns={2}>
                             <Grid.Column>
                                 <Button fluid  style={{textAlign: "left", backgroundColor: "#22194D", color: "white"}} onClick={() => {
                                     setSelectedExerciseType('strength');
@@ -104,6 +106,7 @@ const ExerciseLibrary = () => {
                                 <Button 
                                     style={{width: "141px"}}
                                     icon
+                                    fluid
                                     labelPosition="left"
                                     size="mini"
                                     floated="left"
@@ -118,8 +121,10 @@ const ExerciseLibrary = () => {
                 ))}
             </ul>
             </Segment>
-            <Segment>
+            </Segment>
+            <Segment style={{ backgroundColor: '#fcf2e3'}}>
             <h2>Your Cardio Exercises:</h2>
+            <Segment>
             <ul>
                 {cardioExercises.map(exercise => (
                     <Grid 
@@ -127,7 +132,7 @@ const ExerciseLibrary = () => {
                         verticalAlign='middle' 
                         // style={{marginBottom: "10px"}}
                     >
-                        <Grid.Row columns={4}>
+                        <Grid.Row columns={2}>
                             <Grid.Column>
                                 <Button fluid style={{textAlign: "left", backgroundColor: "#22194D", color: "white"}} onClick={() => {
                                     setSelectedExerciseType('cardio');
@@ -154,6 +159,8 @@ const ExerciseLibrary = () => {
                     </Grid>
                 ))}
             </ul>
+            </Segment>
+            </Segment>
         </Segment>
         </Segment>
     );
