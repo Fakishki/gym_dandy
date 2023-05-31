@@ -488,7 +488,7 @@ def get_previous_cardio_exercises(user_id, cardio_id):
         exercises = CardioExercise.query.join(Workout).filter(
             Workout.user_id == user_id, 
             CardioExercise.cardio_id == cardio_id
-        ).order_by(CardioExercise.created_at.desc()).all()
+        ).order_by(Workout.created_at.desc()).all()
 
         if exercises:
             return [exercise.to_dict() for exercise in exercises]
@@ -505,7 +505,7 @@ def analytics_get_previous_cardio_exercises(user_id, cardio_id):
         exercises = CardioExercise.query.join(Workout).filter(
             Workout.user_id == user_id, 
             CardioExercise.cardio_id == cardio_id
-        ).order_by(CardioExercise.created_at.desc()).all()
+        ).order_by(Workout.created_at.asc()).all()
 
         if exercises:
             return [{

@@ -73,7 +73,7 @@ const CardioAnalytics = () => {
 
                     console.log('Chart Data:', chartData);  // Log the processed chart data
             
-                    chartData.reverse();
+                    // chartData.reverse();
                     setChartData(chartData);
                 }
             })
