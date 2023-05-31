@@ -15,7 +15,12 @@ const OverdueExercises = () => {
         if (!user) return;
         const response = await fetch(`/overdue_exercises/${user.id}`);
         const data = await response.json();
-        setOverdueStrengthsCardios(data);
+    
+        // Sort strength and cardio exercises by name in ascending order
+        const sortedStrengths = data.strengths.sort((a, b) => a.name.localeCompare(b.name));
+        const sortedCardios = data.cardios.sort((a, b) => a.name.localeCompare(b.name));
+    
+        setOverdueStrengthsCardios({strengths: sortedStrengths, cardios: sortedCardios});
     }
 
     return (
