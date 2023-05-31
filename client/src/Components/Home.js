@@ -28,7 +28,7 @@ const Home = () => {
         <Segment>
         <>
             <h2>Your Workouts:</h2>
-            <Button color="green" style={{marginBottom: "10px"}}onClick={() => navigate(`/add_workout`)}>Create New Workout</Button>
+            <Button style={{marginBottom: "10px", backgroundColor: "#22194D", color: "white"}} onClick={() => navigate(`/add_workout`)}>Create New Workout</Button>
             <div>
                 {workouts.map(workout => (
                     <Button 
@@ -53,7 +53,7 @@ const Home = () => {
     );
 
     return (
-        <Segment>
+        <Segment style={{ backgroundColor: '#f7ca8b' }}>
             <h1>Welcome to endorFun {user ? user.username : ""}</h1>
             {user ? loggedInContent : loggedOutContent}
         </Segment>

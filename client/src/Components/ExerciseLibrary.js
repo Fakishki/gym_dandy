@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil"
 import { useNavigate, Link } from "react-router-dom"
 import { userState, strengthExercisesState, cardioExercisesState } from "../atoms"
 import { BackHomeButton } from "../SemanticComponents/Buttons"
-import { Button, Segment, Grid } from "semantic-ui-react"
+import { Button, Segment, Grid, Icon } from "semantic-ui-react"
 import Exercise from "./Exercise"
 
 const ExerciseLibrary = () => {
@@ -76,10 +76,10 @@ const ExerciseLibrary = () => {
     const loggedInContent = (
         <Segment>
             <BackHomeButton />
-            <Segment>
+            <Segment style={{ backgroundColor: '#f7ca8b' }}>
             <h1>Your Exercise Library</h1>
-            <h3>Below are all of the exercises you've tracked in gym_dandy</h3>
-            <h3>For more details, visit the Analytics section</h3>
+            <h4>Below are all of the exercises you've tracked in gym_dandy</h4>
+            <h4>Add exercises to your favorites to get reminders when you haven't done them in a while</h4>
             </Segment>
             <Segment>
             <h2>Your Strength Exercises:</h2>
@@ -92,7 +92,7 @@ const ExerciseLibrary = () => {
                     >
                         <Grid.Row columns={4}>
                             <Grid.Column>
-                                <Button fluid size="mini" style={{textAlign: "left"}} onClick={() => {
+                                <Button fluid  style={{textAlign: "left", backgroundColor: "#22194D", color: "white"}} onClick={() => {
                                     setSelectedExerciseType('strength');
                                     setSelectedExerciseId(exercise.strength.id);
                                     setIsExerciseModalOpen(true);
@@ -102,12 +102,15 @@ const ExerciseLibrary = () => {
                             </Grid.Column>
                             <Grid.Column>
                                 <Button 
-                                    fluid
+                                    style={{width: "141px"}}
+                                    icon
+                                    labelPosition="left"
                                     size="mini"
-                                    floated="right"
-                                    color={exercise.strength.favorite ? 'blue' : 'green'}
+                                    floated="left"
+                                    color={exercise.strength.favorite ? 'green' : 'gray'}
                                     onClick={() => handleFavoriteClick('strength', exercise)}>
-                                    {exercise.strength.favorite ? "FAVORITE (click to unfavorite)" : "Add to favorites"}
+                                        <Icon name="star" />
+                                        {exercise.strength.favorite ? "FAVORITE" : "Add to favorites"}
                                 </Button>
                             </Grid.Column>
                         </Grid.Row>
@@ -126,7 +129,7 @@ const ExerciseLibrary = () => {
                     >
                         <Grid.Row columns={4}>
                             <Grid.Column>
-                                <Button fluid size="mini" style={{textAlign: "left"}} onClick={() => {
+                                <Button fluid style={{textAlign: "left", backgroundColor: "#22194D", color: "white"}} onClick={() => {
                                     setSelectedExerciseType('cardio');
                                     setSelectedExerciseId(exercise.cardio.id);
                                     setIsExerciseModalOpen(true);
@@ -136,12 +139,15 @@ const ExerciseLibrary = () => {
                             </Grid.Column>
                             <Grid.Column>
                                 <Button 
-                                    fluid
+                                    style={{width: "141px"}}
+                                    icon
+                                    labelPosition="left"
                                     size="mini"
-                                    floated="right"
-                                    color={exercise.cardio.favorite ? 'blue' : 'green'}
+                                    floated="left"
+                                    color={exercise.cardio.favorite ? 'green' : 'gray'}
                                     onClick={() => handleFavoriteClick('cardio', exercise)}>
-                                    {exercise.cardio.favorite ? "FAVORITE (click to unfavorite)" : "Add to favorites"}
+                                        <Icon name="star" />
+                                        {exercise.cardio.favorite ? "FAVORITE" : "Add to favorites"}
                                 </Button>
                             </Grid.Column>
                         </Grid.Row>

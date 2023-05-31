@@ -2,8 +2,9 @@ import { useRecoilState } from "recoil"
 import { userState } from "../atoms"
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { Button } from "semantic-ui-react"
+import { Button, Image, Segment, Grid } from "semantic-ui-react"
 import "./navbar.css"
+import gym_dandy_logo from "../Assets/gym_dandy_logo.png"
 
 function NavBar({updateUser}) {
     const [menu, setMenu] = useState(false)
@@ -34,6 +35,8 @@ function NavBar({updateUser}) {
 
     return (
         <nav className="navigation">
+            
+            <Image src={gym_dandy_logo} width="170px" alt="gym_dandy Logo" style={{ marginRight: "10px" }}/>
             {user ? (
                 <Button.Group widths='4'>
                     <Button as={Link} to="/" icon="th list" labelPosition="left" content="Workouts" />
