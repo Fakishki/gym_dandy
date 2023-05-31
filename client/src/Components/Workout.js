@@ -6,6 +6,7 @@ import AddStrengthExercise from "./AddStrengthExercise"
 import { Button, Header, Grid, Segment } from "semantic-ui-react"
 import { BackHomeButton } from "../SemanticComponents/Buttons"
 import OverdueExercises from "./OverdueExercises"
+import { workoutModificationState } from "../atoms"
 
 const Workout = () => {
     const { id } = useParams()
@@ -14,8 +15,13 @@ const Workout = () => {
     const [oneWorkout, setOneWorkout] = useRecoilState(oneWorkoutState)
     const [oneStrengthExercise, setOneStrengthExercise] = useRecoilState(oneStrengthExerciseState)
     const [oneCardioExercise, setOneCardioExercise] = useRecoilState(oneCardioExerciseState)
+    const [workoutModification, setWorkoutModification] = useRecoilState(workoutModificationState);
     const [user] = useRecoilState(userState)
     const navigate = useNavigate()
+
+    const markWorkoutModified = () => {
+        setWorkoutModification(Date.now());
+    };
 
     useEffect(() => {
         fetch(`/workouts/${id}`)
@@ -73,12 +79,13 @@ const Workout = () => {
                         strength_exercises: prevWorkout.strength_exercises.filter(exercise => exercise.id !== exerciseId)
                     }
                 });
+                markWorkoutModified();  // mark the workout as modified
             })
             .catch((error) => {
                 console.error("Error:", error);
             });
         }
-    }
+    };
 
     const deleteCardioExercise = (exerciseId) => {
         if(window.confirm("Are you sure you want to remove this cardio exercise from this workout?")){
@@ -93,6 +100,7 @@ const Workout = () => {
                         cardio_exercises: prevWorkout.cardio_exercises.filter(exercise => exercise.id !== exerciseId)
                     }
                 });
+                markWorkoutModified(); // mark the workout as modified
             })
             .catch((error) => {
                 console.error("Error:", error);

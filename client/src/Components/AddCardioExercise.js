@@ -5,6 +5,7 @@ import { oneWorkoutState, cardioExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 import { Button, Grid, Segment, Form } from "semantic-ui-react";
 import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
+import { workoutModificationState } from "../atoms"
 
 const AddCardioExercise = () => {
     const navigate = useNavigate();
@@ -27,7 +28,12 @@ const AddCardioExercise = () => {
     const [selectedCardioId, setSelectedCardioId] = useState("");
     const [equipmentOptions, setEquipmentOptions] = useState([]);
     const [cardioExerciseUnitsOptions, setCardioExerciseUnitsOptions] = useState([]);
+    const [workoutModification, setWorkoutModification] = useRecoilState(workoutModificationState);
     // debugger
+
+    const markWorkoutModified = () => {
+        setWorkoutModification(Date.now());
+    };
 
     useEffect(() => {
         if (userId) {
@@ -110,6 +116,7 @@ const AddCardioExercise = () => {
         .catch((error) => {
             console.error("Error:", error);
         });
+        markWorkoutModified();  // mark the workout as modified
     };
 
     const submitNewForm = (e) => {
@@ -176,6 +183,7 @@ const AddCardioExercise = () => {
         .catch((error) => {
             console.error("Error:", error);
         });
+        markWorkoutModified();  // mark the workout as modified
     };
 
     const handleTimeChange = (e) => {

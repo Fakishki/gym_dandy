@@ -44,3 +44,25 @@ export const chartDataState = atom({
     key: "chartDataState",
     default: [],
 })
+
+export const workoutModificationState = atom({
+    key: "workoutModificationState",
+    default: Date.now(),
+});
+
+export const overdueExercisesState = selectorFamily({
+    key: 'overdueExercisesState',
+    get: (userId) => ({get}) => {
+        const lastModification = get(workoutModificationState);
+        if (!userId) return Promise.resolve({strengths: [], cardios: []});
+
+        return fetch(`/overdue_exercises/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                const sortedStrengths = data.strengths.sort((a, b) => a.name.localeCompare(b.name));
+                const sortedCardios = data.cardios.sort((a, b) => a.name.localeCompare(b.name));
+
+                return {strengths: sortedStrengths, cardios: sortedCardios};
+            });
+    },
+});
