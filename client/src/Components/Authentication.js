@@ -70,7 +70,7 @@ function Authentication({updateUser}) {
         <>
           {errors && Object.keys(errors).map(input => <Message error>{errors[input]}</Message>)}
           {errors && <Message error>{errors.message}</Message>}
-          <h2>Please Login or Sign Up to access endorFun</h2>
+          <h2>Please Login or Sign Up to access gym_dandy</h2>
           <h2>{signUp ? "Already a user?" : "Not a user?"}</h2>
           <Button onClick={handleClick}>{signUp ? "Log In" : "Register"}</Button>
           <Form onSubmit={handleSubmit}>

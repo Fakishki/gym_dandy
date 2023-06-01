@@ -1,1 +1,1 @@
-# my_workout_tracker
+# gym_dandy

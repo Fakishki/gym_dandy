@@ -110,35 +110,72 @@ const Workout = () => {
 
     const deleteWorkout = () => {
         if(window.confirm("Are you sure you want to delete this workout? This will also delete all associated exercises.")){
-            // Delete associated strength exercises
-            oneWorkout.strength_exercises?.forEach(strength_exercise => {
-                fetch(`/strength_exercises/${strength_exercise.id}`, {
+            const deleteStrengthExercisesPromises = oneWorkout.strength_exercises?.map(strength_exercise => {
+                return fetch(`/strength_exercises/${strength_exercise.id}`, {
                     method: "DELETE",
-                }).catch((error) => {
+                })
+            });
+    
+            const deleteCardioExercisesPromises = oneWorkout.cardio_exercises?.map(cardio_exercise => {
+                return fetch(`/cardio_exercises/${cardio_exercise.id}`, {
+                    method: "DELETE",
+                })
+            });
+    
+            const allDeletePromises = [...(deleteStrengthExercisesPromises || []), ...(deleteCardioExercisesPromises || [])];
+    
+            // Wait for all DELETE requests to resolve
+            Promise.all(allDeletePromises)
+                .then(() => {
+                    // Now delete workout
+                    return fetch(`/workouts/${id}`, {
+                        method: "DELETE",
+                    });
+                })
+                .then(response => response.json())
+                .then(result => {
+                    navigate("/"); // Navigate back home after deletion
+                })
+                .catch(error => {
                     console.error("Error:", error);
                 });
-            });
-            // Delete associated cardio exercises
-            oneWorkout.cardio_exercises?.forEach(cardio_exercise => {
-                fetch(`/cardio_exercises/${cardio_exercise.id}`, {
-                    method: "DELETE",
-                }).catch((error) => {
-                    console.error("Error:", error);
-                });
-            });
-            // Delete workout
-            fetch(`/workouts/${id}`, {
-                method: "DELETE",
-            })
-            .then((res) => res.json())
-            .then(() => {
-                navigate("/"); // Navigate back home after deletion
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
         }
     }
+    
+
+    //! KEEP THIS: OLD VERSION OF deleteWorkout DIDN'T HANDLE DELETING PROPERLY
+    //! It was due to incorrect deletion order. StaleData error.  Needed to not delete workout until the associated strength/Cardio exercises are deleted first.
+    // const deleteWorkout = () => {
+    //     if(window.confirm("Are you sure you want to delete this workout? This will also delete all associated exercises.")){
+    //         // Delete associated strength exercises
+    //         oneWorkout.strength_exercises?.forEach(strength_exercise => {
+    //             fetch(`/strength_exercises/${strength_exercise.id}`, {
+    //                 method: "DELETE",
+    //             }).catch((error) => {
+    //                 console.error("Error:", error);
+    //             });
+    //         });
+    //         // Delete associated cardio exercises
+    //         oneWorkout.cardio_exercises?.forEach(cardio_exercise => {
+    //             fetch(`/cardio_exercises/${cardio_exercise.id}`, {
+    //                 method: "DELETE",
+    //             }).catch((error) => {
+    //                 console.error("Error:", error);
+    //             });
+    //         });
+    //         // Delete workout
+    //         fetch(`/workouts/${id}`, {
+    //             method: "DELETE",
+    //         })
+    //         .then((res) => res.json())
+    //         .then(() => {
+    //             navigate("/"); // Navigate back home after deletion
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error:", error);
+    //         });
+    //     }
+    // }
 
     const formatTime = (timeInSeconds => {
         const hours = Math.floor(timeInSeconds / 3600);
