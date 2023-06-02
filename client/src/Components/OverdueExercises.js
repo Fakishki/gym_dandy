@@ -1,11 +1,13 @@
 import React from 'react';
-import { useRecoilState, useRecoilValueLoadable } from 'recoil';
-import { userState, overdueExercisesState } from '../atoms';
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { userState, overdueExercisesState, workoutModificationState } from '../atoms';
 import { List, Segment } from 'semantic-ui-react';
 
 const OverdueExercises = () => {
     const [user] = useRecoilState(userState);
     const overdueExercisesLoadable = useRecoilValueLoadable(overdueExercisesState(user?.id));
+
+    useRecoilValue(workoutModificationState);
 
     // The state of the Loadable that we get from useRecoilValueLoadable
     // will tell us whether the asynchronous selector is still pending, has completed, or has error.

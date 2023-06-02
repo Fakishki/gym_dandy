@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
-import { Button, Grid, Segment, Form } from "semantic-ui-react";
+import { Button, Grid, Segment, Form, Modal } from "semantic-ui-react";
 import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
 import { workoutModificationState } from "../atoms"
 
-const AddStrengthExercise = () => {
+const AddStrengthExercise = ({ open, onClose }) => {
     const navigate = useNavigate();
     // const { id } = useParams();
     const [strengthExercises, setStrengthExercises] = useRecoilState(strengthExercisesState);
@@ -100,7 +100,7 @@ const AddStrengthExercise = () => {
     }, []);
 
     const submitForm = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         // Input validation
         if (!selectedStrengthId || !weight || !sets || !reps || selectedStrengthId === "") {
             alert("All fields must be filled out");
@@ -124,16 +124,20 @@ const AddStrengthExercise = () => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            navigate(`/workout/${workoutId}`);
+            // setStrengthExercises(oldExercises => [...oldExercises, data]);
+            markWorkoutModified();  // mark the workout as modified
         })
         .catch((error) => {
             console.error("Error:", error);
         });
-        markWorkoutModified();
+        
+        setSelectedStrengthExerciseId("");
+        setSelectedStrengthId("");
+        setWeight("");
     };
 
     const submitNewForm = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         // Input validation
         if (!strengthName || !strengthEquipment || !weight || !sets || !reps || strengthName.trim() === "") {
             alert("All fields must be filled out");
@@ -169,12 +173,21 @@ const AddStrengthExercise = () => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            navigate(`/workout/${workoutId}`);
+            // setStrengthExercises(oldExercises => [...oldExercises, data]);
+            markWorkoutModified();  // mark the workout as modified
         })
         .catch((error) => {
             console.error("Error:", error);
         });
-        markWorkoutModified();
+        setStrengthName("");
+        setStrengthEquipment("");
+        setSelectedStrengthExerciseId("");
+        setSelectedStrengthId("");
+        setWeight("");
+        setSets("");
+        setReps("");
+        setStrengthFavorite(false);
+        toggleForm();
     };
 
     const toggleForm = () => {
@@ -186,7 +199,7 @@ const AddStrengthExercise = () => {
           <Grid>
             <Grid.Row columns={1}>
               <Grid.Column>
-                <BackToWorkoutButton workoutId={workoutId} />
+                <BackToWorkoutButton workoutId={workoutId} onClick={onClose} />
                 <h1>Add a Strength Exercise to your Workout</h1>
               </Grid.Column>
             </Grid.Row>
@@ -232,7 +245,7 @@ const AddStrengthExercise = () => {
                         <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
                       </Form.Field>
                       <Form.Field>
-                        <AddToWorkoutButton onClick={submitNewForm} buttonText="Create and Add to Workout" />
+                        <AddToWorkoutButton onClick={() => {submitNewForm(); onClose();}} buttonText="Create and Add to Workout" />
                       </Form.Field>
                     </Form>
                   </> :
@@ -281,7 +294,7 @@ const AddStrengthExercise = () => {
                         <input type="number" value={reps} onChange={(e) => setReps(e.target.value)} />
                       </Form.Field>
                       <Form.Field>
-                        <AddToWorkoutButton onClick={submitForm} buttonText="Add to Workout" />
+                        <AddToWorkoutButton onClick={() => {submitForm(); onClose();}} buttonText="Add to Workout" />
                       </Form.Field>
                     </Form>
                   </>
@@ -313,9 +326,13 @@ const AddStrengthExercise = () => {
     )
 
     return (
-        <div>
-            {user ? loggedInContent : loggedOutContent}
-        </div>
+        <Modal open={open} onClose={onClose}>
+          <Modal.Content>
+            <div>
+              {user ? loggedInContent : loggedOutContent}
+            </div>
+          </Modal.Content>
+        </Modal>      
     )
 }
     

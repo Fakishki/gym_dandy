@@ -3,11 +3,11 @@ import { Button, Icon } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
 
 // AddExercise Buttons
-export const BackToWorkoutButton = ( {workoutId, buttonText = "Go Back To Workout"} ) => {
+export const BackToWorkoutButton = ( {workoutId, buttonText = "Go Back To Workout", onClick} ) => {
   const navigate = useNavigate();
   return (
     <div>
-      <Button animated onClick={() => navigate(`/workout/${workoutId}`)}>
+      <Button animated onClick={() => { navigate(`/workout/${workoutId}`); onClick && onClick(); }}>
         <Button.Content visible>{buttonText}</Button.Content>
         <Button.Content hidden>
           <Icon name='arrow left' />

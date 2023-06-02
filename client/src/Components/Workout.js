@@ -7,11 +7,14 @@ import { Button, Header, Grid, Segment } from "semantic-ui-react"
 import { BackHomeButton } from "../SemanticComponents/Buttons"
 import OverdueExercises from "./OverdueExercises"
 import { workoutModificationState } from "../atoms"
+import AddCardioExercise from "./AddCardioExercise"
 
 const Workout = () => {
     const { id } = useParams()
     const [editMode, setEditMode] = useState(false);
     const [editWeighIn, setEditWeighIn] = useState("");
+    const [isAddStrengthExerciseModalOpen, setIsAddStrengthExerciseModalOpen] = useState(false);
+    const [isAddCardioExerciseModalOpen, setIsAddCardioExerciseModalOpen] = useState(false);
     const [oneWorkout, setOneWorkout] = useRecoilState(oneWorkoutState)
     const [oneStrengthExercise, setOneStrengthExercise] = useRecoilState(oneStrengthExerciseState)
     const [oneCardioExercise, setOneCardioExercise] = useRecoilState(oneCardioExerciseState)
@@ -30,7 +33,7 @@ const Workout = () => {
                 setOneWorkout(workoutData)
                 setEditWeighIn(workoutData.weigh_in); // Update edit weigh-in value when workout data changes
             })
-    }, [id]);
+    }, [id, workoutModification]);
 
     const backHome = () => {
         navigate("/")
@@ -141,41 +144,6 @@ const Workout = () => {
                 });
         }
     }
-    
-
-    //! KEEP THIS: OLD VERSION OF deleteWorkout DIDN'T HANDLE DELETING PROPERLY
-    //! It was due to incorrect deletion order. StaleData error.  Needed to not delete workout until the associated strength/Cardio exercises are deleted first.
-    // const deleteWorkout = () => {
-    //     if(window.confirm("Are you sure you want to delete this workout? This will also delete all associated exercises.")){
-    //         // Delete associated strength exercises
-    //         oneWorkout.strength_exercises?.forEach(strength_exercise => {
-    //             fetch(`/strength_exercises/${strength_exercise.id}`, {
-    //                 method: "DELETE",
-    //             }).catch((error) => {
-    //                 console.error("Error:", error);
-    //             });
-    //         });
-    //         // Delete associated cardio exercises
-    //         oneWorkout.cardio_exercises?.forEach(cardio_exercise => {
-    //             fetch(`/cardio_exercises/${cardio_exercise.id}`, {
-    //                 method: "DELETE",
-    //             }).catch((error) => {
-    //                 console.error("Error:", error);
-    //             });
-    //         });
-    //         // Delete workout
-    //         fetch(`/workouts/${id}`, {
-    //             method: "DELETE",
-    //         })
-    //         .then((res) => res.json())
-    //         .then(() => {
-    //             navigate("/"); // Navigate back home after deletion
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error:", error);
-    //         });
-    //     }
-    // }
 
     const formatTime = (timeInSeconds => {
         const hours = Math.floor(timeInSeconds / 3600);
@@ -248,7 +216,7 @@ const Workout = () => {
                                                         <Header as="h2">Strength Exercises</Header>
                                                     </Grid.Column>
                                                     <Grid.Column width={6}>
-                                                        <Button color="green" onClick={() => navigate(`/add_strength_exercise`)}>Add Strength Exercise</Button>
+                                                        <Button color="green" onClick={() => {setIsAddStrengthExerciseModalOpen(true)}}>Add Strength Exercise</Button>
                                                     </Grid.Column>
                                                 </Grid.Row>
                                                 {oneWorkout.strength_exercises?.map(strength_exercise => (
@@ -277,7 +245,7 @@ const Workout = () => {
                                                         <Header as="h2">Cardio Exercises</Header>
                                                     </Grid.Column>
                                                     <Grid.Column width={6}>
-                                                        <Button color="green" onClick={() => navigate(`/add_cardio_exercise`)}>Add Cardio Exercise</Button>
+                                                        <Button color="green" onClick={() => {setIsAddCardioExerciseModalOpen(true)}}>Add Cardio Exercise</Button>
                                                     </Grid.Column>
                                                 </Grid.Row>
                                                 {oneWorkout.cardio_exercises?.map(cardio_exercise => (
@@ -323,8 +291,52 @@ const Workout = () => {
     return (
         <div>
             {user ? loggedInContent : loggedOutContent}
+            <AddStrengthExercise
+            open={isAddStrengthExerciseModalOpen}
+            onClose={() => setIsAddStrengthExerciseModalOpen(false)}
+            onExerciceAdded={markWorkoutModified}
+            />
+            <AddCardioExercise
+            open={isAddCardioExerciseModalOpen}
+            onClose={() => setIsAddCardioExerciseModalOpen(false)}
+            onExerciceAdded={markWorkoutModified}
+            />
         </div>
     )
 }
 
 export default Workout;
+
+    //! KEEP THIS: OLD VERSION OF deleteWorkout DIDN'T HANDLE DELETING PROPERLY
+    //! It was due to incorrect deletion order. StaleData error.  Needed to not delete workout until the associated strength/Cardio exercises are deleted first.
+    // const deleteWorkout = () => {
+    //     if(window.confirm("Are you sure you want to delete this workout? This will also delete all associated exercises.")){
+    //         // Delete associated strength exercises
+    //         oneWorkout.strength_exercises?.forEach(strength_exercise => {
+    //             fetch(`/strength_exercises/${strength_exercise.id}`, {
+    //                 method: "DELETE",
+    //             }).catch((error) => {
+    //                 console.error("Error:", error);
+    //             });
+    //         });
+    //         // Delete associated cardio exercises
+    //         oneWorkout.cardio_exercises?.forEach(cardio_exercise => {
+    //             fetch(`/cardio_exercises/${cardio_exercise.id}`, {
+    //                 method: "DELETE",
+    //             }).catch((error) => {
+    //                 console.error("Error:", error);
+    //             });
+    //         });
+    //         // Delete workout
+    //         fetch(`/workouts/${id}`, {
+    //             method: "DELETE",
+    //         })
+    //         .then((res) => res.json())
+    //         .then(() => {
+    //             navigate("/"); // Navigate back home after deletion
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error:", error);
+    //         });
+    //     }
+    // }

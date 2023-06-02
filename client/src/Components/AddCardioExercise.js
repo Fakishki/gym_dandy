@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { oneWorkoutState, cardioExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
-import { Button, Grid, Segment, Form } from "semantic-ui-react";
+import { Button, Grid, Segment, Form, Modal } from "semantic-ui-react";
 import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
 import { workoutModificationState } from "../atoms"
 
-const AddCardioExercise = () => {
+const AddCardioExercise = ({ open, onClose }) => {
     const navigate = useNavigate();
     // const { id } = useParams();
     const [cardioExercises, setCardioExercises] = useRecoilState(cardioExercisesState);
@@ -65,7 +65,7 @@ const AddCardioExercise = () => {
     }, []);
 
     const submitForm = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         // Input validation
         if (!selectedCardioId || !distance || !units || !time || selectedCardioId === "") {
             alert("All fields must be filled out");
@@ -111,16 +111,21 @@ const AddCardioExercise = () => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            navigate(`/workout/${workoutId}`);
+            markWorkoutModified();  // mark the workout as modified
         })
         .catch((error) => {
             console.error("Error:", error);
         });
-        markWorkoutModified();  // mark the workout as modified
+        
+        setSelectedCardioExerciseId("");
+        setSelectedCardioId("");
+        setTime("");
+        setUnits("miles");
+        setDistance("");
     };
 
     const submitNewForm = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         // Input validation
         if (!cardioName || !cardioEquipment || !distance || !units || !time || cardioName.trim() === "") {
             alert("All fields must be filled out");
@@ -178,12 +183,20 @@ const AddCardioExercise = () => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            navigate(`/workout/${workoutId}`);
+            markWorkoutModified();  // mark the workout as modified
         })
         .catch((error) => {
             console.error("Error:", error);
         });
-        markWorkoutModified();  // mark the workout as modified
+        setCardioName("");
+        setCardioEquipment("");
+        setSelectedCardioExerciseId("");
+        setSelectedCardioId("");
+        setTime("");
+        setUnits("miles");
+        setDistance("");
+        setCardioFavorite(false);
+        toggleForm();
     };
 
     const handleTimeChange = (e) => {
@@ -202,7 +215,7 @@ const AddCardioExercise = () => {
           <Grid>
             <Grid.Row columns={1}>
               <Grid.Column>
-                <BackToWorkoutButton workoutId={workoutId} />
+                <BackToWorkoutButton workoutId={workoutId} onClick={onClose} />
                 <h1>Add a Cardio Exercise to your Workout</h1>
               </Grid.Column>
             </Grid.Row>
@@ -255,7 +268,7 @@ const AddCardioExercise = () => {
                           <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
                         </Form.Field>
                         <Form.Field>
-                          <AddToWorkoutButton onClick={submitNewForm} buttonText="Create and Add to Workout" />
+                          <AddToWorkoutButton onClick={() => {submitNewForm(); onClose();}} buttonText="Create and Add to Workout" />
                         </Form.Field>
                       </Form>
                   </> 
@@ -307,7 +320,7 @@ const AddCardioExercise = () => {
                             <input type="text" value={time} onChange={(e) => setTime(e.target.value)} onBlur={handleTimeChange} placeholder="MM:SS" />
                         </Form.Field>
                         <Form.Field>
-                            <AddToWorkoutButton onClick={submitForm} buttonText="Add to Workout" />
+                            <AddToWorkoutButton onClick={() => {submitForm(); onClose();}} buttonText="Add to Workout" />
                         </Form.Field>
                         </Form>
                 </>
@@ -339,9 +352,13 @@ const AddCardioExercise = () => {
     )
 
     return (
-        <div>
-            {user ? loggedInContent : loggedOutContent}
-        </div>
+        <Modal open={open} onClose={onClose}>
+          <Modal.Content>
+            <div>
+              {user ? loggedInContent : loggedOutContent}
+            </div>
+          </Modal.Content>
+        </Modal>
     )
 }
 
