@@ -57,22 +57,33 @@ const ExerciseLibrary = () => {
             })
     }
 
-    const handleFavoriteClick = async (exerciseType, exercise) => {
+    const handleFavoriteClick = (exerciseType, exercise) => {
         const updatedFavoriteStatus = !exercise[exerciseType].favorite;
-        await fetch(`/${exerciseType}s/${exercise[exerciseType].id}`, {
+        fetch(`/${exerciseType}s/${exercise[exerciseType].id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ favorite: updatedFavoriteStatus })
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (exerciseType === 'strength') {
+                fetchStrengthExercises();
+            } else {
+                fetchCardioExercises();
+            }
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
         });
-        if (exerciseType === 'strength') {
-            fetchStrengthExercises();
-        } else {
-            fetchCardioExercises();
-        }
     }
-
+    
     const loggedInContent = (
         <Segment>
             <BackHomeButton />

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
-import { userState, overdueExercisesState, workoutModificationState } from '../atoms';
-import { List, Segment } from 'semantic-ui-react';
+import { userState, overdueExercisesState, workoutModificationState, isAddStrengthExerciseModalOpenState } from '../atoms';
+import { List, Segment, Button } from 'semantic-ui-react';
+import AddStrengthExercise from './AddStrengthExercise';
 
 const OverdueExercises = () => {
     const [user] = useRecoilState(userState);
     const overdueExercisesLoadable = useRecoilValueLoadable(overdueExercisesState(user?.id));
+    const [selectedExercise, setSelectedExercise] = useState(null)
+    const [isAddStrengthExerciseModalOpen, setIsAddStrengthExerciseModalOpen] = useRecoilState(isAddStrengthExerciseModalOpenState);
 
     useRecoilValue(workoutModificationState);
 
@@ -19,6 +22,7 @@ const OverdueExercises = () => {
       case 'hasValue':
         const overdueStrengthsCardios = overdueExercisesLoadable.contents; // on success, get the value
         return (
+          <>
           <Segment style={{ backgroundColor: '#f7ca8b' }}>
               <h2>Can't decide on an exercise?</h2>
               <h3>Here are some of your favorite exercises that you haven't done in over two weeks:</h3>
@@ -26,7 +30,13 @@ const OverdueExercises = () => {
               <h4>Overdue Strength Exercises:</h4>
               <List>
                   {overdueStrengthsCardios.strengths.map(strength => (
-                      <List.Item key={strength.id}>{`${strength.name} (${strength.equipment})`}</List.Item>
+                      <List.Item key={strength.id}>
+                        {/* {`${strength.name} (${strength.equipment})`} */}
+                        <Button 
+                          onClick={() => {setSelectedExercise(strength); setIsAddStrengthExerciseModalOpen(true);}}>
+                          {`${strength.name} (${strength.equipment})`}
+                        </Button>
+                      </List.Item>
                   ))}
               </List>
               <h4>Overdue Cardio Exercises:</h4>
@@ -38,6 +48,12 @@ const OverdueExercises = () => {
               <h4>You can add exercises to your Favorites in the Exercise Library</h4>
               </Segment>
           </Segment>
+          <AddStrengthExercise
+          open={isAddStrengthExerciseModalOpen}
+          onClose={() => setIsAddStrengthExerciseModalOpen(false)}
+          selectedExercise={selectedExercise}
+          />
+          </>
         );
       default:
         return null;
