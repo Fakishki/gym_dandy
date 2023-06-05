@@ -35,6 +35,22 @@ const AddCardioExercise = ({ open, onClose }) => {
         setWorkoutModification(Date.now());
     };
 
+    const resetForm = () => {
+        setCardioName("");
+        setCardioEquipment("");
+        setSelectedCardioExerciseId("");
+        setSelectedCardioId("");
+        setTime("");
+        setUnits("miles");
+        setDistance("");
+        setCardioFavorite(false);
+    }
+
+    const handleModalClose = () => {
+        resetForm();
+        onClose();
+    }
+
     useEffect(() => {
         if (userId) {
             fetch(`/unique_cardio_exercises/${userId}`)
@@ -222,7 +238,7 @@ const AddCardioExercise = ({ open, onClose }) => {
           <Grid>
             <Grid.Row columns={1}>
               <Grid.Column>
-                <BackToWorkoutButton workoutId={workoutId} onClick={onClose} />
+                <BackToWorkoutButton workoutId={workoutId} onClick={handleModalClose} />
                 <h1>Add a Cardio Exercise to your Workout</h1>
               </Grid.Column>
             </Grid.Row>
@@ -360,7 +376,7 @@ const AddCardioExercise = ({ open, onClose }) => {
     )
 
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={handleModalClose}>
           <Modal.Content>
             <div>
               {user ? loggedInContent : loggedOutContent}

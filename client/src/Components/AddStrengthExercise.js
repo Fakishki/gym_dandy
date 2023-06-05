@@ -40,6 +40,23 @@ const AddStrengthExercise = ({ open, onClose }) => {
         setWorkoutModification(Date.now());
     };
 
+    const resetForm = () => {
+      setSelectedStrengthExerciseId("");
+      setSelectedStrengthId("");
+      setWeight("");
+      setSets("");
+      setReps("");
+      setStrengthName("");
+      setStrengthEquipment("");
+      setStrengthFavorite(false);
+      setIsNewForm(false); // reset this as well if needed
+  };  
+
+    const handleModalClose = () => {
+      resetForm();
+      onClose();
+  };
+
     useEffect(() => {
         if (selectedStrengthExerciseId && selectedStrengthId) {
             // Debug step 1: Logging parameters
@@ -221,7 +238,7 @@ const AddStrengthExercise = ({ open, onClose }) => {
           <Grid>
             <Grid.Row columns={1}>
               <Grid.Column>
-                <BackToWorkoutButton workoutId={workoutId} onClick={onClose} />
+                <BackToWorkoutButton workoutId={workoutId} onClick={handleModalClose} />
                 <h1>Add a Strength Exercise to your Workout</h1>
               </Grid.Column>
             </Grid.Row>
@@ -349,7 +366,7 @@ const AddStrengthExercise = ({ open, onClose }) => {
     )
 
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={handleModalClose}>
           <Modal.Content>
             <div>
               {user ? loggedInContent : loggedOutContent}
