@@ -34,9 +34,13 @@ const ExerciseLibrary = () => {
                     return !duplicate;
                 });
     
-                filtered.sort((a, b) => a.strength.name.localeCompare(b.strength.name));
-                setStrengthExercises(filtered);
-            })
+                filtered.sort((a, b) => {
+                    let nameCompare = a.strength.name.localeCompare(b.strength.name);
+                    if (nameCompare !== 0) return nameCompare;
+                    return a.strength.equipment.localeCompare(b.strength.equipment);
+                });
+            setStrengthExercises(filtered);
+        })
     }
     
     const fetchCardioExercises = () => {
