@@ -5,7 +5,7 @@ import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 import { Button, Grid, Segment, Form, Modal } from "semantic-ui-react";
 import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
-import { workoutModificationState } from "../atoms"
+import { workoutModificationState, selectedStrengthIdState, selectedStrengthExerciseIdState } from "../atoms"
 
 const AddStrengthExercise = ({ open, onClose }) => {
     const navigate = useNavigate();
@@ -24,8 +24,11 @@ const AddStrengthExercise = ({ open, onClose }) => {
     const workout = useRecoilValue(oneWorkoutState)
     const workoutId = workout?.id
     // possible fix to strenghExercise and strength issue
-    const [selectedStrengthExerciseId, setSelectedStrengthExerciseId] = useState("");
-    const [selectedStrengthId, setSelectedStrengthId] = useState("");
+    // const [selectedStrengthExerciseId, setSelectedStrengthExerciseId] = useState("");
+    // const [selectedStrengthId, setSelectedStrengthId] = useState("");
+    const [selectedStrengthExerciseId, setSelectedStrengthExerciseId] = useRecoilState(selectedStrengthExerciseIdState);
+    const [selectedStrengthId, setSelectedStrengthId] = useRecoilState(selectedStrengthIdState);
+
     const [equipmentOptions, setEquipmentOptions] = useState([]);
     // Two prev weights Step 1
     const [previousWeights, setPreviousWeights] = useState(null);

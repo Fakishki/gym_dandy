@@ -76,9 +76,9 @@ export const workoutDataState = selectorFamily({
           throw error;
         });
     },
-  });
+});
 
-  export const isAddStrengthExerciseModalOpenState = atom({
+export const isAddStrengthExerciseModalOpenState = atom({
     key: "isAddStrengthExerciseModalOpenState",
     default: false,
 });
@@ -86,10 +86,15 @@ export const workoutDataState = selectorFamily({
 export const selectedStrengthIdState = atom({
     key: 'selectedStrengthIdState',
     default: null,
-  });
+});
 
-  export const selectedExerciseState = atom({
+export const selectedStrengthExerciseIdState = atom({
+    key: 'selectedStrengthExerciseIdState',
+    default: null,
+});
+
+export const selectedExerciseState = atom({
     key: 'selectedExerciseState',
     default: null,
-  });
+});
   
