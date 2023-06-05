@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 // import {Routes, Route} from "react-router-dom"
-import React, {useEffect, useState} from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import Authentication from "./Components/Authentication"
 import NavBar from "./Components/NavBar"
 import Home from "./Components/Home"
@@ -40,23 +40,25 @@ const App = () => {
 
   return (
     <div>
-      <Router>
-        <NavBar updateUser={updateUser} />
-        <Routes>
-          <Route path="/login" element={<Authentication updateUser={updateUser}/>}/>
-          <Route path="/" element={<Home />}/>
-          <Route path="/workout/:id" element={<Workout />}/>
-          <Route path="/exercise-library" element={<ExerciseLibrary />} />
-          <Route path="/add_strength_exercise" element={<AddStrengthExercise />} />
-          <Route path="/add_cardio_exercise" element={<AddCardioExercise />} />
-          <Route path="*" element={<Authentication updateUser={updateUser}/>}/>
-          <Route path="/add_workout" element={<AddWorkout />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/strength_analytics" element={<StrengthAnalytics />} />
-          <Route path="/cardio_analytics" element={<CardioAnalytics />} />
-          <Route path="/overdue_exercises" element={<OverdueExercises />} />
-        </Routes>
-      </Router>
+      {/* <Suspense fallback={<div>Loading...</div>}> */}
+        <Router>
+          <NavBar updateUser={updateUser} />
+          <Routes>
+            <Route path="/login" element={<Authentication updateUser={updateUser}/>}/>
+            <Route path="/" element={<Home />}/>
+            <Route path="/workout/:id" element={<Workout />}/>
+            <Route path="/exercise-library" element={<ExerciseLibrary />} />
+            <Route path="/add_strength_exercise" element={<AddStrengthExercise />} />
+            <Route path="/add_cardio_exercise" element={<AddCardioExercise />} />
+            <Route path="*" element={<Authentication updateUser={updateUser}/>}/>
+            <Route path="/add_workout" element={<AddWorkout />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/strength_analytics" element={<StrengthAnalytics />} />
+            <Route path="/cardio_analytics" element={<CardioAnalytics />} />
+            <Route path="/overdue_exercises" element={<OverdueExercises />} />
+          </Routes>
+        </Router>
+      {/* </Suspense> */}
     </div>
   )
 }

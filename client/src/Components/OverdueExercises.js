@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from 'recoil';
-import { userState, overdueExercisesState, workoutModificationState, isAddStrengthExerciseModalOpenState } from '../atoms';
+import { userState, overdueExercisesState, workoutModificationState, isAddStrengthExerciseModalOpenState, selectedStrengthIdState, selectedStrengthExerciseIdState, selectedExerciseState, selectedCardioIdState, selectedCardioExerciseIdState, isCardioExerciseModalOpenState } from '../atoms';
 import { List, Segment, Button } from 'semantic-ui-react';
 import AddStrengthExercise from './AddStrengthExercise';
+import AddCardioExercise from './AddCardioExercise';
 
 const OverdueExercises = () => {
     const [user] = useRecoilState(userState);
     const overdueExercisesLoadable = useRecoilValueLoadable(overdueExercisesState(user?.id));
-    const [selectedExercise, setSelectedExercise] = useState(null)
+    // const [selectedExercise, setSelectedExercise] = useState(null)
+    const [selectedExercise, setSelectedExercise] = useRecoilState(selectedExerciseState)
     const [isAddStrengthExerciseModalOpen, setIsAddStrengthExerciseModalOpen] = useRecoilState(isAddStrengthExerciseModalOpenState);
+    const [selectedStrengthId, setSelectedStrengthId] = useRecoilState(selectedStrengthIdState);
+    const [isAddCardioExerciseModalOpen, setIsAddCardioExerciseModalOpen] = useRecoilState(isCardioExerciseModalOpenState);
+    const [selectedCardioId, setSelectedCardioId] = useRecoilState(selectedCardioIdState)
 
     useRecoilValue(workoutModificationState);
 
@@ -33,7 +38,10 @@ const OverdueExercises = () => {
                       <List.Item key={strength.id}>
                         {/* {`${strength.name} (${strength.equipment})`} */}
                         <Button 
-                          onClick={() => {setSelectedExercise(strength); setIsAddStrengthExerciseModalOpen(true);}}>
+                          onClick={() => {
+                            setSelectedExercise(strength);
+                            setSelectedStrengthId(strength.id);
+                            setIsAddStrengthExerciseModalOpen(true);}}>
                           {`${strength.name} (${strength.equipment})`}
                         </Button>
                       </List.Item>
@@ -42,7 +50,15 @@ const OverdueExercises = () => {
               <h4>Overdue Cardio Exercises:</h4>
               <List>
                   {overdueStrengthsCardios.cardios.map(cardio => (
-                      <List.Item key={cardio.id}>{`${cardio.name} (${cardio.equipment})`}</List.Item>
+                      <List.Item key={cardio.id}>
+                        <Button
+                          onClick={() => {
+                            setSelectedExercise(cardio);
+                            setSelectedCardioId(cardio.id);
+                            setIsAddCardioExerciseModalOpen(true);}}>
+                          {`${cardio.name} (${cardio.equipment})`}
+                        </Button>
+                      </List.Item>
                   ))}
               </List>
               <h4>You can add exercises to your Favorites in the Exercise Library</h4>
@@ -51,6 +67,11 @@ const OverdueExercises = () => {
           <AddStrengthExercise
           open={isAddStrengthExerciseModalOpen}
           onClose={() => setIsAddStrengthExerciseModalOpen(false)}
+          selectedExercise={selectedExercise}
+          />
+          <AddCardioExercise
+          open={isAddCardioExerciseModalOpen}
+          onClose={() => setIsAddCardioExerciseModalOpen(false)}
           selectedExercise={selectedExercise}
           />
           </>

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { oneWorkoutState, cardioExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 import { Button, Grid, Segment, Form, Modal } from "semantic-ui-react";
 import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
-import { workoutModificationState } from "../atoms"
+import { workoutModificationState, selectedCardioIdState, selectedCardioExerciseIdState, selectedExerciseState, userState, oneWorkoutState, cardioExercisesState } from "../atoms"
 
 const AddCardioExercise = ({ open, onClose }) => {
     const navigate = useNavigate();
@@ -24,8 +23,9 @@ const AddCardioExercise = ({ open, onClose }) => {
     const workout = useRecoilValue(oneWorkoutState)
     const workoutId = workout?.id
     // possible fix to strenghExercise and cardio issue
-    const [selectedCardioExerciseId, setSelectedCardioExerciseId] = useState("");
-    const [selectedCardioId, setSelectedCardioId] = useState("");
+    const [selectedCardioExerciseId, setSelectedCardioExerciseId] = useRecoilState(selectedCardioExerciseIdState);
+    const [selectedCardioId, setSelectedCardioId] = useRecoilState(selectedCardioIdState);
+    const [selectedExercise, setSelectedExercise] = useRecoilState(selectedExerciseState);
     const [equipmentOptions, setEquipmentOptions] = useState([]);
     const [cardioExerciseUnitsOptions, setCardioExerciseUnitsOptions] = useState([]);
     const [workoutModification, setWorkoutModification] = useRecoilState(workoutModificationState);
@@ -63,6 +63,16 @@ const AddCardioExercise = ({ open, onClose }) => {
             .then((response) => response.json())
             .then((data) => setCardioExerciseUnitsOptions(data.cardio_exercise_units));
     }, []);
+
+    useEffect(() => {
+        if(selectedExercise) {
+            console.log(selectedExercise);
+            setSelectedCardioId(selectedExercise.id);
+            if(selectedExercise.cardio_exercises && selectedExercise.cardio_exercises.length > 0) {
+                setSelectedCardioExerciseId(selectedExercise.cardio_exercises[0].id);
+            }
+        }
+    }, [selectedExercise]);
 
     const submitForm = (e) => {
         // e.preventDefault()
@@ -207,9 +217,6 @@ const AddCardioExercise = ({ open, onClose }) => {
         setIsNewForm(!isNewForm);
     };
 
-
-    
-
     const loggedInContent = (
         <Segment>
           <Grid>
@@ -283,6 +290,7 @@ const AddCardioExercise = ({ open, onClose }) => {
                                     const {cardioExerciseId, cardioId} = JSON.parse(e.target.value);
                                     setSelectedCardioExerciseId(cardioExerciseId);
                                     setSelectedCardioId(cardioId);
+                                    setSelectedExercise(null);
                                 } else {
                                     setSelectedCardioExerciseId("");
                                     setSelectedCardioId("");

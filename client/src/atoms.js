@@ -93,8 +93,22 @@ export const selectedStrengthExerciseIdState = atom({
     default: null,
 });
 
+export const isCardioExerciseModalOpenState = atom({
+    key: "isAddCardioExerciseModalOpenState",
+    default: false,
+});
+
+export const selectedCardioIdState = atom({
+    key: 'selectedCardioIdState',
+    default: null,
+})
+
+export const selectedCardioExerciseIdState = atom({
+    key: 'selectedCardioExerciseIdState',
+    default: null,
+})
+
 export const selectedExerciseState = atom({
     key: 'selectedExerciseState',
     default: null,
 });
-  

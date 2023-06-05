@@ -5,7 +5,7 @@ import { oneWorkoutState, strengthExercisesState, userState } from "../atoms";
 import ExerciseLibrary from "./ExerciseLibrary";
 import { Button, Grid, Segment, Form, Modal } from "semantic-ui-react";
 import { BackToWorkoutButton, NewExerciseButton, UseExistingButton, AddToWorkoutButton } from "../SemanticComponents/Buttons";
-import { workoutModificationState, selectedStrengthIdState, selectedStrengthExerciseIdState } from "../atoms"
+import { workoutModificationState, selectedStrengthIdState, selectedStrengthExerciseIdState, selectedExerciseState } from "../atoms"
 
 const AddStrengthExercise = ({ open, onClose }) => {
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ const AddStrengthExercise = ({ open, onClose }) => {
     // const [selectedStrengthId, setSelectedStrengthId] = useState("");
     const [selectedStrengthExerciseId, setSelectedStrengthExerciseId] = useRecoilState(selectedStrengthExerciseIdState);
     const [selectedStrengthId, setSelectedStrengthId] = useRecoilState(selectedStrengthIdState);
-
+    const [selectedExercise, setSelectedExercise] = useRecoilState(selectedExerciseState);
     const [equipmentOptions, setEquipmentOptions] = useState([]);
     // Two prev weights Step 1
     const [previousWeights, setPreviousWeights] = useState(null);
@@ -101,6 +101,25 @@ const AddStrengthExercise = ({ open, onClose }) => {
             .then((response) => response.json())
             .then((data) => setEquipmentOptions(data.equipment));
     }, []);
+
+    // useEffect(() => {
+    //   if(selectedExercise) {
+    //     console.log(selectedExercise);
+    //     setSelectedStrengthExerciseId(selectedExercise.id);
+    //     setSelectedStrengthId(selectedExercise.strength.id);
+    //   }
+    // }, [selectedExercise]);
+
+    useEffect(() => {
+      if(selectedExercise) {
+        console.log(selectedExercise);
+        setSelectedStrengthId(selectedExercise.id);
+        // Assume you want to set the first exercise in the list as the selectedStrengthExercise
+        if(selectedExercise.strength_exercises && selectedExercise.strength_exercises.length > 0) {
+          setSelectedStrengthExerciseId(selectedExercise.strength_exercises[0].id);
+        }
+      }
+    }, [selectedExercise]);
 
     const submitForm = (e) => {
         // e.preventDefault()
@@ -262,6 +281,7 @@ const AddStrengthExercise = ({ open, onClose }) => {
                               const {strengthExerciseId, strengthId} = JSON.parse(e.target.value);
                               setSelectedStrengthExerciseId(strengthExerciseId);
                               setSelectedStrengthId(strengthId);
+                              setSelectedExercise(null);
                           } else {
                               setSelectedStrengthExerciseId("");
                               setSelectedStrengthId("");
