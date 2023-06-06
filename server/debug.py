@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from app import app
+from config import app
 from models import db, Workout, User, Strength, Cardio, StrengthExercise, CardioExercise
 
 if __name__ == '__main__':
