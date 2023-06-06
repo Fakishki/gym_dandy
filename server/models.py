@@ -68,7 +68,10 @@ class Strength(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
+    equipment_strength_id = db.Column(db.Integer, db.ForeignKey("equipment_strength.id"))
+
     strength_exercises = db.relationship("StrengthExercise", back_populates="strength")
+    equipment_strength = db.relationship("EquipmentStrength", back_populates="strengths")
     
     strength_equipment = [
         "Barbells",
@@ -129,7 +132,10 @@ class Cardio(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
 
+    equipment_cardio_id = db.Column(db.Integer, db.ForeignKey("equipment_cardio.id"))
+
     cardio_exercises = db.relationship("CardioExercise", back_populates="cardio")
+    equipment_cardio = db.relationship("EquipmentCardio", back_populates="cardios")
 
     cardio_equipment = [
         "Aerobics",
@@ -258,6 +264,36 @@ class CardioExercise(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f"Cardio Exercise: {self.id}"
+
+class EquipmentStrength(db.Model, SerializerMixin):
+    __tablename__ = "equipment_strength"
+
+    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    name = db.Column(db.Integer)
+    favorite = db.Column(db.Boolean)
+    shared = db.Column(db.Boolean)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+
+    strengths = db.relationship("Strength", back_populates="equipment_strength")
+
+    def __repr__(self):
+        return f"EquipmentStrength: {self.id} - {self.name}"
+    
+class EquipmentCardio(db.Model, SerializerMixin):
+    __tablename__ = "equipment_cardio"
+
+    id = db.Column(db.Integer, nullable=False, primary_key=True)
+    name = db.Column(db.Integer)
+    favorite = db.Column(db.Boolean)
+    shared = db.Column(db.Boolean)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
+
+    cardios = db.relationship("Cardio", back_populates="equipment_cardio")
+
+    def __repr__(self):
+        return f"EquipmentCardio: {self.id} - {self.name}"
     
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"

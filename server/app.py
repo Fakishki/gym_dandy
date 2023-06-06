@@ -152,6 +152,10 @@ def strength_by_id(id):
 def get_strength_equipment():
     return {"equipment": Strength.strength_equipment}, 200
 
+@app.route("/equipment_strength", methods=["GET"])
+def get_equipment_strength():
+    return {"equipment": Strength.equipment_strength.name}, 200
+
 @app.route("/cardios", methods=["GET", "POST"])
 def cardios():
     if request.method == "GET":
@@ -223,6 +227,10 @@ def cardio_by_id(id):
 @app.route("/cardio_equipment", methods=["GET"])
 def get_cardio_equipment():
     return {"equipment": Cardio.cardio_equipment}, 200
+
+@app.route("/equipment_cardio", methods=["GET"])
+def get_equipment_cardio():
+    return {"equipment": Cardio.equipment_cardio.name}, 200
 
 @app.route("/strength_exercises", methods=["GET", "POST"])
 def strength_exercises():

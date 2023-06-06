@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 from app import app
-from models import db, Workout, StrengthExercise, CardioExercise, Strength, Cardio, User
+from models import db, Workout, StrengthExercise, CardioExercise, Strength, Cardio, User, EquipmentCardio, EquipmentStrength
 
 import pandas as pd
 
-df = pd.read_excel('./imports/wally_cardio_exercises_2.xlsx')
+df = pd.read_excel('./imports/equipment_cardio_import.xlsx')
 
 # with app.app_context():
 #     for index, row in df.iterrows():
@@ -34,11 +34,20 @@ df = pd.read_excel('./imports/wally_cardio_exercises_2.xlsx')
 #     db.session.commit()
 # print("StrengthExercises added")
 
+# with app.app_context():
+#     for index, row in df.iterrows():
+#         cardio_exercise = CardioExercise(workout_id=row['workout_id'], distance=row['distance'], time=row['time'], units=row['units'], cardio_id=row['cardio_id'])
+
+#         db.session.add(cardio_exercise)
+
+#     db.session.commit()
+# print("CardioExercises added")
+
 with app.app_context():
     for index, row in df.iterrows():
-        cardio_exercise = CardioExercise(workout_id=row['workout_id'], distance=row['distance'], time=row['time'], units=row['units'], cardio_id=row['cardio_id'])
+        equipment_cardio = EquipmentCardio(name=row['name'])
 
-        db.session.add(cardio_exercise)
+        db.session.add(equipment_cardio)
 
     db.session.commit()
-print("CardioExercises added")
+print("EquipmentCardios added")
