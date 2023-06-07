@@ -271,7 +271,7 @@ class EquipmentStrength(db.Model, SerializerMixin):
     __tablename__ = "equipment_strength"
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    name = db.Column(db.Integer)
+    name = db.Column(db.String)
     favorite = db.Column(db.Boolean)
     shared = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
@@ -286,7 +286,7 @@ class EquipmentCardio(db.Model, SerializerMixin):
     __tablename__ = "equipment_cardio"
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
-    name = db.Column(db.Integer)
+    name = db.Column(db.String)
     favorite = db.Column(db.Boolean)
     shared = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
