@@ -58,7 +58,8 @@ class Strength(db.Model, SerializerMixin):
         "-strength_exercises.workout.cardio_exercises",
         # "-strength_exercises.strength.created_at",
         # "-strength_exercises.strength.updated_at",
-        # "-strength_exercises.strength.strength_exercises"
+        # "-strength_exercises.strength.strength_exercises",
+        "-equipment_strength.strengths"
     )
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
@@ -121,8 +122,9 @@ class Cardio(db.Model, SerializerMixin):
         # "-cardio_exercises.cardio.created_at",
         # "-cardio_exercises.cardio.updated_at",
         # "-cardio_exercises.cardio.cardio_exercises",
-        "-cardio_exercises.workout.cardio_exercises"
-        "-cardio_exercises.workout.strength_exercises"
+        "-cardio_exercises.workout.cardio_exercises",  # THIS WAS MISSING A COMMA
+        "-cardio_exercises.workout.strength_exercises",
+        "-equipment_cardio.cardios"
     )
 
     id = db.Column(db.Integer, nullable=False, primary_key=True)
