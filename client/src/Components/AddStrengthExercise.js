@@ -33,6 +33,7 @@ const AddStrengthExercise = ({ open, onClose }) => {
     // Two prev weights Step 1
     const [previousWeights, setPreviousWeights] = useState(null);
     const [workoutModification, setWorkoutModification] = useRecoilState(workoutModificationState);
+    const [equipmentStrengths, setEquipmentStrengths] = useState([]);
 
     // debugger
 
@@ -117,6 +118,14 @@ const AddStrengthExercise = ({ open, onClose }) => {
         fetch("/strength_equipment")
             .then((response) => response.json())
             .then((data) => setEquipmentOptions(data.equipment));
+    }, []);
+
+    useEffect(() => {
+      fetch('/equipment_strengths')
+          .then(res => res.json())
+          .then(data => {
+              setEquipmentStrengths(data);
+          });
     }, []);
 
     // useEffect(() => {
@@ -258,6 +267,16 @@ const AddStrengthExercise = ({ open, onClose }) => {
                       <Form.Field>
                         <label>Equipment:</label>
                         <select value={strengthEquipment} onChange={(e) => setStrengthEquipment(e.target.value)}>
+                            {equipmentStrengths.map(es => (
+                                <option key={es.id} value={es.id}>
+                                    {es.name}
+                                </option>
+                            ))}
+                        </select>
+                      </Form.Field>
+                      {/* <Form.Field>
+                        <label>Equipment:</label>
+                        <select value={strengthEquipment} onChange={(e) => setStrengthEquipment(e.target.value)}>
                           <option value="">--select equipment--</option>
                           {equipmentOptions.map((equipment) => (
                             <option key={equipment} value={equipment}>
@@ -265,7 +284,7 @@ const AddStrengthExercise = ({ open, onClose }) => {
                             </option>
                           ))}
                         </select>
-                      </Form.Field>
+                      </Form.Field> */}
                       <Form.Field>
                         <label>Favorite:</label>
                         <input type="checkbox" checked={strengthFavorite} onChange={(e) => setStrengthFavorite(e.target.checked)} />

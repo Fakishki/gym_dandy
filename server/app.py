@@ -3,7 +3,7 @@ from flask_restful import Resource
 from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS
 from config import app, db, api, Flask
-from models import Workout, StrengthExercise, CardioExercise, Strength, Cardio, User
+from models import Workout, StrengthExercise, CardioExercise, Strength, Cardio, User, EquipmentCardio, EquipmentStrength
 from sqlalchemy import func, and_
 from sqlalchemy.orm import contains_eager, joinedload
 from datetime import datetime, timedelta
@@ -152,9 +152,30 @@ def strength_by_id(id):
 def get_strength_equipment():
     return {"equipment": Strength.strength_equipment}, 200
 
-@app.route("/equipment_strength", methods=["GET"])
-def get_equipment_strength():
-    return {"equipment": Strength.equipment_strength}, 200
+# @app.route("/equipment_strength", methods=["GET"])
+# def get_equipment_strength():
+#     return {"equipment": Strength.equipment_strength}, 200
+
+@app.route("/equipment_strengths", methods=["GET"])
+def get_equipment_strengths():
+    try:
+        # Get current user's id, possibly from a logged in session or a passed token
+        # Here I'm assuming that the id is stored in session['user_id']
+        user_id = session['user_id']
+
+        # Query the database to get the equipment strengths related to the user
+        user_strengths = (
+            db.session.query(EquipmentStrength)
+            .join(Strength)
+            .join(StrengthExercise)
+            .join(Workout)
+            .join(User)
+            .filter(User.id == user_id)
+            .all()
+        )
+        return jsonify([strength.serialize() for strength in user_strengths]), 200
+    except Exception as e:
+        return str(e), 500
 
 @app.route("/cardios", methods=["GET", "POST"])
 def cardios():

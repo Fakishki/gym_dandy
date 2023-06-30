@@ -5,7 +5,7 @@ from models import db, Workout, StrengthExercise, CardioExercise, Strength, Card
 
 import pandas as pd
 
-df = pd.read_excel('./imports/equipment_cardio_import.xlsx')
+df = pd.read_excel('./imports/equipment_strength_import.xlsx')
 
 # with app.app_context():
 #     for index, row in df.iterrows():
@@ -45,9 +45,9 @@ df = pd.read_excel('./imports/equipment_cardio_import.xlsx')
 
 with app.app_context():
     for index, row in df.iterrows():
-        equipment_cardio = EquipmentCardio(name=row['name'])
+        equipment_cardio = EquipmentStrength(name=row['name'])
 
         db.session.add(equipment_cardio)
 
     db.session.commit()
-print("EquipmentCardios added")
+print("EquipmentStrengths added")
